@@ -1,0 +1,37 @@
+{
+  "name": "tlama",
+  "dockerComposeFile": "docker-compose.yaml",
+  "workspaceFolder": "/workspace",
+  "service": "app",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "explorer.autoReveal": false,
+        "launch": {
+          "version": "0.2.0",
+          "configurations": [
+            {
+              "name": "ttlama",
+              "type": "go",
+              "request": "launch",
+              "mode": "auto",
+              "program": "cmd/cli.go",
+              "args": [
+                "-p",
+                "list all directories"
+              ],
+              "console": "internalConsole",
+              "internalConsoleOptions": "openOnSessionStart"
+            }
+          ],
+          "compounds": []
+        }
+      },
+      "extensions": [
+        "GitHub.copilot",
+        "golang.Go",
+        "ms-azuretools.vscode-docker"
+      ]
+    }
+  }
+}
