@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+
 	"github.com/spf13/viper"
 	"github.com/urfave/cli/v2"
 )
@@ -59,7 +60,7 @@ func configSetCommand() *cli.Command {
 func GetCommand() *cli.Command {
 	return &cli.Command{
 		Name:  "config",
-		Usage: "Configure tlama parameters. (E.g. LLM model, temperature and host)",
+		Usage: "Configure tlama parameters.",
 		Action: func(c *cli.Context) error {
 			return nil
 		},

@@ -1,11 +1,10 @@
 package prompt
 
 import (
-	"fmt"
 	"log"
-	"os"
 	"sync"
-	"tlama/pkg/api"
+
+	"github.com/yusufcanb/tlama/pkg/api"
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/urfave/cli/v2"
@@ -18,10 +17,14 @@ func PromptAction(c *cli.Context) error {
 	var command string
 	var err error
 
-	prompt := c.String("prompt")
+	prompt := c.Args().Get(0)
+
 	if prompt == "" {
-		fmt.Println(c.Command.Usage)
-		os.Exit(-1)
+		err := cli.ShowAppHelp(c)
+		if err != nil {
+			return err
+		}
+		return nil
 	}
 
 	wg.Add(1)
@@ -36,7 +39,7 @@ func PromptAction(c *cli.Context) error {
 	}()
 
 	go func() {
-		command, err = c.App.Metadata["api"].(*api.OllamaAPI).Generate(c.String("prompt"))
+		command, err = c.App.Metadata["api"].(*api.OllamaAPI).Generate(prompt)
 		wg.Done()
 		defer program.Quit()
 	}()

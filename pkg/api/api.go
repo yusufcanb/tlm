@@ -9,7 +9,8 @@ import (
 	"net/http"
 	"runtime"
 	"strings"
-	"tlama/pkg/config"
+
+	"github.com/yusufcanb/tlama/pkg/config"
 )
 
 type OllamaAPI struct {

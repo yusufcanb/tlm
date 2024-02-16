@@ -1,11 +1,11 @@
 package app
 
 import (
-	"tlama/pkg/api"
-	"tlama/pkg/config"
-	"tlama/pkg/doctor"
-	prompt2 "tlama/pkg/prompt"
-	"tlama/pkg/setup"
+	"github.com/yusufcanb/tlama/pkg/api"
+	"github.com/yusufcanb/tlama/pkg/config"
+	"github.com/yusufcanb/tlama/pkg/doctor"
+	prompt2 "github.com/yusufcanb/tlama/pkg/prompt"
+	"github.com/yusufcanb/tlama/pkg/setup"
 
 	"github.com/urfave/cli/v2"
 )
@@ -15,30 +15,32 @@ type TlamaApp struct {
 	Config *config.TlamaConfig
 }
 
-func New() *TlamaApp {
-	var prompt string
+func New(version string) *TlamaApp {
 
 	cliApp := &cli.App{
 		Name:        "tlama",
-		Usage:       "tllama -p \"List all go files in the current directory\"",
-		Description: "tlama is a command line tool to provide terminal intelligence locally with LLaMa",
-		Flags: []cli.Flag{
-			&cli.StringFlag{
-				Name:        "prompt",
-				Aliases:     []string{"p"},
-				Usage:       "Prompt for a task",
-				Destination: &prompt,
-			},
-		},
-		Action: prompt2.PromptAction, // Default action is prompt
+		Usage:       "Terminal Intelligence /w Local LLM",
+		Description: "tlama is a command line tool to provide terminal intelligence locally with LLaMa.",
+		Version:     version,
+		Action:      prompt2.PromptAction,
 		Commands: []*cli.Command{
+			&cli.Command{
+				Name:  "version",
+				Usage: "Print tlama version.",
+				Action: func(c *cli.Context) error {
+					cli.ShowVersion(c)
+					return nil
+				},
+			},
 			config.GetCommand(),
 			setup.GetCommand(),
 			doctor.GetCommand(),
 		},
 	}
 
+	cliApp.HideHelpCommand = true
 	cliApp.Metadata = make(map[string]interface{})
+
 	cliApp.Metadata["config"] = config.New()
 	cliApp.Metadata["api"] = api.New(cliApp.Metadata["config"].(*config.TlamaConfig))
 

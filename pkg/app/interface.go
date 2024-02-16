@@ -1,6 +1,6 @@
 package app
 
-import "tlama/pkg/config"
+import "github.com/yusufcanb/tlama/pkg/config"
 
 type BaseApp interface {
 	SetConfig(config config.TlamaConfig)

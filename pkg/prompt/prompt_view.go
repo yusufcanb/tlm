@@ -2,10 +2,10 @@ package prompt
 
 import (
 	"fmt"
-	"tlama/pkg/shell"
 
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/yusufcanb/tlama/pkg/shell"
 )
 
 type (

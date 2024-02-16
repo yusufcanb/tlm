@@ -1,11 +1,12 @@
 package config
 
 import (
-	"github.com/spf13/viper"
 	"log"
 	"os"
 	"path"
-	"tlama/pkg/shell"
+
+	"github.com/spf13/viper"
+	"github.com/yusufcanb/tlama/pkg/shell"
 )
 
 func isExists(path string) bool {

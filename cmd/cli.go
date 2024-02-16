@@ -3,11 +3,14 @@ package main
 import (
 	"log"
 	"os"
-	"tlama/pkg/app"
+
+	"github.com/yusufcanb/tlama/pkg/app"
 )
 
+var version = "1.0.0"
+
 func main() {
-	tlama := app.New()
+	tlama := app.New(version)
 	if err := tlama.App.Run(os.Args); err != nil {
 		log.Fatal(err)
 	}

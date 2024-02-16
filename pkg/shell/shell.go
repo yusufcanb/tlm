@@ -12,10 +12,10 @@ func GetShell() string {
 	}
 
 	if runtime.GOOS == "darwin" || runtime.GOOS == "linux" {
-		return "sh"
+		return "bash"
 	}
 
-	return ""
+	return "bash"
 }
 
 func Exec(cmd string) *exec.Cmd {

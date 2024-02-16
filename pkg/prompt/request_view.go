@@ -2,6 +2,7 @@ package prompt
 
 import (
 	"fmt"
+
 	"github.com/charmbracelet/bubbles/spinner"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
@@ -20,8 +21,8 @@ func (m requestViewModel) Init() tea.Cmd {
 func (m requestViewModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
-		switch msg.String() {
-		case "q", "esc", "ctrl+c":
+		switch msg.Type {
+		case tea.KeyEscape, tea.KeyCtrlC:
 			m.quitting = true
 			return m, tea.Quit
 		default:
@@ -43,7 +44,7 @@ func (m requestViewModel) View() string {
 	if m.err != nil {
 		return m.err.Error()
 	}
-	str := fmt.Sprintf("\n%s  Thinking...\n", m.spinner.View())
+	str := fmt.Sprintf("\n%s Thinking...\n", m.spinner.View())
 	if m.quitting {
 		return str + "\n"
 	}
@@ -52,11 +53,7 @@ func (m requestViewModel) View() string {
 
 func NewRequestView() *requestViewModel {
 	s := spinner.New()
-	s.Spinner = spinner.Spinner{
-		Frames: []string{
-			"⠋", "⠙", "⠹", "⠸",
-		},
-	}
+	s.Spinner = spinner.Globe
 	s.Style = lipgloss.NewStyle().Foreground(lipgloss.Color("47"))
 	return &requestViewModel{spinner: s}
 }
