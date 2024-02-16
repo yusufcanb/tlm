@@ -20,3 +20,4 @@
 # Go workspace file
 go.work
 .idea
+dist
