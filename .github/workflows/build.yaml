@@ -21,9 +21,15 @@ jobs:
       - name: Install dependencies
         run: |
           go get ./...
+        env:
+          GOPATH: /opt/hostedtoolcache/go
 
       - name: Build
         run: go build -v cmd/cli.go
+        env:
+          GOPATH: /opt/hostedtoolcache/go
 
       - name: Test with the Go CLI
         run: go test
+        env:
+          GOPATH: /opt/hostedtoolcache/go
