@@ -2,6 +2,8 @@
 
 tlm is your CLI companion which requires nothing then your workstation. It uses most efficient and powerful [CodeLLaMa](https://ai.meta.com/blog/code-llama-large-language-model-coding/) in your local environment to provide you the best possible command line suggestions.
 
+![](./assets/tlm-in-action.png)
+
 ## Features
 
 - 💸 No API Key (Subscription) is required. (ChatGPT, Github Copilot, Azure OpenAI, etc.) 
@@ -13,11 +15,6 @@ tlm is your CLI companion which requires nothing then your workstation. It uses 
 - 👩🏻‍💻 Automatic shell detection.
  
 - 🚀 One liner generation and command explanation.
-
-
-MacOS             |  Windows |
-:-------------------------:|:-------------------------:
-![](./assets/macos.png)  |  ![](./assets/powershell.png)
 
 
 ## Installation
