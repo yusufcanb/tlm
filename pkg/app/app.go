@@ -18,14 +18,18 @@ type TlamaApp struct {
 func New(version string) *TlamaApp {
 
 	cliApp := &cli.App{
-		Name:        "tlama",
-		Usage:       "Terminal Intelligence /w Local LLM",
-		Description: "tlama is a command line tool to provide terminal intelligence locally with LLaMa.",
+		Name:        "tlm",
+		Usage:       "terminal intelligence with local language model.",
+		Description: "tlm is a command line tool to provide terminal intelligence using CodeLLaMa.",
 		Version:     version,
 		Action: func(c *cli.Context) error {
 			return cli.ShowAppHelp(c)
 		},
 		Commands: []*cli.Command{
+			suggest.GetCommand(),
+			explain.GetCommand(),
+			install.GetCommand(),
+			config.GetCommand(),
 			&cli.Command{
 				Name:    "version",
 				Aliases: []string{"v"},
@@ -35,10 +39,6 @@ func New(version string) *TlamaApp {
 					return nil
 				},
 			},
-			suggest.GetCommand(),
-			explain.GetCommand(),
-			install.GetCommand(),
-			config.GetCommand(),
 		},
 	}
 

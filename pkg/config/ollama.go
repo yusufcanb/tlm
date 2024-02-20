@@ -17,8 +17,6 @@ type Ollama struct {
 }
 
 func (o *Ollama) IsInstalled() bool {
-	fmt.Print("- Checking LLaMa is installed...")
-
 	resp, err := http.Get(o.cfg.Llm.Host)
 	if err != nil {
 		fmt.Println("\t\tno")
@@ -29,18 +27,15 @@ func (o *Ollama) IsInstalled() bool {
 	if resp.StatusCode == http.StatusOK {
 		bodyBytes, err := io.ReadAll(resp.Body)
 		if err != nil {
-			fmt.Println("\t\tno")
 			return false
 		}
 		bodyString := string(bodyBytes)
 
 		if bodyString == "Ollama is running" {
-			fmt.Println("\t\tok")
 			return true
 		}
 	}
 
-	fmt.Println("\t\tno")
 	return false
 }
 

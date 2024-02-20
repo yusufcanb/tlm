@@ -68,7 +68,7 @@ func (m suggestViewModel) View() string {
 	return fmt.Sprintf(
 		"\n> %s\n%s",
 		m.textInput.Value(),
-		"\n[enter] to execute command\n[esc] to cancel",
+		"\n[enter] to execute command\n[ctrl-c] to cancel",
 	) + "\n"
 }
 

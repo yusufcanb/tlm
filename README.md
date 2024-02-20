@@ -1,6 +1,6 @@
-# tlm - Your Terminal Intelligence /w Local LLM
+# tlm - Your Terminal Intelligence with Local LLM
 
-TLaMa is your CLI companion which requires nothing then your workstation. It uses most efficient and powerful [CodeLLaMa](https://ai.meta.com/blog/code-llama-large-language-model-coding/) in your local environment to provide you the best possible command line suggestions.
+tlm is your CLI companion which requires nothing then your workstation. It uses most efficient and powerful [CodeLLaMa](https://ai.meta.com/blog/code-llama-large-language-model-coding/) in your local environment to provide you the best possible command line suggestions.
 
 ## Features
 

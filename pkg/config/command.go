@@ -60,8 +60,9 @@ func configSetCommand() *cli.Command {
 
 func GetCommand() *cli.Command {
 	return &cli.Command{
-		Name:  "config",
-		Usage: "Configure tlama parameters.",
+		Name:    "config",
+		Aliases: []string{"c"},
+		Usage:   "Configure tlama parameters.",
 		Action: func(c *cli.Context) error {
 			return nil
 		},
