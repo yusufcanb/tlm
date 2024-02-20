@@ -3,9 +3,9 @@ package app
 import (
 	"github.com/yusufcanb/tlama/pkg/api"
 	"github.com/yusufcanb/tlama/pkg/config"
-	"github.com/yusufcanb/tlama/pkg/doctor"
-	prompt2 "github.com/yusufcanb/tlama/pkg/prompt"
-	"github.com/yusufcanb/tlama/pkg/setup"
+	"github.com/yusufcanb/tlama/pkg/explain"
+	"github.com/yusufcanb/tlama/pkg/install"
+	"github.com/yusufcanb/tlama/pkg/suggest"
 
 	"github.com/urfave/cli/v2"
 )
@@ -22,19 +22,23 @@ func New(version string) *TlamaApp {
 		Usage:       "Terminal Intelligence /w Local LLM",
 		Description: "tlama is a command line tool to provide terminal intelligence locally with LLaMa.",
 		Version:     version,
-		Action:      prompt2.PromptAction,
+		Action: func(c *cli.Context) error {
+			return cli.ShowAppHelp(c)
+		},
 		Commands: []*cli.Command{
 			&cli.Command{
-				Name:  "version",
-				Usage: "Print tlama version.",
+				Name:    "version",
+				Aliases: []string{"v"},
+				Usage:   "Print tlama version.",
 				Action: func(c *cli.Context) error {
 					cli.ShowVersion(c)
 					return nil
 				},
 			},
+			suggest.GetCommand(),
+			explain.GetCommand(),
+			install.GetCommand(),
 			config.GetCommand(),
-			setup.GetCommand(),
-			doctor.GetCommand(),
 		},
 	}
 

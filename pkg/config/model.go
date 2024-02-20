@@ -9,7 +9,7 @@ import (
 
 var defaultLLMModel = "codellama:7b"
 var defaultLLMHost = "http://localhost:11434"
-var defaultTemperature = 0.2
+var defaultTemperature = 0.1
 var defaultTopP = 0.9
 
 type llmConfig struct {
@@ -51,4 +51,8 @@ func (t *TlamaConfig) LoadConfig() error {
 		},
 	}
 	return nil
+}
+
+func (t TlamaConfig) GetOllamaApi() *Ollama {
+	return NewOllama(&t)
 }
