@@ -12,37 +12,46 @@ tlm is your CLI companion which requires nothing then your workstation. It uses 
 
 - 👩🏻‍💻 Automatic shell detection.
 
-## TLaMa in Action
 
-### Powershell
-
-
-
-### MacOS
-
-
-### Linux
-
+MacOS             |  Windows |
+:-------------------------:|:-------------------------:
+![](./assets/zsh.png)  |  ![](./assets/powershell.png)
 
 
 ## Installation
 
 ### Linux & MacOS
 
+Download latest release;
+
 ```bash
-curl -fsSL https://raw.githubusercontent.com/yusufcanb/tlama/master/get-tlama.sh | bash
+curl -fsSL -o tlm https://raw.githubusercontent.com/yusufcanb/tlama/master/get-tlama.sh
 ```
 
 ### Windows
 
-```powershell
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/yusufcanb/tlama/master/get-tlama.ps1" -OutFile "get-tlama.ps1"
+Download latest release;
 
-# Run installation script
-.\get-tlama.ps1
+```powershell
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/yusufcanb/tlama/master/" -OutFile "tlm.exe"
 ```
 
+> If you already have CodeLLaMa on your system, you can just use the following command to configure it;
+> 
+> `.\tlm.exe config set llm.host <codellama_host>`
+
+
+Then, you can use the following command to install CodeLLaMa;
+
+```powershell
+Exec .\tlm install
+```
+
+And follow the instructions to install CodeLLaMa. This will install CodeLLaMa on your system and configure tlm to use it.
+
 ## Usage
+
+
 
 ## Uninstall
 
