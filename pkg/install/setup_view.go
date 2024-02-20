@@ -2,87 +2,128 @@ package install
 
 import (
 	"fmt"
-	"github.com/charmbracelet/bubbles/textinput"
-
 	tea "github.com/charmbracelet/bubbletea"
+	"slices"
+	"strings"
 )
 
 type (
 	errMsg error
 )
 
-type model struct {
-	textInput textinput.Model
-	err       error
+type question struct {
+	question string
+	answer   bool
+	exitOnNo bool
 }
 
-func initialModel(i int) model {
+type model struct {
+	questions []question
+	index     int // Index of the current question
+	viewText  strings.Builder
 
-	switch i {
-	case 0:
-		ti := textinput.New()
-		ti.Placeholder = "localhost:11111"
-		ti.Prompt = "Ollama Host: "
-		ti.Focus()
-		ti.CharLimit = 120
-		ti.Width = 120
+	exited bool
+}
 
-		return model{
-			textInput: ti,
-			err:       nil,
-		}
+type initialModelArgs struct {
+	alreadyInstalled bool
+}
 
-	case 1:
-		ti := textinput.New()
-		ti.Placeholder = "codellama:7b"
-		ti.Prompt = "Ollama Model: "
-		ti.Focus()
-		ti.CharLimit = 120
-		ti.Width = 120
+var confirmText = `
+- Image: ollama:latest
+- Model: codellama:7b
+- Volume: ollama
+- GPU: %v
 
-		return model{
-			textInput: ti,
-			err:       nil,
-		}
+LLaMa will be deployed and model will be pulled for the first time.
+This process might take a few minutes depending on your network speed.
 
-	default:
-		return model{}
+[enter] to continue
+[ctrl+c] to cancel`
+
+func initialModel(args *initialModelArgs) *model {
+	questions := []question{
+		{question: "Enable GPU support (Only NVIDIA GPUs are supported)? [y/n]", answer: false, exitOnNo: false},
+		{question: confirmText, answer: false, exitOnNo: false}, // Assuming confirmText is defined elsewhere
 	}
 
+	if args.alreadyInstalled {
+		questions = slices.Insert(questions, 0, question{question: "Ollama is already deployed and running, proceed? [y/n]", answer: false, exitOnNo: true})
+	}
+
+	return &model{
+		questions: questions,
+		index:     0,
+		viewText:  strings.Builder{},
+	}
 }
 
 func (m model) Init() tea.Cmd {
-	return textinput.Blink
+	return nil
 }
 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
-	var cmd tea.Cmd
+	if m.index >= len(m.questions) {
+		return m, tea.Quit
+	}
 
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
-		switch msg.Type {
-
-		case tea.KeyTab:
-			m.textInput.SetValue(m.textInput.Placeholder)
+		switch msg.String() {
+		case "enter":
+			if m.index == len(m.questions)-1 { // last question
+				m.questions[m.index].answer = true
+				return m, tea.Quit
+			}
 			return m, nil
-
-		case tea.KeyEnter, tea.KeyCtrlC, tea.KeyEsc:
+		case "y", "Y":
+			if m.index == len(m.questions)-1 { // last question
+				return m, nil
+			}
+			m.questions[m.index].answer = true
+			m.nextQuestion()
+			return m, nil
+		case "n", "N":
+			if m.index == len(m.questions)-1 { // last question
+				return m, nil
+			}
+			m.questions[m.index].answer = false
+			if m.questions[m.index].exitOnNo {
+				return m, tea.Quit
+			}
+			m.nextQuestion()
+		case "ctrl+c":
+			m.exited = true
 			return m, tea.Quit
 		}
-
-	// We handle errors just like any other message
-	case errMsg:
-		m.err = msg
-		return m, nil
 	}
 
-	m.textInput, cmd = m.textInput.Update(msg)
-	return m, cmd
+	return m, nil
 }
 
 func (m model) View() string {
-	return fmt.Sprintf(
-		"%s",
-		m.textInput.View(),
-	) + "\n"
+	if m.index >= len(m.questions) {
+		for i := 0; i < m.index; i++ {
+			q := m.questions[i]
+			m.viewText.WriteString(fmt.Sprintf("%s: %v\n", q.question, q.answer))
+		}
+		return m.viewText.String()
+	}
+
+	for i := 0; i < m.index; i++ {
+		q := m.questions[i]
+		m.viewText.WriteString(fmt.Sprintf("%s: %v\n", q.question, q.answer))
+	}
+
+	q := m.questions[m.index]
+	m.viewText.WriteString(fmt.Sprintf("%s\n", q.question))
+
+	return m.viewText.String()
+}
+
+func (m *model) nextQuestion() {
+	m.index++
+	if m.index >= len(m.questions) {
+		return // Reached the end
+	}
 }

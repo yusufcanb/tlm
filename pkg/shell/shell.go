@@ -1,13 +1,9 @@
 package shell
 
 import (
-	"bufio"
-	"fmt"
-	"log"
-	"os"
+	"bytes"
 	"os/exec"
 	"runtime"
-	"strings"
 )
 
 func GetShell() string {
@@ -34,35 +30,18 @@ func Exec(cmd string) *exec.Cmd {
 	return exec.Command(GetShell(), "-c", cmd)
 }
 
-func Confirm(s string, tries int) bool {
-	r := bufio.NewReader(os.Stdin)
+func Exec2(command string) (*exec.Cmd, *bytes.Buffer, *bytes.Buffer) {
+	var stdout, stderr bytes.Buffer
+	var cmd *exec.Cmd
 
-	for ; tries > 0; tries-- {
-		fmt.Printf("%s [y/n]: ", s)
-
-		res, err := r.ReadString('\n')
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		// Empty input (i.e. "\n")
-		if len(res) < 3 {
-			continue
-		}
-
-		return strings.ToLower(strings.TrimSpace(res))[0] == 'y'
+	if GetShell() == "powershell" {
+		cmd = exec.Command(GetShell(), "-Command", command)
+	} else {
+		cmd = exec.Command(GetShell(), "-c", command)
 	}
 
-	return false
-}
+	cmd.Stdout = &stdout
+	cmd.Stderr = &stderr
 
-func AskQuestion(question string, defaultValue string) string {
-	reader := bufio.NewReader(os.Stdin)
-	fmt.Printf("%s [%s]: ", question, defaultValue)
-	answer, _ := reader.ReadString('\n')
-	answer = strings.TrimSpace(answer)
-	if answer == "" {
-		return defaultValue
-	}
-	return answer
+	return cmd, &stdout, &stderr
 }

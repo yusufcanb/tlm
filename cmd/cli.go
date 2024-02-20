@@ -7,7 +7,7 @@ import (
 	"github.com/yusufcanb/tlama/pkg/app"
 )
 
-var version = "1.0.0"
+var version = "1.0"
 
 func main() {
 	tlama := app.New(version)

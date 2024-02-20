@@ -2,9 +2,10 @@ package install
 
 import (
 	"fmt"
+	tea "github.com/charmbracelet/bubbletea"
 	"github.com/urfave/cli/v2"
 	"github.com/yusufcanb/tlama/pkg/config"
-	"github.com/yusufcanb/tlama/pkg/shell"
+	"log"
 )
 
 func GetCommand() *cli.Command {
@@ -13,39 +14,28 @@ func GetCommand() *cli.Command {
 		Aliases: []string{"i"},
 		Usage:   "Install LLM to your system.",
 		Action: func(c *cli.Context) error {
-
 			cfg := c.App.Metadata["config"].(*config.TlamaConfig)
-
 			ollama := cfg.GetOllamaApi()
-			if ollama.IsInstalled() {
-				confirm := shell.Confirm("Ollama is already deployed and running, proceed?", 3)
-				if !confirm {
-					return nil
-				}
+
+			model := initialModel(&initialModelArgs{alreadyInstalled: ollama.IsInstalled()})
+			program := tea.NewProgram(model)
+			_, err := program.Run()
+			if err != nil {
+				log.Fatalf("could not run program: %s", err)
 			}
+			defer program.Quit()
 
-			gpuSupport := shell.Confirm("Enable GPU support? (only NVIDIA GPUs are supported)", 3)
-			//proceed := shell.Confirm("\n- Image: ollama:latest\n- Model: codellama:7b\n\nLLaMa will be deployed and model will be pulled for the first time.\nThis process might take a few minutes depending on your network speed.\nProceed?", 3)
-			proceed := shell.Confirm(`
-- Image: ollama:latest
-- Model: codellama:7b
-- Volume: ollama
-
-LLaMa will be deployed and model will be pulled for the first time.
-This process might take a few minutes depending on your network speed.
-
-Continue?`, 3)
-			if !proceed {
+			if model.questions[len(model.questions)-1].answer == false {
+				fmt.Println("\nAbort...")
 				return nil
 			}
 
-			fmt.Printf("Deploying Ollama...")
-			err := installOllama(gpuSupport)
+			err = ollama.Install()
 			if err != nil {
-				return err
+				log.Fatalf("could not install LLM: %s", err.Error())
 			}
 
-			fmt.Println("Done...")
+			fmt.Println("\n\nInstallation complete.")
 			return nil
 		},
 	}

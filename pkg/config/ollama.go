@@ -4,11 +4,14 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	ollama "github.com/jmorganca/ollama/api"
+	"github.com/yusufcanb/tlama/pkg/shell"
 	"io"
 	"net/http"
 	"os"
+	"strings"
 )
 
 type Ollama struct {
@@ -19,7 +22,6 @@ type Ollama struct {
 func (o *Ollama) IsInstalled() bool {
 	resp, err := http.Get(o.cfg.Llm.Host)
 	if err != nil {
-		fmt.Println("\t\tno")
 		return false
 	}
 	defer resp.Body.Close()
@@ -68,6 +70,18 @@ func (o *Ollama) IsModelExists() bool {
 	}
 
 	return resp.StatusCode == http.StatusOK
+}
+
+func (o *Ollama) IsVolumeInstalled() bool {
+	_, stdout, _ := shell.Exec2("docker volume ls -q -f name=ollama")
+
+	for _, volume := range strings.Split(stdout.String(), "\n") {
+		if volume == "ollama" {
+			return true
+		}
+	}
+
+	return false
 }
 
 func (o *Ollama) InstallModel() error {
@@ -133,6 +147,24 @@ func (o *Ollama) Pull() error {
 	if err != nil {
 		return err
 	}
+
+	return nil
+}
+
+func (o *Ollama) Install() error {
+	ok := o.IsVolumeInstalled()
+	if ok {
+		fmt.Println("Ollama volume found. Using existing volume.")
+	}
+
+	_, stdout, stderr := shell.Exec2("docker run -d --gpus=all -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama\n")
+
+	if stderr.String() != "" {
+		fmt.Println(stderr.String())
+		return errors.New(stderr.String())
+	}
+
+	fmt.Println(stdout.String())
 
 	return nil
 }

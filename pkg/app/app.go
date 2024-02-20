@@ -33,7 +33,7 @@ func New(version string) *TlamaApp {
 			&cli.Command{
 				Name:    "version",
 				Aliases: []string{"v"},
-				Usage:   "Print tlama version.",
+				Usage:   "Print version.",
 				Action: func(c *cli.Context) error {
 					cli.ShowVersion(c)
 					return nil

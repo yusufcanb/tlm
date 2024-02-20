@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/yusufcanb/tlama/pkg/shell"
-	"log"
 
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
@@ -22,6 +21,7 @@ type suggestViewModel struct {
 
 func (m suggestViewModel) Init() tea.Cmd {
 	m.textInput.SetValue(m.placeholder)
+	m.textInput.Focus()
 	return textinput.Blink
 }
 
@@ -42,15 +42,13 @@ func (m suggestViewModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 			err := cmd.Run()
 			if err != nil {
-				log.Fatal(err)
+				fmt.Println("\n" + stderr.String())
+				fmt.Println(err.Error())
+				m.err = errMsg(err)
+				return m, tea.Quit
 			}
 
-			fmt.Println()
-			fmt.Println(stdout.String())
-			fmt.Println(stderr.String())
-			m.textInput.Focus()
-			textinput.Blink()
-
+			fmt.Println("\n" + stdout.String())
 			return m, tea.Quit
 		}
 
@@ -68,16 +66,15 @@ func (m suggestViewModel) View() string {
 	return fmt.Sprintf(
 		"\n> %s\n%s",
 		m.textInput.Value(),
-		"\n[enter] to execute command\n[ctrl-c] to cancel",
+		"\n[enter] to execute\n[ctrl-c] to cancel",
 	) + "\n"
 }
 
 func NewPromptView(prompt string) suggestViewModel {
 	ti := textinput.New()
 	ti.SetValue(prompt)
-	ti.Focus()
-	ti.CharLimit = 128
-	ti.Width = 128
+	ti.CharLimit = 256
+	ti.Width = 256
 
 	return suggestViewModel{
 		textInput: ti,

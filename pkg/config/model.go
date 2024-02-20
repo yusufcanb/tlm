@@ -10,7 +10,7 @@ import (
 var defaultLLMModel = "codellama:7b"
 var defaultLLMHost = "http://localhost:11434"
 var defaultTemperature = 0.1
-var defaultTopP = 0.9
+var defaultTopP = 0.5
 
 type llmConfig struct {
 	Host       string
