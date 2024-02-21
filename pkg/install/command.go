@@ -30,12 +30,14 @@ func GetCommand() *cli.Command {
 				return nil
 			}
 
+			fmt.Println("\n\nInstalling Ollama...\n")
 			err = ollama.Install()
 			if err != nil {
-				log.Fatalf("could not install LLM: %s", err.Error())
+				fmt.Printf("ERR: %s", err.Error())
+				return nil
 			}
 
-			fmt.Println("\n\nInstallation complete.")
+			fmt.Println("\nDone.\nStarting using now;\n\ntlm s \"list all files in cwd\"\n")
 			return nil
 		},
 	}

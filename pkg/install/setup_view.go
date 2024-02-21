@@ -44,7 +44,7 @@ This process might take a few minutes depending on your network speed.
 func initialModel(args *initialModelArgs) *model {
 	questions := []question{
 		{question: "Enable GPU support (Only NVIDIA GPUs are supported)? [y/n]", answer: false, exitOnNo: false},
-		{question: confirmText, answer: false, exitOnNo: false}, // Assuming confirmText is defined elsewhere
+		{question: fmt.Sprintf(confirmText, args.alreadyInstalled), answer: false, exitOnNo: false}, // Assuming confirmText is defined elsewhere
 	}
 
 	if args.alreadyInstalled {
