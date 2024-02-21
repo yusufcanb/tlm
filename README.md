@@ -53,7 +53,7 @@ GLOBAL OPTIONS:
 Download latest release;
 
 ```bash
-curl -fsSL -o tlm https://github.com/yusufcanb/tlm/releases/download/1.0-alpha.0/tlama_1.0-alpha.0_linux_amd64
+curl -fsSL -o tlm https://github.com/yusufcanb/tlm/releases/download/1.0-rc0/tlama_1.0-rc0_linux_amd64
 ```
 
 Make it executable;
