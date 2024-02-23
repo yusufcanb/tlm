@@ -100,16 +100,15 @@ func (i *Install) installAndConfigureOllama(form *InstallForm2) error {
 	}
 
 	// 4. Run the Docker command
-	var containerId string
 	_ = spinner.New().Type(spinner.Line).Title(" Creating Ollama container").Action(func() {
-		containerId, err = i.createContainer(i.defaultContainerName, form.gpuEnabled)
+		_, err = i.createContainer(i.defaultContainerName, form.gpuEnabled)
 		if err != nil {
-			fmt.Printf("- Creating Ollama container... %s", shell.Err())
+			fmt.Printf("- Creating Ollama container. %s", shell.Err())
 			fmt.Println(err.Error())
 			os.Exit(-1)
 		}
 	}).Run()
-	fmt.Printf("- Creating Ollama container...  %s %s", containerId, shell.Ok())
+	fmt.Println("- Creating Ollama container. " + shell.Ok())
 
 	// 5. Pull CodeLLaMa if not exists
 	i.installCodeLLaMa()
@@ -118,38 +117,38 @@ func (i *Install) installAndConfigureOllama(form *InstallForm2) error {
 	_ = spinner.New().Type(spinner.Line).Title(" Creating Modelfile for suggestions").Action(func() {
 		err = i.installModelfile("suggest:7b", form.suggestModelfile)
 		if err != nil {
-			fmt.Println("- Creating Modelfile for suggestions... " + shell.Err())
+			fmt.Println("- Creating Modelfile for suggestions. " + shell.Err())
 			os.Exit(-1)
 		}
 	}).Run()
-	fmt.Println("- Creating Modelfile for suggestions... " + shell.Ok())
+	fmt.Println("- Creating Modelfile for suggestions. " + shell.Ok())
 
 	// 7. Install the modelfile (Suggest)
 	_ = spinner.New().Type(spinner.Line).Title(" Creating Modelfile for explanations").Action(func() {
 		err = i.installModelfile("suggest:7b", form.suggestModelfile)
 		if err != nil {
-			fmt.Println("- Creating Modelfile for explanations... " + shell.Err())
+			fmt.Println("- Creating Modelfile for explanations. " + shell.Err())
 			os.Exit(-1)
 		}
 	}).Run()
-	fmt.Println("- Creating Modelfile for explanations... " + shell.Ok())
+	fmt.Println("- Creating Modelfile for explanations. " + shell.Ok())
 
 	return nil
 }
 
 func (i *Install) installCodeLLaMa() {
 	var err error
-	_ = spinner.New().Type(spinner.Line).Title(" Installing CodeLLaMa").Action(func() {
+	_ = spinner.New().Type(spinner.Line).Title(" Getting latest CodeLLaMa").Action(func() {
 		err = i.api.Pull(context.Background(), &ollama.PullRequest{Model: "codellama:7b"}, func(res ollama.ProgressResponse) error {
 			return nil
 		})
 		if err != nil {
-			fmt.Println("- Installing CodeLLaMa... " + shell.Err())
+			fmt.Println("- Installing CodeLLaMa. " + shell.Err())
 			os.Exit(-1)
 		}
 	}).Run()
 
-	fmt.Println("- Installing CodeLLaMa... " + shell.Ok())
+	fmt.Println("- Getting latest CodeLLaMa. " + shell.Ok())
 }
 
 func (i *Install) checkOllamaVolumeExists(form *InstallForm2) {
@@ -160,6 +159,6 @@ func (i *Install) checkOllamaVolumeExists(form *InstallForm2) {
 			os.Exit(-1)
 		}
 	} else {
-		fmt.Println("- Ollama volume found. Using existing volume. " + shell.Ok())
+		fmt.Println("- Ollama volume found, using existing volume. " + shell.Ok())
 	}
 }

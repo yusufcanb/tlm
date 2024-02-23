@@ -2,6 +2,7 @@ package install
 
 import (
 	"context"
+	"fmt"
 	"github.com/urfave/cli/v2"
 )
 
@@ -25,6 +26,8 @@ func (i *Install) Action(c *cli.Context) error {
 		return err
 	}
 
+	fmt.Println("\nInstallation has been completed..")
+	fmt.Println("\nStart using it by;\ntlm suggest \"list all files in cwd\"\n")
 	return nil
 }
 
