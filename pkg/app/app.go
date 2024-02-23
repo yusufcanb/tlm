@@ -1,7 +1,8 @@
 package app
 
 import (
-	"github.com/yusufcanb/tlama/pkg/api"
+	_ "embed"
+	ollama "github.com/jmorganca/ollama/api"
 	"github.com/yusufcanb/tlama/pkg/config"
 	"github.com/yusufcanb/tlama/pkg/explain"
 	"github.com/yusufcanb/tlama/pkg/install"
@@ -10,30 +11,36 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-type TlamaApp struct {
-	App    *cli.App
-	Config *config.TlamaConfig
+type TlmApp struct {
+	App *cli.App
 }
 
-func New(version string) *TlamaApp {
+func New(version string, suggestModelfile string, explainModelfile string) *TlmApp {
+	con := config.New()
+	con.LoadOrCreateConfig()
+
+	o, _ := ollama.ClientFromEnvironment()
+	sug := suggest.New(o, suggestModelfile)
+	exp := explain.New(o, explainModelfile)
+	ins := install.New(o)
 
 	cliApp := &cli.App{
-		Name:        "tlm",
-		Usage:       "terminal intelligence with local language model.",
-		Description: "tlm is a command line tool to provide terminal intelligence using CodeLLaMa.",
-		Version:     version,
+		Name:            "tlm",
+		Usage:           "local terminal companion powered by CodeLLaMa.",
+		Version:         version,
+		HideHelpCommand: true,
 		Action: func(c *cli.Context) error {
 			return cli.ShowAppHelp(c)
 		},
 		Commands: []*cli.Command{
-			suggest.GetCommand(),
-			explain.GetCommand(),
-			install.GetCommand(),
-			config.GetCommand(),
+			sug.Command(),
+			exp.Command(),
+			ins.Command(),
+			con.Command(),
 			&cli.Command{
 				Name:    "version",
 				Aliases: []string{"v"},
-				Usage:   "Print version.",
+				Usage:   "print version.",
 				Action: func(c *cli.Context) error {
 					cli.ShowVersion(c)
 					return nil
@@ -42,13 +49,7 @@ func New(version string) *TlamaApp {
 		},
 	}
 
-	cliApp.HideHelpCommand = true
-	cliApp.Metadata = make(map[string]interface{})
-
-	cliApp.Metadata["config"] = config.New()
-	cliApp.Metadata["api"] = api.New(cliApp.Metadata["config"].(*config.TlamaConfig))
-
-	return &TlamaApp{
+	return &TlmApp{
 		App: cliApp,
 	}
 }

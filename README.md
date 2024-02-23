@@ -39,7 +39,9 @@ Move it to your `$PATH`;
 sudo mv tlm /usr/local/bin
 ```
 
-⚠️ If you already have CodeLLaMa on your system, you can just use the following command to configure it;
+> [!TIP]
+> If you already have CodeLLaMa on your system, you can just use the following command to configure it;
+
 ```
 tlm config set llm.host <codellama_host>
 ```
@@ -59,7 +61,9 @@ Download latest release;
 Invoke-WebRequest -Uri "https://github.com/yusufcanb/tlm/releases/download/1.0-alpha.0/tlama_1.0-alpha.0_windows_amd64.exe" -OutFile "tlm.exe"
 ```
 
-⚠️ If you already have CodeLLaMa on your system, you can just use the following command to configure it;
+> [!TIP]
+> If you already have CodeLLaMa on your system, you can just use the following command to configure it;
+
 ```
 .\tlm.exe config set llm.host <codellama_host>
 ```

@@ -1,4 +1,4 @@
-package suggest
+package views
 
 import (
 	"bytes"
@@ -73,8 +73,6 @@ func (m suggestViewModel) View() string {
 func NewPromptView(prompt string) suggestViewModel {
 	ti := textinput.New()
 	ti.SetValue(prompt)
-	ti.CharLimit = 256
-	ti.Width = 256
 
 	return suggestViewModel{
 		textInput: ti,

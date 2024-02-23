@@ -2,9 +2,37 @@ package shell
 
 import (
 	"bytes"
+	"github.com/charmbracelet/lipgloss"
 	"os/exec"
 	"runtime"
 )
+
+func Ok() string {
+	style := lipgloss.NewStyle()
+
+	style = style.Bold(true)
+	style = style.Foreground(lipgloss.Color("2"))
+
+	return style.Render("(ok)")
+}
+
+func SuccessMessage(message string) string {
+	style := lipgloss.NewStyle()
+
+	style = style.Bold(true)
+	style = style.Foreground(lipgloss.Color("2"))
+
+	return style.Render(message)
+}
+
+func Err() string {
+	style := lipgloss.NewStyle()
+
+	style = style.Bold(true)
+	style = style.Foreground(lipgloss.Color("9"))
+
+	return style.Render("[err]")
+}
 
 func GetShell() string {
 	if runtime.GOOS == "windows" {
