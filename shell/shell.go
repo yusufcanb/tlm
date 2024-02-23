@@ -18,10 +18,7 @@ func Ok() string {
 
 func SuccessMessage(message string) string {
 	style := lipgloss.NewStyle()
-
-	style = style.Bold(true)
 	style = style.Foreground(lipgloss.Color("2"))
-
 	return style.Render(message)
 }
 

@@ -26,7 +26,7 @@ func (s *Suggest) getParametersFor(preference string) map[string]interface{} {
 
 	case Balanced:
 		return map[string]interface{}{
-			"seed":        42,
+			"seed":        21,
 			"temperature": 0.5,
 			"top_p":       0.4,
 		}
