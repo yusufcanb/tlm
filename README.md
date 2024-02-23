@@ -15,6 +15,34 @@ tlm is your CLI companion which requires nothing then your workstation. It uses 
 - 🚀 One liner generation and command explanation.
 
 
+## Usage
+
+```
+$ tlm help
+
+NAME:
+   tlm - local terminal companion powered by CodeLLaMa.
+                                                       
+USAGE:                                                 
+   tlm [global options] command [command options]      
+                                                       
+VERSION:                                               
+   1.0-rc1
+
+COMMANDS:
+   suggest, s  suggest a command.
+   explain, e  explain a command.
+   install, i  deploy CodeLLaMa to your system.
+   config, c   configure preferences.
+   version, v  print version.
+
+GLOBAL OPTIONS:
+   --help, -h     show help
+   --version, -v  print the version
+
+```
+
+
 ![](./assets/tlm-in-action.png)
 
 ## Installation
@@ -24,7 +52,7 @@ tlm is your CLI companion which requires nothing then your workstation. It uses 
 Download latest release;
 
 ```bash
-curl -fsSL -o tlm https://github.com/yusufcanb/tlm/releases/download/1.0-alpha.0/tlama_1.0-alpha.0_linux_amd64
+curl -fsSL -o tlm https://github.com/yusufcanb/tlm/releases/download/1.0-rc1/tlm_1.0-rc1_linux_amd64
 ```
 
 Make it executable;
@@ -58,7 +86,7 @@ Finally, follow the instructions to install CodeLLaMa. This will install CodeLLa
 Download latest release;
 
 ```powershell
-Invoke-WebRequest -Uri "https://github.com/yusufcanb/tlm/releases/download/1.0-alpha.0/tlama_1.0-alpha.0_windows_amd64.exe" -OutFile "tlm.exe"
+Invoke-WebRequest -Uri "https://github.com/yusufcanb/tlm/releases/download/1.0-rc1/tlama_1.0-rc1_windows_amd64.exe" -OutFile "tlm.exe"
 ```
 
 > [!TIP]
@@ -75,35 +103,6 @@ Otherwise, you can use the following command to install CodeLLaMa;
 ```
 
 And follow the instructions to install CodeLLaMa. This will install CodeLLaMa on your system and configure tlm to use it.
-
-## Usage
-
-```
-> tlm help      
-
-NAME:
-   tlm - terminal intelligence with local language model.                      
-                                                                               
-USAGE:                                                                         
-   tlm [global options] command [command options]                              
-                                                                               
-VERSION:                                                                       
-   1.0                                                                         
-                                                                               
-DESCRIPTION:                                                                   
-   tlm is a command line tool to provide terminal intelligence using CodeLLaMa.
-                                                                               
-COMMANDS:                                                                      
-   suggest, s  Suggest a command.                                              
-   explain, e  Explain a command.                                              
-   install, i  Install LLM to your system.                                     
-   config, c   Configure tlama parameters.                                     
-   version, v  Print version.                                                  
-                                                                               
-GLOBAL OPTIONS:                                                                
-   --help, -h     show help                                                    
-   --version, -v  print the version 
-```
 
 
 ## Uninstall

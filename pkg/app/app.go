@@ -22,7 +22,7 @@ func New(version string, suggestModelfile string, explainModelfile string) *TlmA
 	o, _ := ollama.ClientFromEnvironment()
 	sug := suggest.New(o, suggestModelfile)
 	exp := explain.New(o, explainModelfile)
-	ins := install.New(o)
+	ins := install.New(o, suggestModelfile, explainModelfile)
 
 	cliApp := &cli.App{
 		Name:            "tlm",

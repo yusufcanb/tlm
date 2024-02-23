@@ -7,10 +7,19 @@ import (
 
 type Install struct {
 	api *ollama.Client
+
+	defaultContainerName string
+
+	suggestModelfile string
+	explainModelfile string
 }
 
-func New(api *ollama.Client) *Install {
+func New(api *ollama.Client, suggestModelfile string, explainModelfile string) *Install {
 	return &Install{
-		api: api,
+		api:                  api,
+		defaultContainerName: "ollama",
+
+		suggestModelfile: suggestModelfile,
+		explainModelfile: explainModelfile,
 	}
 }

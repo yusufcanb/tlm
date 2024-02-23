@@ -18,7 +18,7 @@ var explainModelfile string
 var suggestModelfile string
 
 func main() {
-	tlm := app.New(version, explainModelfile, suggestModelfile)
+	tlm := app.New(version, suggestModelfile, explainModelfile)
 	if err := tlm.App.Run(os.Args); err != nil {
 		log.Fatal(err)
 	}

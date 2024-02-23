@@ -1,11 +1,31 @@
 package install
 
 import (
+	"context"
 	"github.com/urfave/cli/v2"
 )
 
 func (i *Install) Action(c *cli.Context) error {
-	return NewInstallForm2().Run()
+	var err error
+	var version string
+
+	version, err = i.api.Version(context.Background())
+	if err != nil {
+		version = ""
+	}
+
+	form := NewInstallForm2(version, i.suggestModelfile, i.explainModelfile)
+	err = form.Run()
+	if err != nil {
+		return err
+	}
+
+	err = i.installAndConfigureOllama(form)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (i *Install) Command() *cli.Command {

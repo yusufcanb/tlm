@@ -1,6 +1,7 @@
 package install
 
 import (
+	"fmt"
 	"github.com/charmbracelet/huh"
 )
 
@@ -8,9 +9,13 @@ type InstallForm2 struct {
 	form *huh.Form
 
 	redeploy     bool
+	version      string
 	gpuEnabled   bool
 	ollamaImage  string
 	ollamaVolume string
+
+	suggestModelfile string
+	explainModelfile string
 }
 
 func (i *InstallForm2) Run() error {
@@ -39,7 +44,7 @@ func (i *InstallForm2) Run() error {
 		var c bool
 		err := huh.NewConfirm().
 			Title("Redeploy").
-			Description("An Ollama instance is running on 11434, redeploy?").
+			Description(fmt.Sprintf("Ollama (%s) instance is running on 11434, redeploy?", i.version)).
 			Affirmative("Proceed").
 			Negative("Abort").
 			Value(&c).
@@ -56,18 +61,30 @@ func (i *InstallForm2) Run() error {
 
 		return nil
 
+	} else {
+		return i.form.WithTheme(huh.ThemeBase16()).Run()
 	}
 
-	return nil
 }
 
-func NewInstallForm2() *InstallForm2 {
+func NewInstallForm2(version string, suggestModelfile string, explainModelfile string) *InstallForm2 {
 	ollamaImage := "ollama:latest"
 	ollamaVolume := "ollama"
+
+	var redeploy bool
+	if version != "" {
+		redeploy = true
+	} else {
+		redeploy = false
+	}
 
 	return &InstallForm2{
 		ollamaImage:  ollamaImage,
 		ollamaVolume: ollamaVolume,
-		redeploy:     true,
+		redeploy:     redeploy,
+
+		version:          version,
+		suggestModelfile: suggestModelfile,
+		explainModelfile: explainModelfile,
 	}
 }
