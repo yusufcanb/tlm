@@ -42,6 +42,7 @@ GLOBAL OPTIONS:
 
 ```
 
+## Screenshots
 
 ![](./assets/tlm-in-action.png)
 
