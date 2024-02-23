@@ -22,6 +22,12 @@ func SuccessMessage(message string) string {
 	return style.Render(message)
 }
 
+func WarnMessage(message string) string {
+	style := lipgloss.NewStyle()
+	style = style.Foreground(lipgloss.Color("5"))
+	return style.Render(message)
+}
+
 func Err() string {
 	style := lipgloss.NewStyle()
 

@@ -37,7 +37,7 @@ func (e *Explain) getParametersFor(preference string) map[string]interface{} {
 	}
 }
 
-func (e *Explain) streamExplanationFor(mode, prompt string) error {
+func (e *Explain) StreamExplanationFor(mode, prompt string) error {
 	onResponseFunc := func(res ollama.GenerateResponse) error {
 		fmt.Print(res.Response)
 		return nil
@@ -45,7 +45,7 @@ func (e *Explain) streamExplanationFor(mode, prompt string) error {
 
 	err := e.api.Generate(context.Background(), &ollama.GenerateRequest{
 		Model:   "explain:7b",
-		Prompt:  "Explain the command briefly: " + prompt,
+		Prompt:  "Explain command: " + prompt,
 		Options: e.getParametersFor(mode),
 	}, onResponseFunc)
 

@@ -1,17 +1,31 @@
 package suggest
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"github.com/charmbracelet/huh/spinner"
 	"github.com/charmbracelet/lipgloss"
 	"github.com/spf13/viper"
 	"github.com/urfave/cli/v2"
+	"github.com/yusufcanb/tlm/explain"
 	"github.com/yusufcanb/tlm/shell"
+	"os"
 	"time"
 )
 
-func (s *Suggest) Action(c *cli.Context) error {
+func (s *Suggest) before(_ *cli.Context) error {
+	_, err := s.api.Version(context.Background())
+	if err != nil {
+		fmt.Println(shell.Err() + " " + err.Error())
+		fmt.Println(shell.Err() + " Ollama connection failed. Please check your Ollama configuration or execute `tlm install`")
+		os.Exit(-1)
+	}
+
+	return nil
+}
+
+func (s *Suggest) action(c *cli.Context) error {
 	var responseText string
 	var err error
 
@@ -33,21 +47,26 @@ func (s *Suggest) Action(c *cli.Context) error {
 		fmt.Println(shell.Err()+" error getting suggestion:", err)
 	}
 
-	fmt.Printf("┃ >"+" Thinking... %s\n", shell.SuccessMessage("("+t2.Sub(t1).String()+")"))
+	fmt.Printf(shell.SuccessMessage("┃ >")+" Thinking... (%s)\n", t2.Sub(t1).String())
 	form := NewCommandForm(s.extractCommandsFromResponse(responseText)[0])
 	err = form.Run()
 
+	fmt.Println(shell.SuccessMessage("┃ > ") + form.command)
 	if err != nil {
-		fmt.Println(shell.Err() + " " + err.Error())
+		fmt.Println(shell.WarnMessage("┃ > ") + "Aborted..." + "\n")
+		return nil
 	}
 
-	fmt.Println("┃ > " + form.command + "\n")
-	if form.confirm {
+	if form.action == Execute {
+		fmt.Println(shell.SuccessMessage("┃ > ") + "Executing..." + "\n")
 		cmd, stdout, stderr := shell.Exec2(form.command)
-		cmd.Run()
+		err = cmd.Run()
+		if err != nil {
+			return err
+		}
 
 		if stderr.String() != "" {
-			fmt.Println(stderr.String())
+			fmt.Println()
 			return errors.New("command failed")
 		}
 
@@ -55,7 +74,19 @@ func (s *Suggest) Action(c *cli.Context) error {
 		return nil
 	}
 
-	fmt.Println("suggestion elapsed time:", t2.Sub(t1))
+	if form.action == Explain {
+		fmt.Println(shell.SuccessMessage("┃ > ") + "Explaining..." + "\n")
+
+		exp := explain.New(s.api, "")
+		err = exp.StreamExplanationFor(Stable, form.command)
+		if err != nil {
+			return err
+		}
+
+	} else {
+		fmt.Println(shell.WarnMessage("┃ > ") + "Aborted..." + "\n")
+	}
+
 	return nil
 }
 
@@ -64,6 +95,7 @@ func (s *Suggest) Command() *cli.Command {
 		Name:    "suggest",
 		Aliases: []string{"s"},
 		Usage:   "suggest a command.",
-		Action:  s.Action,
+		Before:  s.before,
+		Action:  s.action,
 	}
 }

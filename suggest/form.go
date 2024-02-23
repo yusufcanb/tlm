@@ -4,20 +4,31 @@ import (
 	"github.com/charmbracelet/huh"
 )
 
+type Action int
+
+const (
+	Cancel Action = iota
+	Execute
+	Explain
+)
+
 type CommandForm struct {
 	command string
-	confirm bool
+	action  Action
 }
 
 func (s *CommandForm) Run() error {
 	group := huh.NewGroup(
 		huh.NewInput().
 			Value(&s.command),
-		huh.NewConfirm().
-			Value(&s.confirm).
-			Affirmative("execute").
-			Negative("abort").
-			WithHeight(1),
+
+		huh.NewSelect[Action]().
+			Options(
+				huh.NewOption("Execute", Execute),
+				huh.NewOption("Explain", Explain),
+				huh.NewOption("Cancel", Cancel),
+			).
+			Value(&s.action),
 	)
 
 	form := huh.NewForm(group).
@@ -28,5 +39,5 @@ func (s *CommandForm) Run() error {
 }
 
 func NewCommandForm(command string) *CommandForm {
-	return &CommandForm{command: command, confirm: true}
+	return &CommandForm{command: command}
 }
