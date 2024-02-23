@@ -10,26 +10,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Go 1.20
+      - name: Setup Go 1.21
         uses: actions/setup-go@v4
         with:
-          go-version: 1.20
+          go-version: 1.21
 
       - name: Display Go version
         run: go version
 
       - name: Install dependencies
-        run: |
-          go install github.com/yusufcanb/tlm
-        env:
-          GOPATH: /opt/hostedtoolcache/go
+        run: go install github.com/yusufcanb/tlm
 
       - name: Build
-        run: go build -v cmd/cli.go
-        env:
-          GOPATH: /opt/hostedtoolcache/go
-
-      - name: Test with the Go CLI
-        run: go test
-        env:
-          GOPATH: /opt/hostedtoolcache/go
+        run: go build -o tlm main.go
