@@ -1,7 +1,6 @@
 package install
 
 import (
-	_ "embed"
 	ollama "github.com/jmorganca/ollama/api"
 )
 

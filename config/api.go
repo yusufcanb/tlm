@@ -3,7 +3,7 @@ package config
 import (
 	"fmt"
 	"github.com/spf13/viper"
-	"github.com/yusufcanb/tlama/pkg/shell"
+	"github.com/yusufcanb/tlm/shell"
 	"log"
 	"os"
 	"path"

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/spf13/viper"
 	"github.com/urfave/cli/v2"
-	"github.com/yusufcanb/tlama/pkg/shell"
+	"github.com/yusufcanb/tlm/shell"
 )
 
 func (c *Config) Action(_ *cli.Context) error {

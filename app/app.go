@@ -3,19 +3,28 @@ package app
 import (
 	_ "embed"
 	ollama "github.com/jmorganca/ollama/api"
-	"github.com/yusufcanb/tlama/pkg/config"
-	"github.com/yusufcanb/tlama/pkg/explain"
-	"github.com/yusufcanb/tlama/pkg/install"
-	"github.com/yusufcanb/tlama/pkg/suggest"
+	"github.com/yusufcanb/tlm/config"
+	"github.com/yusufcanb/tlm/explain"
+	"github.com/yusufcanb/tlm/install"
+	"github.com/yusufcanb/tlm/suggest"
 
 	"github.com/urfave/cli/v2"
 )
 
+//go:embed Modelfile.explain
+var explainModelfile string
+
+//go:embed Modelfile.suggest
+var suggestModelfile string
+
 type TlmApp struct {
 	App *cli.App
+
+	explainModelfile string
+	suggestModelfile string
 }
 
-func New(version string, suggestModelfile string, explainModelfile string) *TlmApp {
+func New(version string) *TlmApp {
 	con := config.New()
 	con.LoadOrCreateConfig()
 
