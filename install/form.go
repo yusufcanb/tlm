@@ -25,8 +25,8 @@ func (i *InstallForm2) Run() error {
 			huh.NewSelect[bool]().
 				Title("GPU Support").
 				Options(
-					huh.NewOption("Enable", true),
 					huh.NewOption("Disable", false),
+					huh.NewOption("Enable", true),
 				).
 				Value(&i.gpuEnabled),
 
