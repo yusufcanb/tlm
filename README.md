@@ -1,4 +1,4 @@
-# tlm - Your Terminal Intelligence with Local LLM
+# tlm - Your terminal companion, locally powered by CodeLLaMa.
 
 tlm is your CLI companion which requires nothing then your workstation. It uses most efficient and powerful [CodeLLaMa](https://ai.meta.com/blog/code-llama-large-language-model-coding/) in your local environment to provide you the best possible command line suggestions.
 
@@ -45,6 +45,35 @@ GLOBAL OPTIONS:
 ## Screenshots
 
 ![](./assets/tlm-in-action.png)
+
+## Usage
+
+```
+> tlm help      
+
+NAME:
+   tlm - terminal intelligence with local language model.                      
+                                                                               
+USAGE:                                                                         
+   tlm [global options] command [command options]                              
+                                                                               
+VERSION:                                                                       
+   1.0                                                                         
+                                                                               
+DESCRIPTION:                                                                   
+   tlm is a command line tool to provide terminal intelligence using CodeLLaMa.
+                                                                               
+COMMANDS:                                                                      
+   suggest, s  Suggest a command.                                              
+   explain, e  Explain a command.                                              
+   install, i  Install LLM to your system.                                     
+   config, c   Configure tlama parameters.                                     
+   version, v  Print version.                                                  
+                                                                               
+GLOBAL OPTIONS:                                                                
+   --help, -h     show help                                                    
+   --version, -v  print the version 
+```
 
 ## Installation
 
