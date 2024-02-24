@@ -1,6 +1,12 @@
-# tlm - Your terminal companion, locally powered by CodeLLaMa.
+# tlm - Local terminal companion, powered by CodeLLaMa.
 
 tlm is your CLI companion which requires nothing then your workstation. It uses most efficient and powerful [CodeLLaMa](https://ai.meta.com/blog/code-llama-large-language-model-coding/) in your local environment to provide you the best possible command line suggestions.
+
+![](./assets/suggest.gif)
+
+![](./assets/explain.gif)
+
+![](./assets/config.gif)
 
 ## Features
 
@@ -41,10 +47,6 @@ GLOBAL OPTIONS:
    --version, -v  print the version
 
 ```
-
-## Screenshots
-
-![](./assets/tlm-in-action.png)
 
 ## Usage
 
