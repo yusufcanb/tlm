@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/urfave/cli/v2"
+	"os"
 )
 
 func (i *Install) Action(c *cli.Context) error {
@@ -13,29 +14,22 @@ func (i *Install) Action(c *cli.Context) error {
 	version, err = i.api.Version(context.Background())
 	if err != nil {
 		version = ""
+		os.Exit(-1)
 	}
 
-	form := NewInstallForm2(version, i.suggestModelfile, i.explainModelfile)
-	err = form.Run()
-	if err != nil {
-		return err
-	}
+	fmt.Println(fmt.Sprintf("Ollama version: %s\n", version))
 
-	err = i.installAndConfigureOllama(form)
-	if err != nil {
-		return err
-	}
+	i.deployTlm(i.suggestModelfile, i.explainModelfile)
 
-	fmt.Println("\nInstallation has been completed..")
-	fmt.Println("\nStart using it by;\ntlm suggest \"list all files in cwd\"\n")
+	fmt.Println("\nDone..")
 	return nil
 }
 
 func (i *Install) Command() *cli.Command {
 	return &cli.Command{
-		Name:    "install",
-		Aliases: []string{"i"},
-		Usage:   "deploy CodeLLaMa to your system.",
+		Name:    "deploy",
+		Aliases: []string{"d"},
+		Usage:   "deploy tlm model files",
 		Action:  i.Action,
 	}
 }
