@@ -19,7 +19,7 @@ build() {
   fi
 
   echo "Building for $os/$arch (version: $version) -> $output_name"
-  CGO_ENABLED=0 GOOS=$os GOARCH=$arch go build -o "dist/${version}/${output_name}" "cmd/cli.go"
+  CGO_ENABLED=0 GOOS=$os GOARCH=$arch go build -o "dist/${version}/${output_name}" main.go
 }
 
 # Replace this with the name of your main Go file (package)
