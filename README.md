@@ -4,17 +4,13 @@ tlm is your CLI companion which requires nothing then your workstation. It uses 
 
 ![](./assets/suggest.gif)
 
-![](./assets/explain.gif)
-
-![](./assets/config.gif)
-
 ## Features
 
 - 💸 No API Key (Subscription) is required. (ChatGPT, Github Copilot, Azure OpenAI, etc.) 
 
 - 📡 No internet connection is required.
 
-- 💻 Works on MacOS, Linux and Windows.
+- 💻 Works on macOS, Linux and Windows.
 
 - 👩🏻‍💻 Automatic shell detection.
  
@@ -53,7 +49,7 @@ It will recognize the which platform and architecture to download and will execu
 Download and execute the installation script by using the following command;
 
 ```bash 
-curl -fsSL https://raw.githubusercontent.com/yusufcanb/tlm/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/yusufcanb/tlm/main/install.sh | sudo bash -E
 ```
 
 #### Windows (Powershell 5.1 or higher)
