@@ -29,7 +29,7 @@ Installation can be done in two ways;
 Installation script is the recommended way to install tlm.
 It will recognize the which platform and architecture to download and will execute install command for you.
 
-#### Linux and MacOS;
+#### Linux and macOS;
 
 
 Download and execute the installation script by using the following command;
@@ -60,10 +60,9 @@ Check installation by using the following command;
 tlm help
 ```
 
-
 ## Uninstall
 
-On Linux and MacOS;
+On Linux and macOS;
 
 ```bash
 rm /usr/local/bin/tlm
