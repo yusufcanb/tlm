@@ -1,7 +1,7 @@
 # Parameters
 $targets = "darwin", "linux", "windows"
-$arch = "amd64"
-$appName = "tlama"
+$archs = "amd64", "arm64"
+$appName = "tlm"
 
 # Command-Line Version Argument
 $version = $args[0]
@@ -15,7 +15,7 @@ Remove-Item -Recurse -Force "dist" -ErrorAction SilentlyContinue
 New-Item -ItemType Directory -Path "dist"
 
 # Build Function (Helper)
-Function Build-Target($os, $version) {
+Function Build-Target($os, $version, $arch) {
     $outputName = "${appName}_${version}_${os}_${arch}"
     if ($os -eq "windows") {
         $outputName += ".exe"
@@ -23,15 +23,19 @@ Function Build-Target($os, $version) {
 
     Write-Output "Building for $os/$arch (version: $version) -> $outputName"
     # Invokes the Go toolchain (assumes it's in the PATH)
-    go build -o "dist/$version/$outputName" "cmd/cli.go"
+    go build -o "dist/$version/$outputName" "main.go"
 }
 
 # Build for each target OS
 foreach ($os in $targets) {
-    $env:GOOS = $os
-    $env:GOARCH = $arch
-    $env:CGO_ENABLED = "0"
-    Build-Target $os $version
+
+    foreach ($arch in $archs) {
+        $env:GOOS = $os
+        $env:GOARCH = $arch
+        $env:CGO_ENABLED = 0
+        Build-Target $os $version $arch
+    }
+
 }
 
 Write-Output "Done!"

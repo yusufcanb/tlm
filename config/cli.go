@@ -41,5 +41,14 @@ func (c *Config) Command() *cli.Command {
 		Aliases: []string{"c"},
 		Usage:   "configure preferences.",
 		Action:  c.Action,
+		Subcommands: []*cli.Command{
+			{
+				Name:  "set",
+				Usage: "set configuration",
+				Action: func(context *cli.Context) error {
+					return nil
+				},
+			},
+		},
 	}
 }

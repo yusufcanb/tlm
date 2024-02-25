@@ -2,11 +2,13 @@ package app
 
 import (
 	_ "embed"
+	"fmt"
 	ollama "github.com/jmorganca/ollama/api"
 	"github.com/yusufcanb/tlm/config"
 	"github.com/yusufcanb/tlm/explain"
 	"github.com/yusufcanb/tlm/install"
 	"github.com/yusufcanb/tlm/suggest"
+	"runtime"
 
 	"github.com/urfave/cli/v2"
 )
@@ -46,12 +48,12 @@ func New(version string) *TlmApp {
 			exp.Command(),
 			ins.Command(),
 			con.Command(),
-			&cli.Command{
+			{
 				Name:    "version",
 				Aliases: []string{"v"},
 				Usage:   "print version.",
 				Action: func(c *cli.Context) error {
-					cli.ShowVersion(c)
+					fmt.Printf("tlm version %s %s/%s", version, runtime.GOOS, runtime.GOARCH)
 					return nil
 				},
 			},

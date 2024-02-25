@@ -4,137 +4,61 @@ tlm is your CLI companion which requires nothing then your workstation. It uses 
 
 ![](./assets/suggest.gif)
 
-![](./assets/explain.gif)
-
-![](./assets/config.gif)
-
 ## Features
 
 - 💸 No API Key (Subscription) is required. (ChatGPT, Github Copilot, Azure OpenAI, etc.) 
 
 - 📡 No internet connection is required.
 
-- 💻 Works on MacOS, Linux and Windows.
+- 💻 Works on macOS, Linux and Windows.
 
 - 👩🏻‍💻 Automatic shell detection.
  
 - 🚀 One liner generation and command explanation.
 
 
-## Usage
-
-```
-$ tlm help
-
-NAME:
-   tlm - local terminal companion powered by CodeLLaMa.
-                                                       
-USAGE:                                                 
-   tlm [global options] command [command options]      
-                                                       
-VERSION:                                               
-   1.0-rc1
-
-COMMANDS:
-   suggest, s  suggest a command.
-   explain, e  explain a command.
-   install, i  deploy CodeLLaMa to your system.
-   config, c   configure preferences.
-   version, v  print version.
-
-GLOBAL OPTIONS:
-   --help, -h     show help
-   --version, -v  print the version
-
-```
-
-## Usage
-
-```
-> tlm help      
-
-NAME:
-   tlm - terminal intelligence with local language model.                      
-                                                                               
-USAGE:                                                                         
-   tlm [global options] command [command options]                              
-                                                                               
-VERSION:                                                                       
-   1.0                                                                         
-                                                                               
-DESCRIPTION:                                                                   
-   tlm is a command line tool to provide terminal intelligence using CodeLLaMa.
-                                                                               
-COMMANDS:                                                                      
-   suggest, s  Suggest a command.                                              
-   explain, e  Explain a command.                                              
-   install, i  Install LLM to your system.                                     
-   config, c   Configure tlama parameters.                                     
-   version, v  Print version.                                                  
-                                                                               
-GLOBAL OPTIONS:                                                                
-   --help, -h     show help                                                    
-   --version, -v  print the version 
-```
-
 ## Installation
 
-### Linux & MacOS
+Installation can be done in two ways;
 
-Download latest release;
+- Installation script (recommended)
+- Go Install
 
-```bash
-curl -fsSL -o tlm https://github.com/yusufcanb/tlm/releases/download/1.0-rc1/tlm_1.0-rc1_linux_amd64
+###  Installation Script
+
+Installation script is the recommended way to install tlm.
+It will recognize the which platform and architecture to download and will execute install command for you.
+
+#### Linux and MacOS;
+
+
+Download and execute the installation script by using the following command;
+
+```bash 
+curl -fsSL https://raw.githubusercontent.com/yusufcanb/tlm/main/install.sh | sudo bash -E
 ```
 
-Make it executable;
+#### Windows (Powershell 5.1 or higher)
+
+Download and execute the installation script by using the following command;
 
 ```powershell
-chmod +x tlm
+Invoke-RestMethod -Uri https://raw.githubusercontent.com/yusufcanb/tlm/main/install.ps1 | Invoke-Expression
 ```
 
-Move it to your `$PATH`;
+### Go Install
+
+If you Go 1.21 or higher installed on your system, you can easily use the following command to install tlm;
 
 ```bash
-sudo mv tlm /usr/local/bin
+go install github.com/yusufcanb/tlm@latest
 ```
 
-> [!TIP]
-> If you already have CodeLLaMa on your system, you can just use the following command to configure it;
-
-```
-tlm config set llm.host <codellama_host>
-```
-
-Otherwise, you can use the following command to install CodeLLaMa;
+Check installation by using the following command;
 
 ```bash
-tlm install
+tlm help
 ```
-Finally, follow the instructions to install CodeLLaMa. This will install CodeLLaMa on your system and configure tlm to use it.
-
-### Windows
-
-Download latest release;
-
-```powershell
-Invoke-WebRequest -Uri "https://github.com/yusufcanb/tlm/releases/download/1.0-rc1/tlama_1.0-rc1_windows_amd64.exe" -OutFile "tlm.exe"
-```
-
-> [!TIP]
-> If you already have CodeLLaMa on your system, you can just use the following command to configure it;
-
-```
-.\tlm.exe config set llm.host <codellama_host>
-```
-
-Otherwise, you can use the following command to install CodeLLaMa;
-
-```powershell
-.\tlm.exe install
-```
-
-And follow the instructions to install CodeLLaMa. This will install CodeLLaMa on your system and configure tlm to use it.
 
 
 ## Uninstall
