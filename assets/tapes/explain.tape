@@ -1,14 +1,12 @@
 Output explain.gif
 
-Set Theme "GitHub Dark"
-Set Margin 60
-Set MarginFill "#4e8eff"
+Set Theme "Cyberdyne"
 
-Set Width 1401
-Set Height 1000
-Set FontSize 26
+Set Width 1200
+Set Height 600
+Set FontSize 32
 
-Type "tlm explain 'wmic path win32_VideoController get name,status,adapterram'"
+Type "tlm e 'mvn build -T 8 -DskipTests \!container'"
 Sleep 250ms
 Enter
-Sleep 35
+Sleep 20s

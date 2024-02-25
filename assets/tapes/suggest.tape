@@ -1,25 +1,23 @@
 Output suggest.gif
 
-Set Theme "GitHub Dark"
-Set Margin 60
-Set MarginFill "#4e8eff"
+Set Theme "Cyberdyne"
 
-Set Width 1401
-Set Height 1000
-Set FontSize 26
+Set Width 1200
+Set Height 600
+Set FontSize 32
 
 Type "tlm suggest 'list all network interfaces but only their ip addresses'"
 Sleep 250ms
 Enter
-Sleep 8s
+Sleep 6s
 
 Enter
+Sleep 1s
+
+Up
 Sleep 500ms
-
 Up
-Sleep 250ms
-Up
-Sleep 250ms
+Sleep 500ms
 Enter
 
-Sleep 8s
+Sleep 3s
