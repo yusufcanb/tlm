@@ -4,10 +4,22 @@ import (
 	"context"
 	"fmt"
 	"github.com/urfave/cli/v2"
+	"github.com/yusufcanb/tlm/shell"
 	"os"
 )
 
-func (i *Install) Action(c *cli.Context) error {
+func (i *Install) before(_ *cli.Context) error {
+	_, err := i.api.Version(context.Background())
+	if err != nil {
+		fmt.Println(shell.Err() + " " + err.Error())
+		fmt.Println(shell.Err() + " Ollama connection failed. Please check your Ollama if it's running or configured correctly.")
+		os.Exit(-1)
+	}
+
+	return nil
+}
+
+func (i *Install) action(_ *cli.Context) error {
 	var err error
 	var version string
 
@@ -30,6 +42,7 @@ func (i *Install) Command() *cli.Command {
 		Name:    "deploy",
 		Aliases: []string{"d"},
 		Usage:   "deploy tlm model files",
-		Action:  i.Action,
+		Before:  i.before,
+		Action:  i.action,
 	}
 }

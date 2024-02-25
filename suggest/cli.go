@@ -18,7 +18,7 @@ func (s *Suggest) before(_ *cli.Context) error {
 	_, err := s.api.Version(context.Background())
 	if err != nil {
 		fmt.Println(shell.Err() + " " + err.Error())
-		fmt.Println(shell.Err() + " Ollama connection failed. Please check your Ollama configuration or execute `tlm install`")
+		fmt.Println(shell.Err() + " Ollama connection failed. Please check your Ollama if it's running or configured correctly.")
 		os.Exit(-1)
 	}
 
