@@ -60,12 +60,12 @@ try {
 
 # Move to installation directory
 Write-Host "Installing tlm..."
-try {
-    Move-Item -Path 'tlm.exe' -Destination 'C:\Windows' -Force
-} catch {
-    Write-Error "Installation requires administrator permissions. Please elevate with rights and run the script again."
-    exit 1
-}
+#try {
+#    Move-Item -Path 'tlm.exe' -Destination 'C:\Windows\Program Files\tlm\' -Force
+#} catch {
+#    Write-Error "Installation requires administrator permissions. Please elevate with rights and run the script again."
+#    exit 1
+#}
 
 # Ollama deployment - specific to the original script, might need modification
 try {
@@ -75,5 +75,5 @@ try {
     exit 1
 }
 
-Write-Host "Type 'tlm' to get started."
+Write-Host "Type 'tlm.exe help' to get started."
 exit 0

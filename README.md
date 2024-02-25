@@ -24,24 +24,10 @@ Installation can be done in two ways;
 - Installation script (recommended)
 - Go Install
 
-### Go Install
-
-If you Go 1.21 or higher installed on your system, you can easily use the following command to install tlm;
-
-```bash
-go install github.com/yusufcanb/tlm@latest
-```
-
-Check installation by using the following command;
-
-```bash
-tlm help
-```
-
 ###  Installation Script
 
 Installation script is the recommended way to install tlm.
-It will recognize the which platform and architecture to download and will execute install command for you. 
+It will recognize the which platform and architecture to download and will execute install command for you.
 
 #### Linux and MacOS;
 
@@ -59,6 +45,21 @@ Download and execute the installation script by using the following command;
 ```powershell
 Invoke-RestMethod -Uri https://raw.githubusercontent.com/yusufcanb/tlm/main/install.ps1 | Invoke-Expression
 ```
+
+### Go Install
+
+If you Go 1.21 or higher installed on your system, you can easily use the following command to install tlm;
+
+```bash
+go install github.com/yusufcanb/tlm@latest
+```
+
+Check installation by using the following command;
+
+```bash
+tlm help
+```
+
 
 ## Uninstall
 
