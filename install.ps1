@@ -3,7 +3,7 @@ if ($env:OS -like 'Windows*') {
     $os = 'windows'
 } else {
     Write-Error "Unsupported operating system. Only Windows is currently supported."
-    exit 1
+    return -1
 }
 
 if ($env:PROCESSOR_ARCHITECTURE -eq 'AMD64') {
@@ -12,7 +12,7 @@ if ($env:PROCESSOR_ARCHITECTURE -eq 'AMD64') {
     $arch = 'arm64'
 } else {
     Write-Error "Unsupported architecture. tlm requires a 64-bit system (x86_64 or arm64)."
-    exit 1
+    return -1
 }
 
 # Download URL Construction
@@ -23,7 +23,7 @@ $download_url = "${base_url}/${version}/tlm_${version}_${os}_${arch}.exe"
 # Docker check
 if (-not (Get-Command docker -ErrorAction SilentlyContinue)) {
     Write-Error "Docker not found. Please install Docker from https://www.docker.com/get-started"
-    exit -1
+    return -1
 }
 
 # Ollama check - For Windows, we'll assume Ollama is installed directly on the system
@@ -46,7 +46,7 @@ try {
     Write-Host ""
     Write-Host "Installation aborted." -ForegroundColor red
     Write-Host "Please install Ollama using the methods above and try again." -ForegroundColor red
-    exit -1
+    return -1
 }
 
 # Download the binary
@@ -55,7 +55,7 @@ try {
     Invoke-WebRequest -Uri $download_url -OutFile 'tlm.exe' -UseBasicParsing -ErrorAction Stop | Out-Null
 } catch {
     Write-Error "Download failed. Please check your internet connection and try again."
-    exit 1
+    return -1
 }
 
 # Move to installation directory
@@ -72,8 +72,8 @@ try {
     tlm deploy
 } catch {
     Write-Error "tlm deploy failed."
-    exit 1
+    return 1
 }
 
 Write-Host "Type 'tlm.exe help' to get started."
-exit 0
+return 0
