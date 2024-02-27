@@ -29,7 +29,7 @@ func (c *ConfigForm) Run() error {
 
 			huh.NewSelect[string]().
 				Title("Suggestion Preference").
-				Description("This sets how suggestions should be in placed").
+				Description("Sets preference for command suggestions").
 				Options(
 					huh.NewOption("Stable", "stable"),
 					huh.NewOption("Balanced", "balanced"),
@@ -39,7 +39,7 @@ func (c *ConfigForm) Run() error {
 
 			huh.NewSelect[string]().
 				Title("Explain Preference").
-				Description("This configuration sets explain responses").
+				Description("Sets preference for command explanations").
 				Options(
 					huh.NewOption("Stable", "stable"),
 					huh.NewOption("Balanced", "balanced"),
