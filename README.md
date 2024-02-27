@@ -23,16 +23,34 @@ tlm is your CLI companion which requires nothing except your workstation. It use
 
 Installation can be done in two ways;
 
-- Installation script (recommended)
-- Go Install
+- [Installation script](#installation-script) (recommended)
+- [Go Install](#go-install)
 
 ### Prerequisites
 
-Ollama is needed to download to necessary models. Ollama can be downloaded with the following command:
+[Ollama](https://ollama.com/) is needed to download to necessary models.
+It can be downloaded with the following methods on different platforms.
+
+- On Linux and macOS;
+
 ```bash 
 curl -fsSL https://ollama.com/install.sh | sh
 ```
-Windows users can download Ollama at the following link: [https://ollama.com/download](https://ollama.com/download)
+
+- On Windows;
+
+Download instructions can be followed at the following link: [https://ollama.com/download](https://ollama.com/download)
+
+- Or using official Docker images 🐳; 
+
+```bash
+# CPU Only
+docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
+
+# With GPU (Nvidia only)
+docker run -d --gpus=all -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama"
+```
+
 ###  Installation Script
 
 Installation script is the recommended way to install tlm.
