@@ -1,41 +1,37 @@
 Output config.gif
 
-Set Theme "GitHub Dark"
-Set Margin 60
-Set MarginFill "#4e8eff"
+Set Theme "Cyberdyne"
 
-Set Width 1400
-Set Height 1000
-Set FontSize 26
+Set Width 1200
+Set Height 600
+Set FontSize 22
 
 Type "tlm config"
-Sleep 1s
+Sleep 500ms
 Enter
-Sleep 1s
+Sleep 2s
 
 # host
 Sleep 500ms
 Enter
-Sleep 500ms
+Sleep 1s
 
 # shell
 Up
 Sleep 500ms
 Enter
-Sleep 500ms
+Sleep 1s
 
 # suggest
 Sleep 500ms
 Up
 Sleep 500ms
 Enter
-Sleep 500ms
+Sleep 1s
 
 # explain
 Sleep 500ms
 Down
-Sleep 500ms
+Sleep 3s
 Enter
-Sleep 500ms
-
-Sleep 4s
+Sleep 2s
