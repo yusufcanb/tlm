@@ -10,14 +10,14 @@ tlm is your CLI companion which requires nothing except your workstation. It use
 
 ## Features
 
-- 💸 No API Key (Subscription) is required. (ChatGPT, Github Copilot, Azure OpenAI, etc.) 
+- 💸 No API Key (Subscription) is required. (ChatGPT, Github Copilot, Azure OpenAI, etc.)
 
 - 📡 No internet connection is required.
 
 - 💻 Works on macOS, Linux and Windows.
 
 - 👩🏻‍💻 Automatic shell detection.
- 
+
 - 🚀 One liner generation and command explanation.
 
 
@@ -35,7 +35,7 @@ It can be downloaded with the following methods on different platforms.
 
 - On Linux and macOS;
 
-```bash 
+```bash
 curl -fsSL https://ollama.com/install.sh | sh
 ```
 
@@ -43,7 +43,7 @@ curl -fsSL https://ollama.com/install.sh | sh
 
 Download instructions can be followed at the following link: [https://ollama.com/download](https://ollama.com/download)
 
-- Or using official Docker images 🐳; 
+- Or using official Docker images 🐳;
 
 ```bash
 # CPU Only
@@ -63,7 +63,7 @@ It will recognize the which platform and architecture to download and will execu
 
 Download and execute the installation script by using the following command;
 
-```bash 
+```bash
 curl -fsSL https://raw.githubusercontent.com/yusufcanb/tlm/main/install.sh | sudo bash -E
 ```
 
