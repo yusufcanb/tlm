@@ -69,11 +69,10 @@ Write-Host "Installing tlm..."
 
 # Ollama deployment - specific to the original script, might need modification
 try {
-    tlm deploy
+    .\tlm.exe deploy
 } catch {
     Write-Error "tlm deploy failed."
     return 1
 }
 
-Write-Host "Type 'tlm.exe help' to get started."
-return 0
+Write-Host "Type '.\tlm.exe help' to get started."
