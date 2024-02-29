@@ -20,11 +20,6 @@ $version = "1.0-rc3"
 $base_url = "https://github.com/yusufcanb/tlm/releases/download"
 $download_url = "${base_url}/${version}/tlm_${version}_${os}_${arch}.exe"
 
-# Docker check
-if (-not (Get-Command docker -ErrorAction SilentlyContinue)) {
-    Write-Error "Docker not found. Please install Docker from https://www.docker.com/get-started"
-    return -1
-}
 
 # Ollama check - For Windows, we'll assume Ollama is installed directly on the system
 try {

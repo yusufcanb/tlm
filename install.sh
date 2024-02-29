@@ -31,11 +31,6 @@ version="1.0-rc3"
 base_url="https://github.com/yusufcanb/tlm/releases/download"
 download_url="${base_url}/${version}/tlm_${version}_${os}_${arch}"
 
-# Docker check
-if ! command -v docker &>/dev/null; then
-  error "Docker not found. Please install Docker from https://www.docker.com/get-started"
-  exit 1
-fi
 
 # Ollama check
 if ! curl -fsSL http://localhost:11434 &> /dev/null; then
