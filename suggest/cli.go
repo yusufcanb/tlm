@@ -92,10 +92,12 @@ func (s *Suggest) action(c *cli.Context) error {
 
 func (s *Suggest) Command() *cli.Command {
 	return &cli.Command{
-		Name:    "suggest",
-		Aliases: []string{"s"},
-		Usage:   "suggest a command.",
-		Before:  s.before,
-		Action:  s.action,
+		Name:        "suggest",
+		Aliases:     []string{"s"},
+		Usage:       "Suggests a command.",
+		UsageText:   "tlm suggest <prompt>",
+		Description: "suggests a command for given prompt.",
+		Before:      s.before,
+		Action:      s.action,
 	}
 }

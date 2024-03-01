@@ -41,7 +41,7 @@ func (i *Install) Command() *cli.Command {
 	return &cli.Command{
 		Name:    "deploy",
 		Aliases: []string{"d"},
-		Usage:   "deploy tlm model files",
+		Usage:   "Deploys tlm modelfiles.",
 		Before:  i.before,
 		Action:  i.action,
 	}

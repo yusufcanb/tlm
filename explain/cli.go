@@ -25,10 +25,12 @@ func (e *Explain) action(c *cli.Context) error {
 
 func (e *Explain) Command() *cli.Command {
 	return &cli.Command{
-		Name:    "explain",
-		Aliases: []string{"e"},
-		Usage:   "explain a command.",
-		Before:  e.before,
-		Action:  e.action,
+		Name:        "explain",
+		Aliases:     []string{"e"},
+		Usage:       "Explains a command.",
+		UsageText:   "tlm explain <command>",
+		Description: "explains given shell command.",
+		Before:      e.before,
+		Action:      e.action,
 	}
 }
