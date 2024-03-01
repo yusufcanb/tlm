@@ -1,12 +1,16 @@
 # tlm - Local CLI Copilot, powered by CodeLLaMa. 💻🦙
 
+[![Build](https://github.com/yusufcanb/tlm/actions/workflows/build.yaml/badge.svg)]()
+[![Github All Releases](https://img.shields.io/github/downloads/yusufcanb/tlm/total.svg)]()
+
+
+
 tlm is your CLI companion which requires nothing except your workstation. It uses most efficient and powerful [CodeLLaMa](https://ai.meta.com/blog/code-llama-large-language-model-coding/) in your local environment to provide you the best possible command line suggestions.
 
 ![Suggest](./assets/suggest.gif)
 
 ![Explain](./assets/explain.gif)
 
-![Config](./assets/config.gif)
 
 ## Features
 
