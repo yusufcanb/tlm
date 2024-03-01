@@ -86,6 +86,14 @@ If you have Go 1.21 or higher installed on your system, you can easily use the f
 go install github.com/yusufcanb/tlm@latest
 ```
 
+Then, deploy tlm modelfiles.
+
+> :memo: **Note:** If you have Ollama deployed on somewhere else. Please first run `tlm config` and configure Ollama host.
+
+```bash
+tlm deploy
+```
+
 Check installation by using the following command;
 
 ```bash
