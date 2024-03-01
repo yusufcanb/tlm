@@ -99,3 +99,11 @@ On Linux and macOS;
 ```bash
 rm /usr/local/bin/tlm
 ```
+
+On Windows;
+
+Remove the directory under;
+
+```
+C:\Users\<username>\AppData\Local\Programs\tlm
+```
