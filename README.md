@@ -36,15 +36,15 @@ Installation can be done in two ways;
 [Ollama](https://ollama.com/) is needed to download to necessary models.
 It can be downloaded with the following methods on different platforms.
 
-- On Linux and macOS;
+- On macOs and Windows;
+
+Download instructions can be followed at the following link: [https://ollama.com/download](https://ollama.com/download)
+
+- On Linux;
 
 ```bash
 curl -fsSL https://ollama.com/install.sh | sh
 ```
-
-- On Windows;
-
-Download instructions can be followed at the following link: [https://ollama.com/download](https://ollama.com/download)
 
 - Or using official Docker images 🐳;
 
