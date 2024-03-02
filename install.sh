@@ -36,7 +36,7 @@ version="1.0"
 base_url="https://github.com/yusufcanb/tlm/releases/download"
 download_url="${base_url}/${version}/tlm_${version}_${os}_${arch}"
 
-if [[ -v OLLAMA_HOST ]]; then
+if [ -n "${OLLAMA_HOST+x}" ]; then
     ollama_host=$OLLAMA_HOST
 else
     ollama_host="http://localhost:11434"
