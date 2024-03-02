@@ -23,13 +23,17 @@ func (e *Explain) before(_ *cli.Context) error {
 		os.Exit(-1)
 	}
 
+	found := false
 	for _, model := range list.Models {
-		if model.Name == e.modelfile {
-			return nil
+		if model.Name == e.modelfileName {
+			found = true
+			break
 		}
-		fmt.Println(shell.Err() + " " + "tlm explain:7b model not found.\n\nPlease run `tlm deploy` to deploy tlm models first.")
+	}
+
+	if !found {
+		fmt.Println(shell.Err() + " " + "tlm's explain model not found.\n\nPlease run `tlm deploy` to deploy tlm models first.")
 		os.Exit(-1)
-		return nil
 	}
 
 	return nil

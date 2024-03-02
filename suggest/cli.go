@@ -29,13 +29,17 @@ func (s *Suggest) before(_ *cli.Context) error {
 		os.Exit(-1)
 	}
 
+	found := false
 	for _, model := range list.Models {
-		if model.Name == s.modelfile {
-			return nil
+		if model.Name == s.modelfileName {
+			found = true
+			break
 		}
-		fmt.Println(shell.Err() + " " + "tlm suggest:7b model not found.\n\nPlease run `tlm deploy` to deploy tlm models first.")
+	}
+
+	if !found {
+		fmt.Println(shell.Err() + " " + "tlm's suggest model not found.\n\nPlease run `tlm deploy` to deploy tlm models first.")
 		os.Exit(-1)
-		return nil
 	}
 
 	return nil
