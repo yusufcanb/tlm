@@ -53,7 +53,7 @@ Download instructions can be followed at the following link: [https://ollama.com
 docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
 
 # With GPU (Nvidia only)
-docker run -d --gpus=all -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama"
+docker run -d --gpus=all -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
 ```
 
 ###  Installation Script
@@ -106,4 +106,12 @@ On Linux and macOS;
 
 ```bash
 rm /usr/local/bin/tlm
+```
+
+On Windows;
+
+Remove the directory under;
+
+```
+C:\Users\<username>\AppData\Local\Programs\tlm
 ```

@@ -7,7 +7,9 @@ import (
 	"github.com/yusufcanb/tlm/config"
 	"github.com/yusufcanb/tlm/explain"
 	"github.com/yusufcanb/tlm/install"
+	"github.com/yusufcanb/tlm/shell"
 	"github.com/yusufcanb/tlm/suggest"
+	"os"
 	"runtime"
 
 	"github.com/urfave/cli/v2"
@@ -36,10 +38,14 @@ func New(version string) *TlmApp {
 	ins := install.New(o, suggestModelfile, explainModelfile)
 
 	cliApp := &cli.App{
-		Name:            "tlm",
-		Usage:           "local terminal companion powered by CodeLLaMa.",
-		Version:         version,
-		HideHelpCommand: true,
+		Name:      "tlm",
+		Usage:     "terminal copilot, powered by CodeLLaMa.",
+		UsageText: "tlm explain <command>\ntlm suggest <prompt>",
+		Version:   version,
+		CommandNotFound: func(context *cli.Context, s string) {
+			fmt.Println(shell.Err() + " command not found.")
+			os.Exit(-1)
+		},
 		Action: func(c *cli.Context) error {
 			return cli.ShowAppHelp(c)
 		},
@@ -51,9 +57,9 @@ func New(version string) *TlmApp {
 			{
 				Name:    "version",
 				Aliases: []string{"v"},
-				Usage:   "print version.",
+				Usage:   "Prints tlm version.",
 				Action: func(c *cli.Context) error {
-					fmt.Printf("tlm version %s %s/%s", version, runtime.GOOS, runtime.GOARCH)
+					fmt.Printf("tlm %s (%s/%s)", version, runtime.GOOS, runtime.GOARCH)
 					return nil
 				},
 			},

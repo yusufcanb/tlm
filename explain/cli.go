@@ -16,6 +16,22 @@ func (e *Explain) before(_ *cli.Context) error {
 		os.Exit(-1)
 	}
 
+	list, err := e.api.List(context.Background())
+	if err != nil {
+		fmt.Println(shell.Err() + " " + err.Error())
+		fmt.Println(shell.Err() + " Ollama connection failed. Please check your Ollama if it's running or configured correctly.")
+		os.Exit(-1)
+	}
+
+	for _, model := range list.Models {
+		if model.Name == e.modelfile {
+			return nil
+		}
+		fmt.Println(shell.Err() + " " + "tlm explain:7b model not found.\n\nPlease run `tlm deploy` to deploy tlm models first.")
+		os.Exit(-1)
+		return nil
+	}
+
 	return nil
 }
 
@@ -25,10 +41,12 @@ func (e *Explain) action(c *cli.Context) error {
 
 func (e *Explain) Command() *cli.Command {
 	return &cli.Command{
-		Name:    "explain",
-		Aliases: []string{"e"},
-		Usage:   "explain a command.",
-		Before:  e.before,
-		Action:  e.action,
+		Name:        "explain",
+		Aliases:     []string{"e"},
+		Usage:       "Explains a command.",
+		UsageText:   "tlm explain <command>",
+		Description: "explains given shell command.",
+		Before:      e.before,
+		Action:      e.action,
 	}
 }
