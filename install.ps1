@@ -75,7 +75,21 @@ try {
 }
 
 # Add installation directory to PATH
-$env:Path += ";$install_directory"
+
+$user_env = [System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::User)
+
+# Check if the installation directory is already in the PATH
+if ($user_env -notcontains $install_directory) {
+    # Add the installation directory to the PATH
+    [System.Environment]::SetEnvironmentVariable("Path", "$user_env;$install_directory", [System.EnvironmentVariableTarget]::User)
+
+    # Display a message indicating success
+    Write-Host "Installation directory added to user PATH."
+} else {
+    # Display a message indicating that the directory is already in the PATH
+    Write-Host "Installation directory is already in user PATH."
+}
+
 
 # Configure tlm to use Ollama
 try {
