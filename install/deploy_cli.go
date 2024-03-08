@@ -8,18 +8,11 @@ import (
 	"os"
 )
 
-func (i *Install) before(_ *cli.Context) error {
-	_, err := i.api.Version(context.Background())
-	if err != nil {
-		fmt.Println(shell.Err() + " " + err.Error())
-		fmt.Println(shell.Err() + " Ollama connection failed. Please check your Ollama if it's running or configured correctly.")
-		os.Exit(-1)
-	}
-
-	return nil
+func (i *Install) deployBefore(_ *cli.Context) error {
+	return shell.CheckOllamaIsUp(i.api)
 }
 
-func (i *Install) action(_ *cli.Context) error {
+func (i *Install) deployAction(_ *cli.Context) error {
 	var err error
 	var version string
 
@@ -30,19 +23,18 @@ func (i *Install) action(_ *cli.Context) error {
 	}
 
 	fmt.Println(fmt.Sprintf("Ollama version: %s\n", version))
-
 	i.deployTlm(i.suggestModelfile, i.explainModelfile)
 
 	fmt.Println("\nDone..")
 	return nil
 }
 
-func (i *Install) Command() *cli.Command {
+func (i *Install) DeployCommand() *cli.Command {
 	return &cli.Command{
 		Name:    "deploy",
 		Aliases: []string{"d"},
 		Usage:   "Deploys tlm modelfiles.",
-		Before:  i.before,
-		Action:  i.action,
+		Before:  i.deployBefore,
+		Action:  i.deployAction,
 	}
 }
