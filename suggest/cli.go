@@ -82,6 +82,7 @@ func (s *Suggest) action(c *cli.Context) error {
 		cmd, stdout, stderr := shell.Exec2(form.command)
 		err = cmd.Run()
 		if err != nil {
+			fmt.Println(stderr.String())
 			return err
 		}
 
@@ -97,7 +98,7 @@ func (s *Suggest) action(c *cli.Context) error {
 	if form.action == Explain {
 		fmt.Println(shell.SuccessMessage("┃ > ") + "Explaining..." + "\n")
 
-		exp := explain.New(s.api, "")
+		exp := explain.New(s.api)
 		err = exp.StreamExplanationFor(Stable, form.command)
 		if err != nil {
 			return err
