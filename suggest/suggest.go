@@ -6,10 +6,9 @@ import (
 
 type Suggest struct {
 	api           *ollama.Client
-	modelfile     string
 	modelfileName string
 }
 
-func New(api *ollama.Client, modelfile string) *Suggest {
-	return &Suggest{api: api, modelfile: modelfile, modelfileName: "suggest:7b"}
+func New(api *ollama.Client) *Suggest {
+	return &Suggest{api: api, modelfileName: "suggest:7b"}
 }

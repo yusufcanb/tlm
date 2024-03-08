@@ -6,6 +6,7 @@ build() {
   app_name=$2
   version=$3
   arch=$4
+  sha1=$(git rev-parse --short HEAD | tr -d '\n')
 
   # Determine output filename with optional .exe extension
   output_name="${app_name}_${version}_${os}_${arch}"
@@ -14,7 +15,7 @@ build() {
   fi
 
   echo "Building for $os/$arch (version: $version) -> $output_name"
-  CGO_ENABLED=0 GOOS=$os GOARCH=$arch go build -o "dist/${version}/${output_name}" main.go
+  CGO_ENABLED=0 GOOS=$os GOARCH=$arch go build -o "dist/${version}/${output_name}" -ldflags "-X main.sha1ver=$sha1" main.go
 }
 
 # Operating systems to target
