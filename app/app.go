@@ -41,7 +41,7 @@ func New(version, buildSha string) *TlmApp {
 		Name:      "tlm",
 		Usage:     "terminal copilot, powered by CodeLLaMa.",
 		UsageText: "tlm explain <command>\ntlm suggest <prompt>",
-		Version:   version,
+		Version:   fmt.Sprintf("%s (%s)", version, buildSha),
 		CommandNotFound: func(context *cli.Context, s string) {
 			fmt.Println(shell.Err() + " command not found.")
 			os.Exit(-1)
@@ -52,14 +52,15 @@ func New(version, buildSha string) *TlmApp {
 		Commands: []*cli.Command{
 			sug.Command(),
 			exp.Command(),
-			ins.Command(),
+			ins.DeployCommand(),
+			ins.UpgradeCommand(),
 			con.Command(),
 			{
 				Name:    "version",
 				Aliases: []string{"v"},
 				Usage:   "Prints tlm version.",
 				Action: func(c *cli.Context) error {
-					fmt.Printf("tlm %s %s on %s/%s", version, buildSha, runtime.GOOS, runtime.GOARCH)
+					fmt.Printf("tlm %s (%s) on %s/%s", version, buildSha, runtime.GOOS, runtime.GOARCH)
 					return nil
 				},
 			},
