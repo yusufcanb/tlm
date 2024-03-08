@@ -28,13 +28,13 @@ type TlmApp struct {
 	suggestModelfile string
 }
 
-func New(version string) *TlmApp {
+func New(version, buildSha string) *TlmApp {
 	con := config.New()
 	con.LoadOrCreateConfig()
 
 	o, _ := ollama.ClientFromEnvironment()
-	sug := suggest.New(o, suggestModelfile)
-	exp := explain.New(o, explainModelfile)
+	sug := suggest.New(o)
+	exp := explain.New(o)
 	ins := install.New(o, suggestModelfile, explainModelfile)
 
 	cliApp := &cli.App{
@@ -59,7 +59,7 @@ func New(version string) *TlmApp {
 				Aliases: []string{"v"},
 				Usage:   "Prints tlm version.",
 				Action: func(c *cli.Context) error {
-					fmt.Printf("tlm %s (%s/%s)", version, runtime.GOOS, runtime.GOARCH)
+					fmt.Printf("tlm %s %s on %s/%s", version, buildSha, runtime.GOOS, runtime.GOARCH)
 					return nil
 				},
 			},

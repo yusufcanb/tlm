@@ -6,11 +6,10 @@ import (
 
 type Explain struct {
 	api           *ollama.Client
-	modelfile     string
 	modelfileName string
 }
 
-func New(api *ollama.Client, modelfile string) *Explain {
-	e := &Explain{api: api, modelfile: modelfile, modelfileName: "explain:7b"}
+func New(api *ollama.Client) *Explain {
+	e := &Explain{api: api, modelfileName: "explain:7b"}
 	return e
 }
