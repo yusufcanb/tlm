@@ -2,7 +2,6 @@ package suggest
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"github.com/charmbracelet/huh/spinner"
 	"github.com/charmbracelet/lipgloss"
@@ -83,12 +82,12 @@ func (s *Suggest) action(c *cli.Context) error {
 		err = cmd.Run()
 		if err != nil {
 			fmt.Println(stderr.String())
-			return err
+			return nil
 		}
 
 		if stderr.String() != "" {
-			fmt.Println()
-			return errors.New("command failed")
+			fmt.Println(stderr.String())
+			return nil
 		}
 
 		fmt.Println(stdout.String())

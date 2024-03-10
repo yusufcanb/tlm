@@ -9,13 +9,21 @@ import (
 	"net/url"
 )
 
+var (
+	shellKey       = "shell"
+	llmHostKey     = "llm.host"
+	llmExplainKey  = "llm.explain"
+	llmSuggestKey  = "llm.suggest"
+	defaultLLMHost = "http://localhost:11434"
+)
+
 func (c *Config) Action(_ *cli.Context) error {
 	var err error
 
 	form := ConfigForm{
-		host:    viper.GetString("llm.host"),
-		explain: viper.GetString("llm.explain"),
-		suggest: viper.GetString("llm.suggest"),
+		host:    viper.GetString(llmHostKey),
+		explain: viper.GetString(llmExplainKey),
+		suggest: viper.GetString(llmSuggestKey),
 	}
 
 	err = form.Run()
@@ -23,10 +31,10 @@ func (c *Config) Action(_ *cli.Context) error {
 		return err
 	}
 
-	viper.Set("shell", form.shell)
-	viper.Set("llm.host", form.host)
-	viper.Set("llm.explain", form.explain)
-	viper.Set("llm.suggest", form.suggest)
+	viper.Set(shellKey, form.shell)
+	viper.Set(llmHostKey, form.host)
+	viper.Set(llmExplainKey, form.explain)
+	viper.Set(llmSuggestKey, form.suggest)
 
 	err = viper.WriteConfig()
 	if err != nil {
@@ -85,7 +93,7 @@ func (c *Config) subCommandSet() *cli.Command {
 				}
 				viper.Set(key, u.String())
 
-			case "llm.suggest", "llm.explain":
+			case llmSuggestKey, llmExplainKey:
 				mode := c.Args().Get(1)
 				if mode != "stable" && mode != "balanced" && mode != "creative" {
 					return errors.New("Invalid mode: " + mode)

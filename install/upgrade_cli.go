@@ -1,15 +1,17 @@
 package install
 
 import (
+	"fmt"
 	"github.com/urfave/cli/v2"
-	"github.com/yusufcanb/tlm/shell"
 )
 
 func (i *Install) upgradeBefore(_ *cli.Context) error {
-	return shell.CheckOllamaIsUp(i.api)
+	return nil
 }
 
 func (i *Install) upgradeAction(_ *cli.Context) error {
+	fmt.Println("Upgrading tlm to latest version.")
+
 	return nil
 }
 

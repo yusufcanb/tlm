@@ -7,9 +7,8 @@ import (
 	"github.com/yusufcanb/tlm/config"
 	"github.com/yusufcanb/tlm/explain"
 	"github.com/yusufcanb/tlm/install"
-	"github.com/yusufcanb/tlm/shell"
 	"github.com/yusufcanb/tlm/suggest"
-	"os"
+	"io/fs"
 	"runtime"
 
 	"github.com/urfave/cli/v2"
@@ -22,10 +21,12 @@ var explainModelfile string
 var suggestModelfile string
 
 type TlmApp struct {
-	App *cli.App
+	writer *fs.File
 
 	explainModelfile string
 	suggestModelfile string
+
+	App *cli.App
 }
 
 func New(version, buildSha string) *TlmApp {
@@ -38,14 +39,13 @@ func New(version, buildSha string) *TlmApp {
 	ins := install.New(o, suggestModelfile, explainModelfile)
 
 	cliApp := &cli.App{
-		Name:      "tlm",
-		Usage:     "terminal copilot, powered by CodeLLaMa.",
-		UsageText: "tlm explain <command>\ntlm suggest <prompt>",
-		Version:   fmt.Sprintf("%s (%s)", version, buildSha),
-		CommandNotFound: func(context *cli.Context, s string) {
-			fmt.Println(shell.Err() + " command not found.")
-			os.Exit(-1)
-		},
+		Name:            "tlm",
+		Usage:           "terminal copilot, powered by CodeLLaMa.",
+		UsageText:       "tlm explain <command>\ntlm suggest <prompt>",
+		Version:         fmt.Sprintf("%s (%s)", version, buildSha),
+		CommandNotFound: notFound,
+		Before:          beforeRun(),
+		After:           afterRun(ins, version),
 		Action: func(c *cli.Context) error {
 			return cli.ShowAppHelp(c)
 		},
@@ -67,7 +67,9 @@ func New(version, buildSha string) *TlmApp {
 		},
 	}
 
-	return &TlmApp{
+	app := &TlmApp{
 		App: cliApp,
 	}
+
+	return app
 }

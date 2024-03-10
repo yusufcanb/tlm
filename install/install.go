@@ -9,6 +9,8 @@ type Install struct {
 
 	suggestModelfile string
 	explainModelfile string
+
+	ReleaseManager *ReleaseManager
 }
 
 func New(api *ollama.Client, suggestModelfile string, explainModelfile string) *Install {
@@ -16,5 +18,6 @@ func New(api *ollama.Client, suggestModelfile string, explainModelfile string) *
 		api:              api,
 		suggestModelfile: suggestModelfile,
 		explainModelfile: explainModelfile,
+		ReleaseManager:   NewReleaseManager("yusufcanb", "tlm"),
 	}
 }
