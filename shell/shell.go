@@ -3,16 +3,12 @@ package shell
 import (
 	"bytes"
 	"context"
-	"errors"
 	"fmt"
 	"github.com/charmbracelet/lipgloss"
 	ollama "github.com/jmorganca/ollama/api"
 	"os"
 	"os/exec"
-	"runtime"
 )
-
-var ShellReadingUserDirErr = errors.New("error getting user's home directory")
 
 func Ok() string {
 	style := lipgloss.NewStyle()
@@ -31,7 +27,7 @@ func SuccessMessage(message string) string {
 
 func WarnMessage(message string) string {
 	style := lipgloss.NewStyle()
-	style = style.Foreground(lipgloss.Color("5"))
+	style = style.Foreground(lipgloss.Color("202"))
 	return style.Render(message)
 }
 
@@ -48,21 +44,9 @@ func Warn() string {
 	style := lipgloss.NewStyle()
 
 	style = style.Bold(true)
-	style = style.Foreground(lipgloss.Color("2"))
+	style = style.Foreground(lipgloss.Color("202"))
 
 	return style.Render("(warn)")
-}
-
-func GetShell() string {
-	if runtime.GOOS == "windows" {
-		return "powershell"
-	}
-
-	if runtime.GOOS == "darwin" || runtime.GOOS == "linux" {
-		return "bash"
-	}
-
-	return "bash"
 }
 
 func Exec2(command string) (*exec.Cmd, *bytes.Buffer, *bytes.Buffer) {
