@@ -67,6 +67,11 @@ func (s *Suggest) action(c *cli.Context) error {
 	}
 
 	fmt.Printf(shell.SuccessMessage("┃ >")+" Thinking... (%s)\n", t2.Sub(t1).String())
+	if len(s.extractCommandsFromResponse(responseText)) == 0 {
+		fmt.Println(shell.WarnMessage("┃ >") + " No command found for given prompt..." + "\n")
+		return nil
+	}
+
 	form := NewCommandForm(s.extractCommandsFromResponse(responseText)[0])
 	err = form.Run()
 
