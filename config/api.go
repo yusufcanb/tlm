@@ -9,8 +9,6 @@ import (
 	"path"
 )
 
-var defaultLLMHost = "http://localhost:11434"
-
 func isExists(path string) bool {
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		return false
