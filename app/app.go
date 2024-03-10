@@ -42,7 +42,7 @@ func New(version, buildSha string) *TlmApp {
 		Name:            "tlm",
 		Usage:           "terminal copilot, powered by CodeLLaMa.",
 		UsageText:       "tlm explain <command>\ntlm suggest <prompt>",
-		Version:         fmt.Sprintf("%s (%s)", version, buildSha),
+		Version:         version,
 		CommandNotFound: notFound,
 		Before:          beforeRun(),
 		After:           afterRun(ins, version),
@@ -53,7 +53,6 @@ func New(version, buildSha string) *TlmApp {
 			sug.Command(),
 			exp.Command(),
 			ins.DeployCommand(),
-			ins.UpgradeCommand(),
 			con.Command(),
 			{
 				Name:    "version",

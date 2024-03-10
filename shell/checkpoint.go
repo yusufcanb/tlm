@@ -2,22 +2,17 @@ package shell
 
 import (
 	"encoding/json"
-	"errors"
 	"os"
 	"path/filepath"
 	"time"
 )
 
-var CheckpointFileNotExistErr = errors.New("checkpoint file does not exist")
-var CheckpointFileUnmarshalErr = errors.New("error unmarshaling checkpoint data")
-var CheckpointFileWriteErr = errors.New("error writing checkpoint file")
+const checkpointFilename = ".tlm_checkpoint"
 
 type Checkpoint struct {
 	Message        string    `json:"message"`
 	LastCheckpoint time.Time `json:"time"`
 }
-
-const checkpointFilename = ".tlm_checkpoint"
 
 func WriteCheckpoint(cp *Checkpoint) error {
 	homeDir, err := getHomeDir()
