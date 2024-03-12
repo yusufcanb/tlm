@@ -9,6 +9,12 @@ import (
 	"path"
 )
 
+var (
+	defaultSuggestionPolicy = "stable"
+	defaultExplainPolicy    = "creative"
+	defaultShell            = "auto"
+)
+
 func isExists(path string) bool {
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		return false
@@ -28,11 +34,10 @@ func (c *Config) LoadOrCreateConfig() {
 
 	configPath := path.Join(homeDir, ".tlm.yaml")
 	if !isExists(configPath) {
-		viper.Set("shell", shell.GetShell())
-
+		viper.Set("shell", defaultShell)
 		viper.Set("llm.host", defaultLLMHost)
-		viper.Set("llm.suggestion", "balanced")
-		viper.Set("llm.explain", "balanced")
+		viper.Set("llm.suggestion", defaultSuggestionPolicy)
+		viper.Set("llm.explain", defaultExplainPolicy)
 
 		err := os.Setenv("OLLAMA_HOST", defaultLLMHost)
 		if err != nil {

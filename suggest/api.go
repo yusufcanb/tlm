@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	ollama "github.com/jmorganca/ollama/api"
+	"github.com/yusufcanb/tlm/shell"
 	"regexp"
 	"runtime"
 	"strings"
@@ -62,13 +63,27 @@ func (s *Suggest) extractCommandsFromResponse(response string) []string {
 	return codeSnippets
 }
 
-func (s *Suggest) getCommandSuggestionFor(mode, shell string, prompt string) (string, error) {
+func (s *Suggest) getCommandSuggestionFor(mode, term string, prompt string) (string, error) {
 	var responseText string
 
 	builder := strings.Builder{}
 	builder.WriteString(prompt)
-	builder.WriteString(fmt.Sprintf(". I'm using %s terminal", shell))
-	builder.WriteString(fmt.Sprintf("on operating system: %s", runtime.GOOS))
+
+	switch term {
+	case "zsh":
+		builder.WriteString(fmt.Sprintf(". I'm using %s terminal", term))
+		builder.WriteString(fmt.Sprintf("on operating system: %s", "macOS"))
+	case "bash":
+		builder.WriteString(fmt.Sprintf(". I'm using %s terminal", term))
+		builder.WriteString(fmt.Sprintf("on operating system: %s", "Linux"))
+	case "powershell":
+		builder.WriteString(fmt.Sprintf(". I'm using %s terminal", term))
+		builder.WriteString(fmt.Sprintf("on operating system: %s", "Windows"))
+
+	default:
+		builder.WriteString(fmt.Sprintf(". I'm using %s terminal", shell.GetShell()))
+		builder.WriteString(fmt.Sprintf("on operating system: %s", runtime.GOOS))
+	}
 
 	stream := false
 	req := &ollama.GenerateRequest{

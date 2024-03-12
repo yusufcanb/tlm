@@ -20,10 +20,13 @@ func (c *ConfigForm) Run() error {
 				Value(&c.host),
 
 			huh.NewSelect[string]().
-				Title("Default Shell (Windows)").
+				Title("Shell").
+				Description("Overrides platform's shell for suggestions").
 				Options(
-					huh.NewOption("Windows Powershell", "powershell"),
-					huh.NewOption("Windows Command Prompt", "cmd"),
+					huh.NewOption("Automatic", "auto"),
+					huh.NewOption("Powershell (Windows)", "powershell"),
+					huh.NewOption("Bash (Linux)", "bash"),
+					huh.NewOption("Zsh (macOS)", "zsh"),
 				).
 				Value(&c.shell),
 
@@ -31,21 +34,21 @@ func (c *ConfigForm) Run() error {
 				Title("Suggestion Preference").
 				Description("Sets preference for command suggestions").
 				Options(
-					huh.NewOption("Stable", "stable"),
+					huh.NewOption("Precise", "stable"),
 					huh.NewOption("Balanced", "balanced"),
 					huh.NewOption("Creative", "creative"),
 				).
-				Value(&c.explain),
+				Value(&c.suggest),
 
 			huh.NewSelect[string]().
 				Title("Explain Preference").
 				Description("Sets preference for command explanations").
 				Options(
-					huh.NewOption("Stable", "stable"),
+					huh.NewOption("Precise", "stable"),
 					huh.NewOption("Balanced", "balanced"),
 					huh.NewOption("Creative", "creative"),
 				).
-				Value(&c.suggest),
+				Value(&c.explain),
 		),
 	)
 

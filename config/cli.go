@@ -10,11 +10,11 @@ import (
 )
 
 var (
+	defaultLLMHost = "http://localhost:11434"
 	shellKey       = "shell"
 	llmHostKey     = "llm.host"
 	llmExplainKey  = "llm.explain"
 	llmSuggestKey  = "llm.suggest"
-	defaultLLMHost = "http://localhost:11434"
 )
 
 func (c *Config) Action(_ *cli.Context) error {
@@ -22,6 +22,7 @@ func (c *Config) Action(_ *cli.Context) error {
 
 	form := ConfigForm{
 		host:    viper.GetString(llmHostKey),
+		shell:   viper.GetString(shellKey),
 		explain: viper.GetString(llmExplainKey),
 		suggest: viper.GetString(llmSuggestKey),
 	}
