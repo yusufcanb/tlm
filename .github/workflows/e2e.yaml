@@ -5,6 +5,8 @@ on:
     workflows: ["build"]
     types:
       - completed
+    branches:
+      - '*'
 
 jobs:
   e2e:
