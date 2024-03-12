@@ -58,11 +58,13 @@ jobs:
 
       - name: Archive report.html
         uses: actions/upload-artifact@v4
+        continue-on-error: true
         with:
           name: report
           path: e2e/dist/report.html
 
       - name: Archive log.html
+        continue-on-error: true
         uses: actions/upload-artifact@v4
         with:
           name: log
