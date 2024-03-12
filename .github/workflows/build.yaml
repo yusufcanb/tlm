@@ -37,10 +37,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: dist
-          destination: dist/
+          destination: /tmp/dist
 
       - name: Install tlm
         run: |
+          ls -l /tmp/dist
+          ls -l
           mv dist/$(cat VERSION)/tlm_$(cat VERSION)_linux_amd64 /usr/local/bin/tlm 
           chmod +x /usr/local/bin/tlm
 
