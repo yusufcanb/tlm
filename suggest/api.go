@@ -69,20 +69,23 @@ func (s *Suggest) getCommandSuggestionFor(mode, term string, prompt string) (str
 	builder := strings.Builder{}
 	builder.WriteString(prompt)
 
+	usingTerminalStr := ". I'm using %s terminal"
+	onOperatingSystemStr := "on operating system: %s"
+
 	switch term {
 	case "zsh":
-		builder.WriteString(fmt.Sprintf(". I'm using %s terminal", term))
-		builder.WriteString(fmt.Sprintf("on operating system: %s", "macOS"))
+		builder.WriteString(fmt.Sprintf(usingTerminalStr, term))
+		builder.WriteString(fmt.Sprintf(onOperatingSystemStr, "macOS"))
 	case "bash":
-		builder.WriteString(fmt.Sprintf(". I'm using %s terminal", term))
-		builder.WriteString(fmt.Sprintf("on operating system: %s", "Linux"))
+		builder.WriteString(fmt.Sprintf(usingTerminalStr, term))
+		builder.WriteString(fmt.Sprintf(onOperatingSystemStr, "Linux"))
 	case "powershell":
-		builder.WriteString(fmt.Sprintf(". I'm using %s terminal", term))
-		builder.WriteString(fmt.Sprintf("on operating system: %s", "Windows"))
+		builder.WriteString(fmt.Sprintf(usingTerminalStr, term))
+		builder.WriteString(fmt.Sprintf(onOperatingSystemStr, "Windows"))
 
 	default:
-		builder.WriteString(fmt.Sprintf(". I'm using %s terminal", shell.GetShell()))
-		builder.WriteString(fmt.Sprintf("on operating system: %s", runtime.GOOS))
+		builder.WriteString(fmt.Sprintf(usingTerminalStr, shell.GetShell()))
+		builder.WriteString(fmt.Sprintf(onOperatingSystemStr, runtime.GOOS))
 	}
 
 	stream := false

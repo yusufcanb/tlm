@@ -22,7 +22,7 @@ func beforeRun() func(c *cli.Context) error {
 func afterRun(ins *install.Install, version string) func(c *cli.Context) error {
 	return func(c *cli.Context) error {
 		switch c.Args().Get(0) {
-		case "suggest", "explain", "upgrade":
+		case "suggest", "s", "explain", "e":
 			return nil
 
 		default:

@@ -11,8 +11,10 @@ import (
 	"time"
 )
 
+// GithubAPIAccessError is an error that occurs when there is a problem accessing the GitHub API.
 var GithubAPIAccessError = errors.New("error accessing GitHub API")
 
+// ReleaseManager is a struct that manages the releases of tlm's GitHub repository.
 type ReleaseManager struct {
 	httpClient *http.Client
 
@@ -28,6 +30,7 @@ type ReleaseManager struct {
 	Message  string
 }
 
+// GetLatest fetches the latest release from the GitHub API.
 func (rm *ReleaseManager) GetLatest() (*Release, error) {
 	var err error
 	var resp *http.Response
@@ -51,6 +54,7 @@ func (rm *ReleaseManager) GetLatest() (*Release, error) {
 	return &latestRelease, nil
 }
 
+// CanUpgrade checks if an upgrade is possible from a base version to a target version.
 func (rm *ReleaseManager) CanUpgrade(base string, to *Release) (bool, error) {
 	var err error
 
@@ -76,6 +80,7 @@ func (rm *ReleaseManager) CanUpgrade(base string, to *Release) (bool, error) {
 	return toVersion.GreaterThan(baseVersion), nil
 }
 
+// CheckForUpdates checks for updates and writes a checkpoint.
 func (rm *ReleaseManager) CheckForUpdates(base string) error {
 	var cp *shell.Checkpoint
 	var err error
@@ -119,13 +124,14 @@ func (rm *ReleaseManager) CheckForUpdates(base string) error {
 		_ = shell.WriteCheckpoint(cp)
 	}
 
-	if cp.Message != "" {
+	if cp.Version == base && cp.Message != "" {
 		fmt.Println(cp.Message)
 	}
 
 	return nil
 }
 
+// NewReleaseManager is a constructor for the ReleaseManager struct.
 func NewReleaseManager(owner, repo string) *ReleaseManager {
 	rm := &ReleaseManager{}
 	rm.httpClient = &http.Client{}
