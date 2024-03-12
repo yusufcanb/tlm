@@ -37,10 +37,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: dist
+          destination: dist/
 
       - name: Install tlm
         run: |
-          mv dist/tlm_$(cat VERSION)_linux_amd64 /usr/local/bin/tlm 
+          mv dist/$(cat VERSION)/tlm_$(cat VERSION)_linux_amd64 /usr/local/bin/tlm 
           chmod +x /usr/local/bin/tlm
 
       - name: Set up Python 3.11
