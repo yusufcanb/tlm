@@ -58,16 +58,23 @@ jobs:
 
       - name: Archive report.html
         uses: actions/upload-artifact@v4
-        continue-on-error: true
+        if: always()
         with:
-          name: report
+          name: report.html
           path: e2e/dist/report.html
 
       - name: Archive log.html
-        continue-on-error: true
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: log
+          name: log.html
           path: e2e/dist/log.html
+
+      - name: Archive output.xml
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: log.html
+          path: e2e/dist/output.xml
     needs:
       - build
