@@ -16,6 +16,8 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: dist
+
+      - name: Install tlm
         run: |
           mv dist/tlm_1.1_linux_amd64 /usr/local/bin/tlm 
           chmod +x /usr/local/bin/tlm
