@@ -10,6 +10,8 @@ import (
 	"os/exec"
 )
 
+var Version string
+
 func Ok() string {
 	style := lipgloss.NewStyle()
 

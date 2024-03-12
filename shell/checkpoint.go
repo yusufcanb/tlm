@@ -9,11 +9,14 @@ import (
 
 const checkpointFilename = ".tlm_checkpoint"
 
+// Checkpoint is a struct that represents the last time user checked for updates.
 type Checkpoint struct {
 	Message        string    `json:"message"`
+	Version        string    `json:"version"`
 	LastCheckpoint time.Time `json:"time"`
 }
 
+// WriteCheckpoint writes the Checkpoint to .tlm_checkpoint in the user's home directory.
 func WriteCheckpoint(cp *Checkpoint) error {
 	homeDir, err := getHomeDir()
 	if err != nil {
@@ -28,6 +31,7 @@ func WriteCheckpoint(cp *Checkpoint) error {
 	}
 
 	// Write the JSON data to the file
+	cp.Version = Version
 	err = os.WriteFile(checkpointPath, data, 0644)
 	if err != nil {
 		return CheckpointFileWriteErr
@@ -36,6 +40,7 @@ func WriteCheckpoint(cp *Checkpoint) error {
 	return nil
 }
 
+// GetCheckpoint reads the Checkpoint from .tlm_checkpoint in the user's home directory.
 func GetCheckpoint() (*Checkpoint, error) {
 	// Get the user's home directory
 	homeDir, err := getHomeDir()
