@@ -16,7 +16,7 @@ if ($env:PROCESSOR_ARCHITECTURE -eq 'AMD64') {
 }
 
 # Download URL Construction
-$version = "1.0"
+$version = "1.1"
 $base_url = "https://github.com/yusufcanb/tlm/releases/download"
 $download_url = "${base_url}/${version}/tlm_${version}_${os}_${arch}.exe"
 
@@ -94,6 +94,7 @@ if ($user_env -notcontains $install_directory) {
 # Configure tlm to use Ollama
 try {
     ."$install_directory\tlm.exe" config set llm.host $ollamaHost
+    ."$install_directory\tlm.exe" config set shell auto
 } catch {
     Write-Error "tlm config set llm.host failed."
     return 1

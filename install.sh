@@ -32,7 +32,7 @@ else
 fi
 
 # Download URL Construction
-version="1.0"
+version="1.1"
 base_url="https://github.com/yusufcanb/tlm/releases/download"
 download_url="${base_url}/${version}/tlm_${version}_${os}_${arch}"
 
@@ -140,7 +140,14 @@ $SUDO mv tlm /usr/local/bin/
 
 # set ollama host
 if ! tlm config set llm.host ${ollama_host} &>/dev/null; then
-    error "tlm config set llm.host ${ollama_host} failed."
+    error "tlm config set llm.host <${ollama_host}> failed."
+    exit 1
+fi
+
+
+# set shell auto
+if ! tlm config set shell auto &>/dev/null; then
+    error "tlm config set shell <auto> failed."
     exit 1
 fi
 

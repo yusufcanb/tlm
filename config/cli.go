@@ -87,19 +87,27 @@ func (c *Config) subCommandSet() *cli.Command {
 			key := c.Args().Get(0)
 
 			switch key {
-			case "llm.host":
+			case llmHostKey:
 				u, err := url.ParseRequestURI(c.Args().Get(1))
 				if err != nil {
-					return errors.New("Invalid url: " + c.Args().Get(1))
+					return errors.New("invalid url: " + c.Args().Get(1))
 				}
 				viper.Set(key, u.String())
 
 			case llmSuggestKey, llmExplainKey:
 				mode := c.Args().Get(1)
 				if mode != "stable" && mode != "balanced" && mode != "creative" {
-					return errors.New("Invalid mode: " + mode)
+					return errors.New("invalid mode: " + mode)
 				}
 				viper.Set(key, mode)
+
+			case shellKey:
+				s := c.Args().Get(1)
+				if s != "bash" && s != "zsh" && s != "auto" && s != "powershell" {
+					return errors.New("invalid shell: " + c.Args().Get(1))
+				}
+				viper.Set(shellKey, s)
+
 			default:
 				fmt.Println(fmt.Sprintf("%s <%s> is not a tlm parameter", shell.Err(), key))
 				return nil
