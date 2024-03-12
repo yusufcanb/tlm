@@ -40,9 +40,9 @@ jobs:
 
       - name: Install tlm
         run: |
-          ls 
           mv $(cat VERSION)/tlm_$(cat VERSION)_linux_amd64 /usr/local/bin/tlm 
           chmod +x /usr/local/bin/tlm
+          tlm help
 
       - name: Set up Python 3.11
         uses: actions/setup-python@v3
@@ -56,25 +56,12 @@ jobs:
         run: robot --outputdir dist --name tlm --exclude requires=ollama tests/
         working-directory: e2e/
 
-      - name: Archive report.html
+      - name: Archive e2e artifacts
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: report.html
-          path: e2e/dist/report.html
+          name: e2e-report
+          path: e2e/dist/
 
-      - name: Archive log.html
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: log.html
-          path: e2e/dist/log.html
-
-      - name: Archive output.xml
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: output.xml
-          path: e2e/dist/output.xml
     needs:
       - build
