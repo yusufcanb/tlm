@@ -1,14 +1,6 @@
 name: e2e
 
-on:
-  push:
-    branches:
-      - '*'
-  workflow_run:
-    workflows: ["build"]
-    types: ["completed"]
-    branches:
-      - '*'
+on: [push]
 
 jobs:
   e2e:
