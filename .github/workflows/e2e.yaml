@@ -1,10 +1,12 @@
 name: e2e
 
 on:
+  push:
+    branches:
+      - '*'
   workflow_run:
     workflows: ["build"]
-    types:
-      - completed
+    types: ["completed"]
     branches:
       - '*'
 
