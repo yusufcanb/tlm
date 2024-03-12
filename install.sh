@@ -152,5 +152,8 @@ else
     echo ""
 fi
 
+# change ownership of tlm config file to user
+$SUDO chown $SUDO_USER ~/.tlm.yaml
+
 status "Type 'tlm' to get started."
 exit 0
