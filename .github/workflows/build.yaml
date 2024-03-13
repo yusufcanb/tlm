@@ -52,8 +52,8 @@ jobs:
       - name: Install dependencies
         run: pip install -r e2e/requirements.txt
 
-      - name: Run Robot Framework
-        run: robot --outputdir dist --name tlm --exclude requires=ollama tests/
+      - name: Run Tests wo/ Ollama
+        run: robot --outputdir dist --name tlm --exclude requires=ollama tlm.robot
         working-directory: e2e/
 
       - name: Archive e2e artifacts
