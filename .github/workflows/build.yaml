@@ -1,10 +1,9 @@
-name: build
+name: ci
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -27,5 +26,42 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: dist
-          path: |
-            dist
+          path: dist/
+          retention-days: 1
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+
+      - name: Install tlm
+        run: |
+          mv $(cat VERSION)/tlm_$(cat VERSION)_linux_amd64 /usr/local/bin/tlm 
+          chmod +x /usr/local/bin/tlm
+          tlm help
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: pip install -r e2e/requirements.txt
+
+      - name: Run Tests wo/ Ollama
+        run: robot --outputdir dist --name tlm --exclude requires=ollama tlm.robot
+        working-directory: e2e/
+
+      - name: Archive e2e artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: e2e-report
+          path: e2e/dist/
+
+    needs:
+      - build

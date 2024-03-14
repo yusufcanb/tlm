@@ -2,6 +2,7 @@ package main
 
 import (
 	_ "embed"
+	"github.com/yusufcanb/tlm/shell"
 	"log"
 	"os"
 
@@ -10,9 +11,11 @@ import (
 
 //go:embed VERSION
 var version string
+var sha1ver string
 
 func main() {
-	tlm := app.New(version)
+	shell.Version = version
+	tlm := app.New(version, sha1ver)
 	if err := tlm.App.Run(os.Args); err != nil {
 		log.Fatal(err)
 	}

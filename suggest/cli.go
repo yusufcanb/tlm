@@ -2,7 +2,6 @@ package suggest
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"github.com/charmbracelet/huh/spinner"
 	"github.com/charmbracelet/lipgloss"
@@ -68,6 +67,11 @@ func (s *Suggest) action(c *cli.Context) error {
 	}
 
 	fmt.Printf(shell.SuccessMessage("┃ >")+" Thinking... (%s)\n", t2.Sub(t1).String())
+	if len(s.extractCommandsFromResponse(responseText)) == 0 {
+		fmt.Println(shell.WarnMessage("┃ >") + " No command found for given prompt..." + "\n")
+		return nil
+	}
+
 	form := NewCommandForm(s.extractCommandsFromResponse(responseText)[0])
 	err = form.Run()
 
@@ -82,12 +86,13 @@ func (s *Suggest) action(c *cli.Context) error {
 		cmd, stdout, stderr := shell.Exec2(form.command)
 		err = cmd.Run()
 		if err != nil {
-			return err
+			fmt.Println(stderr.String())
+			return nil
 		}
 
 		if stderr.String() != "" {
-			fmt.Println()
-			return errors.New("command failed")
+			fmt.Println(stderr.String())
+			return nil
 		}
 
 		fmt.Println(stdout.String())
@@ -97,7 +102,7 @@ func (s *Suggest) action(c *cli.Context) error {
 	if form.action == Explain {
 		fmt.Println(shell.SuccessMessage("┃ > ") + "Explaining..." + "\n")
 
-		exp := explain.New(s.api, "")
+		exp := explain.New(s.api)
 		err = exp.StreamExplanationFor(Stable, form.command)
 		if err != nil {
 			return err

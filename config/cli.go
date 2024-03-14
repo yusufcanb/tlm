@@ -9,13 +9,22 @@ import (
 	"net/url"
 )
 
+var (
+	defaultLLMHost = "http://localhost:11434"
+	shellKey       = "shell"
+	llmHostKey     = "llm.host"
+	llmExplainKey  = "llm.explain"
+	llmSuggestKey  = "llm.suggest"
+)
+
 func (c *Config) Action(_ *cli.Context) error {
 	var err error
 
 	form := ConfigForm{
-		host:    viper.GetString("llm.host"),
-		explain: viper.GetString("llm.explain"),
-		suggest: viper.GetString("llm.suggest"),
+		host:    viper.GetString(llmHostKey),
+		shell:   viper.GetString(shellKey),
+		explain: viper.GetString(llmExplainKey),
+		suggest: viper.GetString(llmSuggestKey),
 	}
 
 	err = form.Run()
@@ -23,10 +32,10 @@ func (c *Config) Action(_ *cli.Context) error {
 		return err
 	}
 
-	viper.Set("shell", form.shell)
-	viper.Set("llm.host", form.host)
-	viper.Set("llm.explain", form.explain)
-	viper.Set("llm.suggest", form.suggest)
+	viper.Set(shellKey, form.shell)
+	viper.Set(llmHostKey, form.host)
+	viper.Set(llmExplainKey, form.explain)
+	viper.Set(llmSuggestKey, form.suggest)
 
 	err = viper.WriteConfig()
 	if err != nil {
@@ -78,19 +87,27 @@ func (c *Config) subCommandSet() *cli.Command {
 			key := c.Args().Get(0)
 
 			switch key {
-			case "llm.host":
+			case llmHostKey:
 				u, err := url.ParseRequestURI(c.Args().Get(1))
 				if err != nil {
-					return errors.New("Invalid url: " + c.Args().Get(1))
+					return errors.New("invalid url: " + c.Args().Get(1))
 				}
 				viper.Set(key, u.String())
 
-			case "llm.suggest", "llm.explain":
+			case llmSuggestKey, llmExplainKey:
 				mode := c.Args().Get(1)
 				if mode != "stable" && mode != "balanced" && mode != "creative" {
-					return errors.New("Invalid mode: " + mode)
+					return errors.New("invalid mode: " + mode)
 				}
 				viper.Set(key, mode)
+
+			case shellKey:
+				s := c.Args().Get(1)
+				if s != "bash" && s != "zsh" && s != "auto" && s != "powershell" {
+					return errors.New("invalid shell: " + c.Args().Get(1))
+				}
+				viper.Set(shellKey, s)
+
 			default:
 				fmt.Println(fmt.Sprintf("%s <%s> is not a tlm parameter", shell.Err(), key))
 				return nil

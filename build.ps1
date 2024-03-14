@@ -17,13 +17,14 @@ New-Item -ItemType Directory -Path "dist"
 # Build Function (Helper)
 Function Build-Target($os, $version, $arch) {
     $outputName = "${appName}_${version}_${os}_${arch}"
+    $sha1 = (git rev-parse --short HEAD).Trim()
     if ($os -eq "windows") {
         $outputName += ".exe"
     }
 
     Write-Output "Building for $os/$arch (version: $version) -> $outputName"
     # Invokes the Go toolchain (assumes it's in the PATH)
-    go build -o "dist/$version/$outputName" "main.go"
+    go build -o "dist/$version/$outputName" -ldflags "-X main.sha1ver=$sha1" "main.go"
 }
 
 # Build for each target OS
