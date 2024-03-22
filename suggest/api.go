@@ -3,11 +3,12 @@ package suggest
 import (
 	"context"
 	"fmt"
-	ollama "github.com/jmorganca/ollama/api"
-	"github.com/yusufcanb/tlm/shell"
 	"regexp"
 	"runtime"
 	"strings"
+
+	ollama "github.com/jmorganca/ollama/api"
+	"github.com/yusufcanb/tlm/shell"
 )
 
 const (
@@ -15,6 +16,8 @@ const (
 	Balanced        = "balanced"
 	Creative        = "creative"
 )
+
+var ShellPrefix = []string{"$", "❯"}
 
 func (s *Suggest) getParametersFor(preference string) map[string]interface{} {
 	switch preference {
@@ -56,11 +59,28 @@ func (s *Suggest) extractCommandsFromResponse(response string) []string {
 	var codeSnippets []string
 	for _, match := range matches {
 		if len(match) == 3 {
-			codeSnippets = append(codeSnippets, match[2])
+			codeSnippets = append(codeSnippets, s.refineCommand(match[2]))
 		}
 	}
 
 	return codeSnippets
+}
+
+func (s *Suggest) refineCommand(command string) string {
+	result := strings.Clone(command)
+
+	// Trim shell prefixes
+	for _, prefix := range ShellPrefix {
+		if strings.HasPrefix(result, prefix) {
+			result = strings.TrimPrefix(result, prefix)
+			break
+		}
+	}
+
+	// Trim leading and trailing whitespaces
+	result = strings.TrimSpace(result)
+
+	return result
 }
 
 func (s *Suggest) getCommandSuggestionFor(mode, term string, prompt string) (string, error) {
