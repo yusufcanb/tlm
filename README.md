@@ -1,7 +1,7 @@
 # tlm - Local CLI Copilot, powered by CodeLLaMa. 💻🦙
 
 > [!TIP]
-> Startcoder2 3B model option coming soon to support workstations with limited resources.
+> Starcoder2 3B model option coming soon to support workstations with limited resources.
 
 
 ![Latest Build](https://img.shields.io/github/actions/workflow/status/yusufcanb/tlm/build.yaml?style=for-the-badge&logo=github)
