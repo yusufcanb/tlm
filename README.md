@@ -117,8 +117,6 @@ rm /usr/local/bin/tlm
 
 On Windows;
 
-Remove the directory under;
-
-```
-C:\Users\<username>\AppData\Local\Programs\tlm
+```powershell
+Remove-Item -Recurse -Force "C:\Users\$env:USERNAME\AppData\Local\Programs\tlm"
 ```
