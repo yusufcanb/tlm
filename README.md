@@ -59,7 +59,7 @@ curl -fsSL https://ollama.com/install.sh | sh
 # CPU Only
 docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
 
-# With GPU (Nvidia only)
+# With GPU (Nvidia & AMD)
 docker run -d --gpus=all -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
 ```
 
