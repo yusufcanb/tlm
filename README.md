@@ -26,7 +26,7 @@ tlm is your CLI companion which requires nothing except your workstation. It use
 
 - 💻 Works on macOS, Linux and Windows.
 
-- 👩🏻‍💻 Automatic shell detection.
+- 👩🏻‍💻 Automatic shell detection. (Powershell, Bash, Zsh)
 
 - 🚀 One liner generation and command explanation.
 
