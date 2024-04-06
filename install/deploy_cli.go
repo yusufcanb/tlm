@@ -23,7 +23,7 @@ func (i *Install) deployAction(_ *cli.Context) error {
 	}
 
 	fmt.Println(fmt.Sprintf("Ollama version: %s\n", version))
-	i.deployTlm(i.suggestModelfile, i.explainModelfile)
+	i.deployTlm()
 
 	fmt.Println("\nDone..")
 	return nil

@@ -110,7 +110,7 @@ func (s *Suggest) getCommandSuggestionFor(mode, term string, prompt string) (str
 
 	stream := false
 	req := &ollama.GenerateRequest{
-		Model:   "suggest:7b",
+		Model:   s.tag,
 		Prompt:  builder.String(),
 		Stream:  &stream,
 		Options: s.getParametersFor(mode),

@@ -12,7 +12,7 @@ func TestRefineCommand(t *testing.T) {
 	con.LoadOrCreateConfig()
 
 	o, _ := ollama.ClientFromEnvironment()
-	s := New(o)
+	s := New(o, "")
 
 	if s.refineCommand("ls -al") != "ls -al" {
 		t.Error("no change should be made if the command is already okay")
