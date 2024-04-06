@@ -13,5 +13,5 @@ func TestExplain(t *testing.T) {
 	con.LoadOrCreateConfig()
 
 	o, _ := ollama.ClientFromEnvironment()
-	explain.New(o)
+	explain.New(o, "")
 }

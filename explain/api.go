@@ -44,7 +44,7 @@ func (e *Explain) StreamExplanationFor(mode, prompt string) error {
 	}
 
 	err := e.api.Generate(context.Background(), &ollama.GenerateRequest{
-		Model:   "explain:7b",
+		Model:   e.tag,
 		Prompt:  "Explain command: " + prompt,
 		Options: e.getParametersFor(mode),
 	}, onResponseFunc)

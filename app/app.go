@@ -14,17 +14,8 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-//go:embed Modelfile.explain
-var explainModelfile string
-
-//go:embed Modelfile.suggest
-var suggestModelfile string
-
 type TlmApp struct {
 	writer *fs.File
-
-	explainModelfile string
-	suggestModelfile string
 
 	App *cli.App
 }
@@ -34,14 +25,14 @@ func New(version, buildSha string) *TlmApp {
 	con.LoadOrCreateConfig()
 
 	o, _ := ollama.ClientFromEnvironment()
-	sug := suggest.New(o)
-	exp := explain.New(o)
-	ins := install.New(o, suggestModelfile, explainModelfile)
+	sug := suggest.New(o, version)
+	exp := explain.New(o, version)
+	ins := install.New(o, sug, exp)
 
 	cliApp := &cli.App{
 		Name:            "tlm",
 		Usage:           "terminal copilot, powered by CodeLLaMa.",
-		UsageText:       "tlm explain <command>\ntlm suggest <prompt>",
+		UsageText:       "tlm explain '<command>'\ntlm suggest '<prompt>'",
 		Version:         version,
 		CommandNotFound: notFound,
 		Before:          beforeRun(),

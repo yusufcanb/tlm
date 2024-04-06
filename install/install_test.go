@@ -3,7 +3,9 @@ package install_test
 import (
 	ollama "github.com/jmorganca/ollama/api"
 	"github.com/yusufcanb/tlm/config"
+	"github.com/yusufcanb/tlm/explain"
 	"github.com/yusufcanb/tlm/install"
+	"github.com/yusufcanb/tlm/suggest"
 	"testing"
 )
 
@@ -18,7 +20,7 @@ func TestInstall(t *testing.T) {
 	con.LoadOrCreateConfig()
 
 	o, _ := ollama.ClientFromEnvironment()
-	install.New(o, "", "")
+	install.New(o, suggest.New(o, ""), explain.New(o, ""))
 }
 
 func TestReleaseManager_CanUpgrade(t *testing.T) {

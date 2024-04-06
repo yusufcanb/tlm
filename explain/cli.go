@@ -25,7 +25,7 @@ func (e *Explain) before(_ *cli.Context) error {
 
 	found := false
 	for _, model := range list.Models {
-		if model.Name == e.modelfileName {
+		if model.Name == e.tag {
 			found = true
 			break
 		}

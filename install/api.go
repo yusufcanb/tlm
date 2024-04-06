@@ -18,7 +18,7 @@ func (i *Install) installModelfile(name, modelfile string) error {
 	return err
 }
 
-func (i *Install) deployTlm(suggestModelfile, explainModelfile string) {
+func (i *Install) deployTlm() {
 	var err error
 
 	_ = spinner.New().Type(spinner.Line).Title(" Getting latest CodeLLaMa").Action(func() {
@@ -34,18 +34,19 @@ func (i *Install) deployTlm(suggestModelfile, explainModelfile string) {
 
 	// 6. Install the modelfile (Suggest)
 	_ = spinner.New().Type(spinner.Line).Title(" Creating Modelfile for suggestions").Action(func() {
-		err = i.installModelfile("suggest:7b", suggestModelfile)
+		err = i.installModelfile(i.suggest.Tag(), i.explain.Modelfile())
 		time.Sleep(1 * time.Second)
 		if err != nil {
 			fmt.Println("- Creating Modelfile for suggestions. " + shell.Err())
+			fmt.Println("\n" + err.Error())
 			os.Exit(-1)
 		}
 	}).Run()
 	fmt.Println("- Creating Modelfile for suggestions. " + shell.Ok())
 
-	// 7. Install the modelfile (Suggest)
+	// 7. Install the modelfile (Explain)
 	_ = spinner.New().Type(spinner.Line).Title(" Creating Modelfile for explanations").Action(func() {
-		err = i.installModelfile("explain:7b", explainModelfile)
+		err = i.installModelfile(i.explain.Tag(), i.explain.Modelfile())
 		time.Sleep(1 * time.Second)
 		if err != nil {
 			fmt.Println("- Creating Modelfile for explanations. " + shell.Err())

@@ -12,5 +12,5 @@ func TestSuggest(t *testing.T) {
 	con.LoadOrCreateConfig()
 
 	o, _ := ollama.ClientFromEnvironment()
-	suggest.New(o)
+	suggest.New(o, "")
 }
