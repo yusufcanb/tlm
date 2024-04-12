@@ -26,7 +26,7 @@ tlm is your CLI companion which requires nothing except your workstation. It use
 
 - 💻 Works on macOS, Linux and Windows.
 
-- 👩🏻‍💻 Automatic shell detection.
+- 👩🏻‍💻 Automatic shell detection. (Powershell, Bash, Zsh)
 
 - 🚀 One liner generation and command explanation.
 
@@ -59,7 +59,7 @@ curl -fsSL https://ollama.com/install.sh | sh
 # CPU Only
 docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
 
-# With GPU (Nvidia only)
+# With GPU (Nvidia & AMD)
 docker run -d --gpus=all -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
 ```
 
@@ -117,8 +117,6 @@ rm /usr/local/bin/tlm
 
 On Windows;
 
-Remove the directory under;
-
-```
-C:\Users\<username>\AppData\Local\Programs\tlm
+```powershell
+Remove-Item -Recurse -Force "C:\Users\$env:USERNAME\AppData\Local\Programs\tlm"
 ```
