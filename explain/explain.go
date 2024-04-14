@@ -10,8 +10,8 @@ import (
 var modelFile string
 
 type Explain struct {
-	api *ollama.Client
-
+	api       *ollama.Client
+	version   string
 	tag       string
 	modelfile string
 }
@@ -26,5 +26,5 @@ func (e *Explain) Modelfile() string {
 
 func New(api *ollama.Client, version string) *Explain {
 	modelfileName := fmt.Sprintf("tlm:%s-e", version)
-	return &Explain{api: api, tag: modelfileName, modelfile: modelFile}
+	return &Explain{api: api, tag: modelfileName, modelfile: modelFile, version: version}
 }

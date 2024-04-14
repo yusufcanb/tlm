@@ -52,5 +52,6 @@ func (e *Explain) StreamExplanationFor(mode, prompt string) error {
 	if err != nil {
 		fmt.Println("Error during generation:", err)
 	}
+	fmt.Printf("\n")
 	return nil
 }

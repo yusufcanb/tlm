@@ -11,6 +11,7 @@ var suggestModelfile string
 
 type Suggest struct {
 	api       *ollama.Client
+	version   string
 	tag       string
 	modelfile string
 }
@@ -25,5 +26,5 @@ func (s *Suggest) Modelfile() string {
 
 func New(api *ollama.Client, version string) *Suggest {
 	tag := fmt.Sprintf("tlm:%s-s", version)
-	return &Suggest{api: api, tag: tag, modelfile: suggestModelfile}
+	return &Suggest{api: api, tag: tag, modelfile: suggestModelfile, version: version}
 }
