@@ -72,7 +72,7 @@ It will recognize the which platform and architecture to download and will execu
 Download and execute the installation script by using the following command;
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/yusufcanb/tlm/1.1/install.sh | sudo bash -E
+curl -fsSL https://raw.githubusercontent.com/yusufcanb/tlm/1.1/install.sh | sudo -E bash
 ```
 
 #### Windows (Powershell 5.1 or higher)
