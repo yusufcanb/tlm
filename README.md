@@ -1,9 +1,5 @@
 # tlm - Local CLI Copilot, powered by CodeLLaMa. 💻🦙
 
-> [!TIP]
-> Starcoder2 3B model option coming soon to support workstations with limited resources.
-
-
 ![Latest Build](https://img.shields.io/github/actions/workflow/status/yusufcanb/tlm/build.yaml?style=for-the-badge&logo=github)
 [![Sonar Quality Gate](https://img.shields.io/sonar/quality_gate/yusufcanb_tlm?server=https%3A%2F%2Fsonarcloud.io&style=for-the-badge&logo=sonar)](https://sonarcloud.io/project/overview?id=yusufcanb_tlm)
 [![Latest Release](https://img.shields.io/github/v/release/yusufcanb/tlm?display_name=release&style=for-the-badge&logo=github&link=https%3A%2F%2Fgithub.com%2Fyusufcanb%2Ftlm%2Freleases)](https://github.com/yusufcanb/tlm/releases)
