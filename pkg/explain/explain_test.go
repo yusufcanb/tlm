@@ -9,10 +9,10 @@ import (
 )
 
 func TestExplain(t *testing.T) {
+	o, _ := ollama.ClientFromEnvironment()
 
-	con := config.New()
+	con := config.New(o)
 	con.LoadOrCreateConfig()
 
-	o, _ := ollama.ClientFromEnvironment()
 	explain.New(o, "")
 }

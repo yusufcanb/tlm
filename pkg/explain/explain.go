@@ -2,29 +2,28 @@ package explain
 
 import (
 	_ "embed"
-	"fmt"
+
 	ollama "github.com/jmorganca/ollama/api"
+	"github.com/spf13/viper"
 )
 
-//go:embed Modelfile.explain
-var modelFile string
+//go:embed SYSTEM
+var system string
 
 type Explain struct {
-	api       *ollama.Client
-	version   string
-	tag       string
-	modelfile string
+	api     *ollama.Client
+	version string
+	model   string
+	system  string
+	mode    string
 }
 
 func (e *Explain) Tag() string {
-	return e.tag
-}
-
-func (e *Explain) Modelfile() string {
-	return e.modelfile
+	return e.model
 }
 
 func New(api *ollama.Client, version string) *Explain {
-	modelfileName := fmt.Sprintf("tlm:%s-e", version)
-	return &Explain{api: api, tag: modelfileName, modelfile: modelFile, version: version}
+	model := viper.GetString("llm.model")
+	mode := viper.GetString("llm.explain")
+	return &Explain{api: api, model: model, system: system, mode: mode, version: version}
 }
