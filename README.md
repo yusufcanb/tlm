@@ -9,7 +9,9 @@ tlm is your CLI companion which requires nothing except your workstation. It use
 
 ![Suggest](./assets/suggest.gif)
 
-![Explain](./assets/explain.gif)
+![Explain](./assets/explain2.gif)
+
+![Model Selection](./assets/config.gif)
 
 
 ## Features

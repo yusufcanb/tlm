@@ -3,7 +3,7 @@ Output suggest.gif
 Set Theme "Cyberdyne"
 
 Set Width 1200
-Set Height 600
+Set Height 650
 Set FontSize 32
 
 Type "tlm suggest 'list all network interfaces but only their ip addresses'"
