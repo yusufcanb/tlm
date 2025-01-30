@@ -32,7 +32,7 @@ else
 fi
 
 # Download URL Construction
-version="1.1"
+version="1.2-pre"
 base_url="https://github.com/yusufcanb/tlm/releases/download"
 download_url="${base_url}/${version}/tlm_${version}_${os}_${arch}"
 

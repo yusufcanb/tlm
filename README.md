@@ -68,7 +68,7 @@ It will recognize the which platform and architecture to download and will execu
 Download and execute the installation script by using the following command;
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/yusufcanb/tlm/1.1/install.sh | sudo -E bash
+curl -fsSL https://raw.githubusercontent.com/yusufcanb/tlm/1.2-pre/install.sh | sudo -E bash
 ```
 
 #### Windows (Powershell 5.1 or higher)
@@ -76,7 +76,7 @@ curl -fsSL https://raw.githubusercontent.com/yusufcanb/tlm/1.1/install.sh | sudo
 Download and execute the installation script by using the following command;
 
 ```powershell
-Invoke-RestMethod -Uri https://raw.githubusercontent.com/yusufcanb/tlm/1.1/install.ps1 | Invoke-Expression
+Invoke-RestMethod -Uri https://raw.githubusercontent.com/yusufcanb/tlm/1.2-pre/install.ps1 | Invoke-Expression
 ```
 
 ### Go Install
