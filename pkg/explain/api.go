@@ -7,37 +7,35 @@ import (
 
 	ollama "github.com/jmorganca/ollama/api"
 	"github.com/urfave/cli/v2"
+	"github.com/yusufcanb/tlm/pkg/config"
 	"github.com/yusufcanb/tlm/pkg/shell"
-)
-
-const (
-	Stable   string = "stable"
-	Balanced        = "balanced"
-	Creative        = "creative"
 )
 
 func (e *Explain) getParametersFor(preference string) map[string]interface{} {
 	switch preference {
-	case Stable:
+	case config.Stable:
 		return map[string]interface{}{
 			"temperature": 0.1,
 			"top_p":       0.25,
 		}
 
-	case Balanced:
+	case config.Balanced:
 		return map[string]interface{}{
 			"temperature": 0.5,
 			"top_p":       0.4,
 		}
 
-	case Creative:
+	case config.Creative:
 		return map[string]interface{}{
 			"temperature": 0.9,
 			"top_p":       0.7,
 		}
 
 	default:
-		return map[string]interface{}{}
+		return map[string]interface{}{
+			"temperature": 0.5,
+			"top_p":       0.4,
+		}
 	}
 }
 
@@ -51,7 +49,7 @@ func (e *Explain) StreamExplanationFor(mode, prompt string) error {
 		Model:   e.model,
 		Prompt:  "Explain command: " + prompt,
 		System:  e.system,
-		Options: e.getParametersFor(e.mode),
+		Options: e.getParametersFor(e.style),
 	}, onResponseFunc)
 
 	if err != nil {

@@ -9,7 +9,7 @@ func (e *Explain) before(_ *cli.Context) error {
 }
 
 func (e *Explain) action(c *cli.Context) error {
-	return e.StreamExplanationFor(Balanced, c.Args().Get(0))
+	return e.StreamExplanationFor(e.style, c.Args().Get(0))
 }
 
 func (e *Explain) Command() *cli.Command {
