@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"net/url"
 	"os"
 	"os/exec"
 
@@ -75,5 +76,25 @@ func CheckOllamaIsUp(api *ollama.Client) error {
 		fmt.Println(Err() + " Ollama connection failed. Please check your Ollama if it's running or configured correctly.")
 		os.Exit(-1)
 	}
+	return nil
+}
+
+func CheckOllamaIsSet() error {
+	host := os.Getenv("OLLAMA_HOST")
+	if host == "" {
+		return fmt.Errorf("OLLAMA_HOST environment variable is not set")
+	}
+
+	// parse url
+	u, err := url.Parse(host)
+	if err != nil {
+		return fmt.Errorf("invalid OLLAMA_HOST URL: %v", err)
+	}
+
+	// check if scheme is http or https
+	if u.Scheme != "http" && u.Scheme != "https" {
+		return fmt.Errorf(" OLLAMA_HOST must use http or https protocol")
+	}
+
 	return nil
 }
