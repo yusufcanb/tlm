@@ -16,6 +16,7 @@ var sha1ver string
 func main() {
 	shell.Version = version
 	tlm := app.New(version, sha1ver)
+
 	if err := tlm.App.Run(os.Args); err != nil {
 		log.Fatal(err)
 	}

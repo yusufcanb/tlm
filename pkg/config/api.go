@@ -11,8 +11,9 @@ import (
 )
 
 var (
-	defaultSuggestionPolicy = "stable"
-	defaultExplainPolicy    = "creative"
+	defaultSuggestionPolicy = "balanced"
+	defaultExplainPolicy    = "balanced"
+	defaultModel            = "qwen2.5-coder:3b"
 	defaultShell            = "auto"
 )
 
@@ -36,6 +37,7 @@ func (c *Config) LoadOrCreateConfig() {
 	configPath := path.Join(homeDir, ".tlm.yml")
 	if !isExists(configPath) {
 		viper.Set("shell", defaultShell)
+		viper.Set("llm.model", defaultModel)
 		viper.Set("llm.suggest", defaultSuggestionPolicy)
 		viper.Set("llm.explain", defaultExplainPolicy)
 

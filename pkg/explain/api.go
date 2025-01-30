@@ -3,8 +3,11 @@ package explain
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	ollama "github.com/jmorganca/ollama/api"
+	"github.com/urfave/cli/v2"
+	"github.com/yusufcanb/tlm/pkg/shell"
 )
 
 const (
@@ -52,7 +55,13 @@ func (e *Explain) StreamExplanationFor(mode, prompt string) error {
 	}, onResponseFunc)
 
 	if err != nil {
-		fmt.Println("Error during generation:", err)
+		if strings.Contains(err.Error(), fmt.Sprintf("model '%s' not found", e.model)) {
+			fmt.Println(fmt.Sprintf(shell.Err()+" %s - run `ollama pull %s` to download the model.", err.Error(), e.model))
+			return nil
+		}
+
+		return cli.Exit(fmt.Sprintf(shell.Err()+"error getting explain: %s", err.Error()), -1)
+
 	}
 	fmt.Printf("\n")
 	return nil

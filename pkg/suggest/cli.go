@@ -2,6 +2,7 @@ package suggest
 
 import (
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/charmbracelet/huh/spinner"
@@ -35,7 +36,12 @@ func (s *Suggest) action(c *cli.Context) error {
 		Run()
 
 	if err != nil {
-		fmt.Println(shell.Err()+" error getting suggestion:", err)
+		if strings.Contains(err.Error(), fmt.Sprintf("model '%s' not found", s.model)) {
+			fmt.Println(fmt.Sprintf(shell.Err()+" %s - run `ollama pull %s` to download the model.", err.Error(), s.model))
+			return nil
+		}
+
+		cli.Exit(fmt.Sprintf("error getting suggestion: %s", err.Error()), -1)
 	}
 
 	fmt.Printf(shell.SuccessMessage("┃ >")+" %s is thinking... (%s) \n", s.model, t2.Sub(t1).String())
@@ -77,7 +83,7 @@ func (s *Suggest) action(c *cli.Context) error {
 		exp := explain.New(s.api, s.version)
 		err = exp.StreamExplanationFor(Stable, form.command)
 		if err != nil {
-			return err
+			return cli.Exit(err, -1)
 		}
 
 	} else {
