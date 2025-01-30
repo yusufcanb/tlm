@@ -20,6 +20,7 @@
 # Go workspace file
 go.work
 .idea
-dist
-.venv/
 .repomix/
+dist/
+.venv/
+__pycache__/

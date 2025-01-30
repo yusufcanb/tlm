@@ -43,7 +43,6 @@ func Test_Version(t *testing.T) {
 	// Print the captured output
 	t.Log("Captured Output:")
 	t.Log(string(contents))
-
 }
 
 func Test_Help(t *testing.T) {

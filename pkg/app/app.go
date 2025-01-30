@@ -3,58 +3,60 @@ package app
 import (
 	_ "embed"
 	"fmt"
-	"io/fs"
 	"runtime"
 
 	ollama "github.com/jmorganca/ollama/api"
+	"github.com/spf13/viper"
 	"github.com/yusufcanb/tlm/pkg/config"
 	"github.com/yusufcanb/tlm/pkg/explain"
-	"github.com/yusufcanb/tlm/pkg/install"
 	"github.com/yusufcanb/tlm/pkg/suggest"
 
 	"github.com/urfave/cli/v2"
 )
 
 type TlmApp struct {
-	writer *fs.File
-
 	App *cli.App
 }
 
 func New(version, buildSha string) *TlmApp {
-	con := config.New()
+	o, _ := ollama.ClientFromEnvironment()
+
+	con := config.New(o)
 	con.LoadOrCreateConfig()
 
-	o, _ := ollama.ClientFromEnvironment()
 	sug := suggest.New(o, version)
 	exp := explain.New(o, version)
-	ins := install.New(o, sug, exp)
 
 	cliApp := &cli.App{
 		Name:            "tlm",
-		Usage:           "terminal copilot, powered by CodeLLaMa.",
+		Usage:           "terminal copilot, powered by open-source models.",
 		UsageText:       "tlm explain '<command>'\ntlm suggest '<prompt>'",
 		Version:         version,
 		CommandNotFound: notFound,
-		Before:          beforeRun(),
-		After:           afterRun(ins, version),
+		Before:          beforeRun(o),
+		After:           afterRun(version),
 		Action: func(c *cli.Context) error {
 			return cli.ShowAppHelp(c)
 		},
 		Commands: []*cli.Command{
 			sug.Command(),
 			exp.Command(),
-			ins.DeployCommand(),
 			con.Command(),
 			{
 				Name:    "version",
 				Aliases: []string{"v"},
 				Usage:   "Prints tlm version.",
 				Action: func(c *cli.Context) error {
-					fmt.Printf("tlm %s (%s) on %s/%s", version, buildSha, runtime.GOOS, runtime.GOARCH)
+					fmt.Printf("tlm %s (%s) on %s/%s\n", version, buildSha, runtime.GOOS, runtime.GOARCH)
 					return nil
 				},
 			},
+		},
+		Metadata: map[string]interface{}{
+			"releaseManager": NewReleaseManager("yusufcanb", "tlm"),
+			"version":        version,
+			"buildSha":       buildSha,
+			"model":          viper.Get("llm.model"),
 		},
 	}
 

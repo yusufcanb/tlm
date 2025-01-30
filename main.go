@@ -5,9 +5,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/yusufcanb/tlm/pkg/shell"
-
 	"github.com/yusufcanb/tlm/pkg/app"
+	"github.com/yusufcanb/tlm/pkg/shell"
 )
 
 //go:embed VERSION
