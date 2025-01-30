@@ -41,7 +41,7 @@ func (s *Suggest) action(c *cli.Context) error {
 	prompt := c.Args().Get(0)
 	spinner.New().
 		Type(spinner.Line).
-		Title(fmt.Sprintf(" %s is Thinking... ", s.model)).
+		Title(fmt.Sprintf(" %s is thinking... ", s.model)).
 		Style(lipgloss.NewStyle().Foreground(lipgloss.Color("2"))).
 		Action(func() {
 			t1 = time.Now()
@@ -104,13 +104,35 @@ func (s *Suggest) action(c *cli.Context) error {
 }
 
 func (s *Suggest) Command() *cli.Command {
+
+	model := viper.GetString("llm.model")
+	style := viper.GetString("llm.suggest")
+
+	var overridedModel *string // FIXME implement override
+
 	return &cli.Command{
 		Name:        "suggest",
 		Aliases:     []string{"s"},
 		Usage:       "Suggests a command.",
-		UsageText:   "tlm suggest <prompt>",
+		UsageText:   "tlm suggest <prompt> \ntlm suggest --model=llama3.2:1b <prompt>\ntlm suggest --model=llama3.2:1b --style=<stable|balanced|creative> <prompt>",
 		Description: "suggests a command for given prompt.",
 		Before:      s.before,
 		Action:      s.action,
+		Flags: []cli.Flag{
+			&cli.StringFlag{
+				Name:        "model",
+				Aliases:     []string{"m"},
+				Usage:       "override the model for command suggestion.",
+				DefaultText: model,
+				Destination: overridedModel,
+			},
+			&cli.StringFlag{
+				Name:        "style",
+				Aliases:     []string{"s"},
+				Usage:       "override the style for command suggestion.",
+				DefaultText: style,
+				Destination: overridedModel,
+			},
+		},
 	}
 }

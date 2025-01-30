@@ -6,7 +6,6 @@ import (
 	"runtime"
 
 	ollama "github.com/jmorganca/ollama/api"
-	"github.com/spf13/viper"
 	"github.com/yusufcanb/tlm/pkg/config"
 	"github.com/yusufcanb/tlm/pkg/explain"
 	"github.com/yusufcanb/tlm/pkg/suggest"
@@ -54,9 +53,6 @@ func New(version, buildSha string) *TlmApp {
 		},
 		Metadata: map[string]interface{}{
 			"releaseManager": NewReleaseManager("yusufcanb", "tlm"),
-			"version":        version,
-			"buildSha":       buildSha,
-			"model":          viper.Get("llm.model"),
 		},
 	}
 

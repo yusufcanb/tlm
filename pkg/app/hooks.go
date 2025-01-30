@@ -3,7 +3,6 @@ package app
 import (
 	"fmt"
 	"os"
-	"time"
 
 	ollama "github.com/jmorganca/ollama/api"
 
@@ -24,8 +23,6 @@ func beforeRun(o *ollama.Client) func(c *cli.Context) error {
 		// If the command is suggest or explain, check if Ollama is set and up
 		if arg == "suggest" || arg == "s" || arg == "explain" || arg == "e" {
 
-			start := time.Now() // Start timing
-
 			var err error
 
 			err = shell.CheckOllamaIsSet()
@@ -39,9 +36,6 @@ func beforeRun(o *ollama.Client) func(c *cli.Context) error {
 				fmt.Println(shell.Err() + " " + err.Error())
 				os.Exit(-1)
 			}
-
-			elapsed := time.Since(start) // Calculate elapsed time
-			fmt.Printf("app:beforeRun() execution time: %s\n", elapsed)
 		}
 
 		return nil
