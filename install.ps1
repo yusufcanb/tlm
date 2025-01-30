@@ -90,22 +90,11 @@ if ($user_env -notcontains $install_directory) {
     Write-Host "Installation directory is already in user PATH."
 }
 
-
 # Configure tlm to use Ollama
 try {
-    ."$install_directory\tlm.exe" config set llm.host $ollamaHost
-    ."$install_directory\tlm.exe" config set shell auto
+    ."$install_directory\tlm.exe" config
 } catch {
     Write-Error "tlm config set llm.host failed."
-    return 1
-}
-
-# Deploy tlm
-try {
-
-    ."$install_directory\tlm.exe" deploy
-} catch {
-    Write-Error "tlm deploy failed."
     return 1
 }
 
