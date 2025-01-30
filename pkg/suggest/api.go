@@ -83,7 +83,7 @@ func (s *Suggest) refineCommand(command string) string {
 	return result
 }
 
-func (s *Suggest) getCommandSuggestionFor(mode, term string, prompt string) (string, error) {
+func (s *Suggest) getCommandSuggestionFor(term string, prompt string) (string, error) {
 	var responseText string
 
 	builder := strings.Builder{}

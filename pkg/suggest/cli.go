@@ -41,11 +41,11 @@ func (s *Suggest) action(c *cli.Context) error {
 	prompt := c.Args().Get(0)
 	spinner.New().
 		Type(spinner.Line).
-		Title(" Thinking...").
+		Title(fmt.Sprintf(" %s is Thinking... ", s.model)).
 		Style(lipgloss.NewStyle().Foreground(lipgloss.Color("2"))).
 		Action(func() {
 			t1 = time.Now()
-			responseText, err = s.getCommandSuggestionFor(Stable, viper.GetString("shell"), prompt)
+			responseText, err = s.getCommandSuggestionFor(viper.GetString("shell"), prompt)
 			t2 = time.Now()
 		}).
 		Run()
@@ -54,7 +54,7 @@ func (s *Suggest) action(c *cli.Context) error {
 		fmt.Println(shell.Err()+" error getting suggestion:", err)
 	}
 
-	fmt.Printf(shell.SuccessMessage("┃ >")+" Thinking... (%s)\n", t2.Sub(t1).String())
+	fmt.Printf(shell.SuccessMessage("┃ >")+" %s is thinking... (%s) \n", s.model, t2.Sub(t1).String())
 	if len(s.extractCommandsFromResponse(responseText)) == 0 {
 		fmt.Println(shell.WarnMessage("┃ >") + " No command found for given prompt..." + "\n")
 		return nil
