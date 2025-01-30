@@ -100,4 +100,4 @@ try {
 
 Write-Host ""
 Write-Host "Installation completed successfully."
-Write-Host "Type 'tlm help' to get started."
+Write-Host "Type 'tlm' to get started."

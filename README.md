@@ -32,31 +32,6 @@ Installation can be done in two ways;
 - [Installation script](#installation-script) (recommended)
 - [Go Install](#go-install)
 
-### Prerequisites
-
-[Ollama](https://ollama.com/) is needed to download to necessary models.
-It can be downloaded with the following methods on different platforms.
-
-- On macOs and Windows;
-
-Download instructions can be followed at the following link: [https://ollama.com/download](https://ollama.com/download)
-
-- On Linux;
-
-```bash
-curl -fsSL https://ollama.com/install.sh | sh
-```
-
-- Or using official Docker images 🐳;
-
-```bash
-# CPU Only
-docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
-
-# With GPU (Nvidia & AMD)
-docker run -d --gpus=all -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
-```
-
 ###  Installation Script
 
 Installation script is the recommended way to install tlm.
@@ -64,14 +39,13 @@ It will recognize the which platform and architecture to download and will execu
 
 #### Linux and macOS;
 
-
 Download and execute the installation script by using the following command;
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/yusufcanb/tlm/1.2-pre/install.sh | sudo -E bash
 ```
 
-#### Windows (Powershell 5.1 or higher)
+#### Windows (Powershell 5.5 or higher)
 
 Download and execute the installation script by using the following command;
 
@@ -84,21 +58,13 @@ Invoke-RestMethod -Uri https://raw.githubusercontent.com/yusufcanb/tlm/1.2-pre/i
 If you have Go 1.21 or higher installed on your system, you can easily use the following command to install tlm;
 
 ```bash
-go install github.com/yusufcanb/tlm@latest
+go install github.com/yusufcanb/tlm@1.2-pre
 ```
 
-Then, deploy tlm modelfiles.
-
-> :memo: **Note:** If you have Ollama deployed on somewhere else. Please first run `tlm config` and configure Ollama host.
+You're ready! Check installation by using the following command;
 
 ```bash
-tlm deploy
-```
-
-Check installation by using the following command;
-
-```bash
-tlm help
+tlm
 ```
 
 ## Uninstall

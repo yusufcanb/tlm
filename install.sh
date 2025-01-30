@@ -138,25 +138,10 @@ fi
 
 $SUDO mv tlm /usr/local/bin/
 
-# set ollama host
-if ! tlm config set llm.host ${ollama_host} &>/dev/null; then
-    error "tlm config set llm.host <${ollama_host}> failed."
-    exit 1
-fi
-
-
 # set shell auto
 if ! tlm config set shell auto &>/dev/null; then
     error "tlm config set shell <auto> failed."
     exit 1
-fi
-
-# deploy tlm modelfiles
-if ! tlm deploy; then
-    error "tlm deploy ${ollama_host} failed."
-    exit 1
-else
-    echo ""
 fi
 
 # change ownership of tlm config file to user

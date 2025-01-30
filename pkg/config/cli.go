@@ -127,7 +127,7 @@ func (c *Config) Command() *cli.Command {
 	return &cli.Command{
 		Name:    "config",
 		Aliases: []string{"c"},
-		Usage:   "Configures tlm preferences.",
+		Usage:   "Configure language model, style and shell",
 		Before:  c.before,
 		Action:  c.action,
 		Subcommands: []*cli.Command{
