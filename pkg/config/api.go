@@ -2,11 +2,12 @@ package config
 
 import (
 	"fmt"
-	"github.com/spf13/viper"
-	"github.com/yusufcanb/tlm/shell"
 	"log"
 	"os"
 	"path"
+
+	"github.com/spf13/viper"
+	"github.com/yusufcanb/tlm/pkg/shell"
 )
 
 var (

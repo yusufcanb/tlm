@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	ollama "github.com/jmorganca/ollama/api"
-	"github.com/yusufcanb/tlm/config"
+	"github.com/yusufcanb/tlm/pkg/config"
 )
 
 func TestRefineCommand(t *testing.T) {

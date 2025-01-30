@@ -1,10 +1,11 @@
 package explain_test
 
 import (
-	ollama "github.com/jmorganca/ollama/api"
-	"github.com/yusufcanb/tlm/config"
-	"github.com/yusufcanb/tlm/explain"
 	"testing"
+
+	ollama "github.com/jmorganca/ollama/api"
+	"github.com/yusufcanb/tlm/pkg/config"
+	"github.com/yusufcanb/tlm/pkg/explain"
 )
 
 func TestExplain(t *testing.T) {

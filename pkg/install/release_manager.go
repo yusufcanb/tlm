@@ -4,17 +4,18 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/Masterminds/semver"
-	"github.com/yusufcanb/tlm/shell"
 	"net/http"
 	"runtime"
 	"time"
+
+	"github.com/Masterminds/semver"
+	"github.com/yusufcanb/tlm/pkg/shell"
 )
 
-// GithubAPIAccessError is an error that occurs when there is a problem accessing the GitHub API.
-var GithubAPIAccessError = errors.New("error accessing GitHub API")
+// GithubAPIAccessErr error that occurs when there is a problem accessing the GitHub API.
+var GithubAPIAccessErr = errors.New("error accessing GitHub API")
 
-// ReleaseManager is a struct that manages the releases of tlm's GitHub repository.
+// ReleaseManager manages the releases of tlm's GitHub repository.
 type ReleaseManager struct {
 	httpClient *http.Client
 
@@ -38,13 +39,13 @@ func (rm *ReleaseManager) GetLatest() (*Release, error) {
 
 	resp, err = rm.httpClient.Get(fmt.Sprintf("%s/repos/%s/%s/releases/latest", rm.githubApiUrl, rm.owner, rm.repo))
 	if err != nil {
-		return nil, GithubAPIAccessError
+		return nil, GithubAPIAccessErr
 	}
 
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, GithubAPIAccessError
+		return nil, GithubAPIAccessErr
 	}
 
 	if err = json.NewDecoder(resp.Body).Decode(&latestRelease); err != nil {

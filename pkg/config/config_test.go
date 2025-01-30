@@ -1,8 +1,9 @@
 package config_test
 
 import (
-	"github.com/yusufcanb/tlm/config"
 	"testing"
+
+	"github.com/yusufcanb/tlm/pkg/config"
 )
 
 func TestConfig(t *testing.T) {

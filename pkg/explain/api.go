@@ -3,6 +3,7 @@ package explain
 import (
 	"context"
 	"fmt"
+
 	ollama "github.com/jmorganca/ollama/api"
 )
 
@@ -44,8 +45,9 @@ func (e *Explain) StreamExplanationFor(mode, prompt string) error {
 	}
 
 	err := e.api.Generate(context.Background(), &ollama.GenerateRequest{
-		Model:   e.tag,
+		Model:   "llama3.2:1b",
 		Prompt:  "Explain command: " + prompt,
+		System:  `You are a command line application which helps user to get brief explanations for shell commands. You will be explaining given executable shell command to user with shortest possible explanation. If given input is not a shell command, you will respond with "I can only explain shell commands. Please provide a shell command to explain". You will never respond any question out of shell command explanation context.`,
 		Options: e.getParametersFor(mode),
 	}, onResponseFunc)
 

@@ -1,9 +1,10 @@
 package shell_test
 
 import (
-	"github.com/yusufcanb/tlm/shell"
 	"testing"
 	"time"
+
+	"github.com/yusufcanb/tlm/pkg/shell"
 )
 
 func Test_WriteCheckpoint(t *testing.T) {

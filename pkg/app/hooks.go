@@ -2,10 +2,11 @@ package app
 
 import (
 	"fmt"
-	"github.com/urfave/cli/v2"
-	"github.com/yusufcanb/tlm/install"
-	"github.com/yusufcanb/tlm/shell"
 	"os"
+
+	"github.com/urfave/cli/v2"
+	"github.com/yusufcanb/tlm/pkg/install"
+	"github.com/yusufcanb/tlm/pkg/shell"
 )
 
 func notFound(_ *cli.Context, _ string) {

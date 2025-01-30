@@ -3,14 +3,15 @@ package suggest
 import (
 	"context"
 	"fmt"
+	"os"
+	"time"
+
 	"github.com/charmbracelet/huh/spinner"
 	"github.com/charmbracelet/lipgloss"
 	"github.com/spf13/viper"
 	"github.com/urfave/cli/v2"
-	"github.com/yusufcanb/tlm/explain"
-	"github.com/yusufcanb/tlm/shell"
-	"os"
-	"time"
+	"github.com/yusufcanb/tlm/pkg/explain"
+	"github.com/yusufcanb/tlm/pkg/shell"
 )
 
 func (s *Suggest) before(_ *cli.Context) error {
@@ -21,23 +22,10 @@ func (s *Suggest) before(_ *cli.Context) error {
 		os.Exit(-1)
 	}
 
-	list, err := s.api.List(context.Background())
+	// list, err := s.api.List(context.Background())
 	if err != nil {
 		fmt.Println(shell.Err() + " " + err.Error())
 		fmt.Println(shell.Err() + " Ollama connection failed. Please check your Ollama if it's running or configured correctly.")
-		os.Exit(-1)
-	}
-
-	found := false
-	for _, model := range list.Models {
-		if model.Name == s.tag {
-			found = true
-			break
-		}
-	}
-
-	if !found {
-		fmt.Println(shell.Err() + " " + "tlm's suggest model not found.\n\nPlease run `tlm deploy` to deploy tlm models first.")
 		os.Exit(-1)
 	}
 

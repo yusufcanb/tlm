@@ -2,10 +2,11 @@ package app_test
 
 import (
 	"fmt"
-	"github.com/yusufcanb/tlm/app"
 	"io"
 	"os"
 	"testing"
+
+	"github.com/yusufcanb/tlm/pkg/app"
 )
 
 func run(args []string) {

@@ -3,9 +3,10 @@ package install
 import (
 	"context"
 	"fmt"
-	"github.com/urfave/cli/v2"
-	"github.com/yusufcanb/tlm/shell"
 	"os"
+
+	"github.com/urfave/cli/v2"
+	"github.com/yusufcanb/tlm/pkg/shell"
 )
 
 func (i *Install) deployBefore(_ *cli.Context) error {

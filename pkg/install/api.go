@@ -3,11 +3,12 @@ package install
 import (
 	"context"
 	"fmt"
-	"github.com/charmbracelet/huh/spinner"
-	ollama "github.com/jmorganca/ollama/api"
-	"github.com/yusufcanb/tlm/shell"
 	"os"
 	"time"
+
+	"github.com/charmbracelet/huh/spinner"
+	ollama "github.com/jmorganca/ollama/api"
+	"github.com/yusufcanb/tlm/pkg/shell"
 )
 
 func (i *Install) installModelfile(name, modelfile string) error {

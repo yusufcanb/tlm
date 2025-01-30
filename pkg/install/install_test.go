@@ -1,12 +1,13 @@
 package install_test
 
 import (
-	ollama "github.com/jmorganca/ollama/api"
-	"github.com/yusufcanb/tlm/config"
-	"github.com/yusufcanb/tlm/explain"
-	"github.com/yusufcanb/tlm/install"
-	"github.com/yusufcanb/tlm/suggest"
 	"testing"
+
+	ollama "github.com/jmorganca/ollama/api"
+	"github.com/yusufcanb/tlm/pkg/config"
+	"github.com/yusufcanb/tlm/pkg/explain"
+	"github.com/yusufcanb/tlm/pkg/install"
+	"github.com/yusufcanb/tlm/pkg/suggest"
 )
 
 const (

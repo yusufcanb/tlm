@@ -1,8 +1,9 @@
 package shell_test
 
 import (
-	"github.com/yusufcanb/tlm/shell"
 	"testing"
+
+	"github.com/yusufcanb/tlm/pkg/shell"
 )
 
 func Test_Shell(t *testing.T) {

@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	ollama "github.com/jmorganca/ollama/api"
-	"github.com/yusufcanb/tlm/shell"
+	"github.com/yusufcanb/tlm/pkg/shell"
 )
 
 const (
@@ -110,7 +110,8 @@ func (s *Suggest) getCommandSuggestionFor(mode, term string, prompt string) (str
 
 	stream := false
 	req := &ollama.GenerateRequest{
-		Model:   s.tag,
+		Model:   "llama3.2:1b",
+		System:  `You are a command line application which helps user to get brief explanations for shell commands. You will be explaining given executable shell command to user with shortest possible explanation. If given input is not a shell command, you will respond with "I can only explain shell commands. Please provide a shell command to explain". You will never respond any question out of shell command explanation context.`,
 		Prompt:  builder.String(),
 		Stream:  &stream,
 		Options: s.getParametersFor(mode),

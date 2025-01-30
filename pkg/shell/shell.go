@@ -4,10 +4,11 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"github.com/charmbracelet/lipgloss"
-	ollama "github.com/jmorganca/ollama/api"
 	"os"
 	"os/exec"
+
+	"github.com/charmbracelet/lipgloss"
+	ollama "github.com/jmorganca/ollama/api"
 )
 
 var Version string
