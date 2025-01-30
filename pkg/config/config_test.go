@@ -7,5 +7,5 @@ import (
 )
 
 func TestConfig(t *testing.T) {
-	config.New()
+	config.New(nil)
 }

@@ -1,34 +1,53 @@
 package config
 
-import "github.com/charmbracelet/huh"
+import (
+	"context"
+	"fmt"
+	"sort"
+
+	"github.com/charmbracelet/huh"
+	ollama "github.com/jmorganca/ollama/api"
+)
 
 type ConfigForm struct {
 	form *huh.Form
 
-	host    string
 	model   string
 	shell   string
 	explain string
 	suggest string
 }
 
-func (c *ConfigForm) Run() error {
+func (c *ConfigForm) Run(api *ollama.Client) error {
+
+	// Get available models from Ollama
+	models, err := api.List(context.Background())
+	if err != nil {
+		fmt.Printf("Error fetching models: %v\n", err)
+		return err
+	}
+
+	// Create model options from available Ollama models
+	modelOptions := make([]huh.Option[string], 0, len(models.Models))
+	sort.Slice(models.Models, func(i, j int) bool {
+		return models.Models[i].Name < models.Models[j].Name
+	})
+	for _, model := range models.Models {
+		modelOptions = append(modelOptions, huh.NewOption(
+			fmt.Sprintf("%s (%.2f GB)", model.Name, float64(model.Size)/(1024*1024*1024)),
+			model.Name,
+		))
+	}
+
 	c.form = huh.NewForm(
 		huh.NewGroup(
-			huh.NewInput().
-				Title("Ollama").
-				Value(&c.host),
-
 			huh.NewSelect[string]().
-				Title("Model").
-				Description("Overrides platform's shell for suggestions").
+				Title("LLM").
+				Description("Set a default Large Language Model.").
 				Options(
-					huh.NewOption("Automatic", "auto"),
-					huh.NewOption("Powershell (Windows)", "powershell"),
-					huh.NewOption("Bash (Linux)", "bash"),
-					huh.NewOption("Zsh (macOS)", "zsh"),
+					modelOptions...,
 				).
-				Value(&c.shell),
+				Value(&c.model),
 
 			huh.NewSelect[string]().
 				Title("Shell").
