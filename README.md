@@ -1,4 +1,4 @@
-# tlm - Local CLI Copilot, powered by CodeLLaMa. 💻🦙
+# tlm - Local CLI Copilot, powered by Ollama. 💻🦙
 
 ![Latest Build](https://img.shields.io/github/actions/workflow/status/yusufcanb/tlm/build.yaml?style=for-the-badge&logo=github)
 [![Sonar Quality Gate](https://img.shields.io/sonar/quality_gate/yusufcanb_tlm?server=https%3A%2F%2Fsonarcloud.io&style=for-the-badge&logo=sonar)](https://sonarcloud.io/project/overview?id=yusufcanb_tlm)
