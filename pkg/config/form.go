@@ -64,9 +64,9 @@ func (c *ConfigForm) Run(api *ollama.Client) error {
 				Title("Suggestion Style").
 				Description("Sets style for command suggestions. \n").
 				Options(
-					huh.NewOption("Precise", "stable"),
-					huh.NewOption("Balanced", "balanced"),
-					huh.NewOption("Creative", "creative"),
+					huh.NewOption("Precise", Stable),
+					huh.NewOption("Balanced", Balanced),
+					huh.NewOption("Creative", Creative),
 				).
 				Value(&c.suggest),
 
@@ -74,13 +74,13 @@ func (c *ConfigForm) Run(api *ollama.Client) error {
 				Title("Explain Style").
 				Description("Sets style for command explanations. \n").
 				Options(
-					huh.NewOption("Precise", "stable"),
-					huh.NewOption("Balanced", "balanced"),
-					huh.NewOption("Creative", "creative"),
+					huh.NewOption("Precise", Stable),
+					huh.NewOption("Balanced", Balanced),
+					huh.NewOption("Creative", Creative),
 				).
 				Value(&c.explain),
 		),
 	)
 
-	return c.form.WithTheme(huh.ThemeBase()).Run()
+	return c.form.WithTheme(huh.ThemeBase16()).Run()
 }
