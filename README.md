@@ -73,12 +73,14 @@ On Linux and macOS;
 
 ```bash
 rm /usr/local/bin/tlm
+rm ~/.tlm.yml
 ```
 
 On Windows;
 
 ```powershell
 Remove-Item -Recurse -Force "C:\Users\$env:USERNAME\AppData\Local\Programs\tlm"
+Remove-Item -Force "$HOME\.tlm.yml"
 ```
 
 ## Contributors
