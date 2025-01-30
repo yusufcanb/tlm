@@ -8,34 +8,29 @@ import (
 	"strings"
 
 	ollama "github.com/jmorganca/ollama/api"
+	"github.com/yusufcanb/tlm/pkg/config"
 	"github.com/yusufcanb/tlm/pkg/shell"
-)
-
-const (
-	Stable   string = "stable"
-	Balanced string = "balanced"
-	Creative string = "creative"
 )
 
 var ShellPrefix = []string{"$", "❯", "#"}
 
 func (s *Suggest) getParametersFor(preference string) map[string]interface{} {
 	switch preference {
-	case Stable:
+	case config.Stable:
 		return map[string]interface{}{
 			"seed":        42,
 			"temperature": 0.1,
 			"top_p":       0.25,
 		}
 
-	case Balanced:
+	case config.Balanced:
 		return map[string]interface{}{
 			"seed":        21,
 			"temperature": 0.5,
 			"top_p":       0.4,
 		}
 
-	case Creative:
+	case config.Creative:
 		return map[string]interface{}{
 			"seed":        0,
 			"temperature": 0.9,
@@ -43,7 +38,11 @@ func (s *Suggest) getParametersFor(preference string) map[string]interface{} {
 		}
 
 	default:
-		return map[string]interface{}{}
+		return map[string]interface{}{
+			"seed":        21,
+			"temperature": 0.5,
+			"top_p":       0.4,
+		}
 	}
 }
 
@@ -114,7 +113,7 @@ func (s *Suggest) getCommandSuggestionFor(term string, prompt string) (string, e
 		System:  s.system,
 		Prompt:  builder.String(),
 		Stream:  &stream,
-		Options: s.getParametersFor(s.mode),
+		Options: s.getParametersFor(s.style),
 	}
 
 	onResponse := func(res ollama.GenerateResponse) error {

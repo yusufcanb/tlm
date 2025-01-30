@@ -13,9 +13,9 @@ var system string
 type Suggest struct {
 	api     *ollama.Client
 	version string
-	model   string
 	system  string
-	mode    string
+	model   string
+	style   string
 }
 
 func (s *Suggest) Tag() string {
@@ -24,6 +24,6 @@ func (s *Suggest) Tag() string {
 
 func New(api *ollama.Client, version string) *Suggest {
 	model := viper.GetString("llm.model")
-	mode := viper.GetString("llm.suggest")
-	return &Suggest{api: api, model: model, system: system, mode: mode, version: version}
+	style := viper.GetString("llm.suggest")
+	return &Suggest{api: api, model: model, system: system, style: style, version: version}
 }

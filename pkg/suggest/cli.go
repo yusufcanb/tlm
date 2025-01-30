@@ -81,7 +81,7 @@ func (s *Suggest) action(c *cli.Context) error {
 		fmt.Println(shell.SuccessMessage("┃ > ") + fmt.Sprintf("%s is explaining...", s.model) + "\n")
 
 		exp := explain.New(s.api, s.version)
-		err = exp.StreamExplanationFor(Stable, form.command)
+		err = exp.StreamExplanationFor(s.style, form.command)
 		if err != nil {
 			return cli.Exit(err, -1)
 		}
