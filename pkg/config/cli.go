@@ -1,12 +1,9 @@
 package config
 
 import (
-	"context"
 	"errors"
 	"fmt"
-	"os"
-
-	ollama "github.com/jmorganca/ollama/api"
+	"sort"
 
 	"github.com/spf13/viper"
 	"github.com/urfave/cli/v2"
@@ -21,38 +18,6 @@ var (
 )
 
 func (c *Config) before(_ *cli.Context) error {
-	// Create Ollama client
-	client, err := ollama.ClientFromEnvironment()
-	if err != nil {
-		fmt.Println(shell.Err() + " Failed to create Ollama client: " + err.Error())
-		os.Exit(-1)
-	}
-
-	// Check if Ollama is running
-	_, err = client.Version(context.Background())
-	if err != nil {
-		fmt.Println(shell.Err() + " " + err.Error())
-		fmt.Println(shell.Err() + " Ollama connection failed. Please check if Ollama is running and configured correctly.")
-		os.Exit(-1)
-	}
-
-	// List available models
-	models, err := client.List(context.Background())
-	if err != nil {
-		fmt.Println(shell.Err() + " Failed to list models: " + err.Error())
-		os.Exit(-1)
-	}
-
-	// Print available models
-	if len(models.Models) == 0 {
-		fmt.Println("No models found. Use 'ollama pull' to download models.")
-	} else {
-		for _, model := range models.Models {
-			fmt.Printf("%s (%.2f GB)\n", model.Name, float64(model.Size)/(1024*1024*1024))
-		}
-	}
-	fmt.Println()
-
 	return nil
 }
 
@@ -79,7 +44,7 @@ func (c *Config) subCommandGet() *cli.Command {
 func (c *Config) subCommandSet() *cli.Command {
 	return &cli.Command{
 		Name:  "set",
-		Usage: "set configuration",
+		Usage: "set configuration with key and value",
 		Action: func(c *cli.Context) error {
 			key := c.Args().Get(0)
 
@@ -115,6 +80,21 @@ func (c *Config) subCommandSet() *cli.Command {
 	}
 }
 
+func (c *Config) subCommandLs() *cli.Command {
+	return &cli.Command{
+		Name:  "ls",
+		Usage: "list all configuration",
+		Action: func(c *cli.Context) error {
+			keys := viper.AllKeys()
+			sort.Strings(keys)
+			for _, key := range keys {
+				fmt.Printf(fmt.Sprintf("%s = %s\n", key, viper.GetString(key)))
+			}
+			return nil
+		},
+	}
+}
+
 func (c *Config) action(_ *cli.Context) error {
 	var err error
 	form := ConfigForm{
@@ -139,7 +119,7 @@ func (c *Config) action(_ *cli.Context) error {
 		return err
 	}
 
-	fmt.Println(shell.Ok() + " configuration saved")
+	fmt.Println("configuration saved. " + shell.Ok())
 	return nil
 }
 
@@ -153,6 +133,7 @@ func (c *Config) Command() *cli.Command {
 		Subcommands: []*cli.Command{
 			c.subCommandGet(),
 			c.subCommandSet(),
+			c.subCommandLs(),
 		},
 	}
 }
