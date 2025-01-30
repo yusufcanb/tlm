@@ -13,11 +13,11 @@ import (
 
 const (
 	Stable   string = "stable"
-	Balanced        = "balanced"
-	Creative        = "creative"
+	Balanced string = "balanced"
+	Creative string = "creative"
 )
 
-var ShellPrefix = []string{"$", "❯"}
+var ShellPrefix = []string{"$", "❯", "#"}
 
 func (s *Suggest) getParametersFor(preference string) map[string]interface{} {
 	switch preference {
@@ -110,11 +110,11 @@ func (s *Suggest) getCommandSuggestionFor(mode, term string, prompt string) (str
 
 	stream := false
 	req := &ollama.GenerateRequest{
-		Model:   "llama3.2:1b",
-		System:  `You are a command line application which helps user to get brief explanations for shell commands. You will be explaining given executable shell command to user with shortest possible explanation. If given input is not a shell command, you will respond with "I can only explain shell commands. Please provide a shell command to explain". You will never respond any question out of shell command explanation context.`,
+		Model:   s.model,
+		System:  s.system,
 		Prompt:  builder.String(),
 		Stream:  &stream,
-		Options: s.getParametersFor(mode),
+		Options: s.getParametersFor(s.mode),
 	}
 
 	onResponse := func(res ollama.GenerateResponse) error {

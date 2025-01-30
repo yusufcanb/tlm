@@ -9,9 +9,10 @@ import (
 )
 
 func TestSuggest(t *testing.T) {
-	con := config.New()
+	o, _ := ollama.ClientFromEnvironment()
+
+	con := config.New(o)
 	con.LoadOrCreateConfig()
 
-	o, _ := ollama.ClientFromEnvironment()
 	suggest.New(o, "")
 }

@@ -2,29 +2,28 @@ package suggest
 
 import (
 	_ "embed"
-	"fmt"
+
 	ollama "github.com/jmorganca/ollama/api"
+	"github.com/spf13/viper"
 )
 
-//go:embed Modelfile.suggest
-var suggestModelfile string
+//go:embed SYSTEM
+var system string
 
 type Suggest struct {
-	api       *ollama.Client
-	version   string
-	tag       string
-	modelfile string
+	api     *ollama.Client
+	version string
+	model   string
+	system  string
+	mode    string
 }
 
 func (s *Suggest) Tag() string {
-	return s.tag
-}
-
-func (s *Suggest) Modelfile() string {
-	return s.modelfile
+	return s.model
 }
 
 func New(api *ollama.Client, version string) *Suggest {
-	tag := fmt.Sprintf("tlm:%s-s", version)
-	return &Suggest{api: api, tag: tag, modelfile: suggestModelfile, version: version}
+	model := viper.GetString("llm.model")
+	mode := viper.GetString("llm.suggest")
+	return &Suggest{api: api, model: model, system: system, mode: mode, version: version}
 }

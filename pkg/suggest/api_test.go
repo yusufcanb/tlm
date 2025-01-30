@@ -8,10 +8,11 @@ import (
 )
 
 func TestRefineCommand(t *testing.T) {
-	con := config.New()
+	o, _ := ollama.ClientFromEnvironment()
+
+	con := config.New(o)
 	con.LoadOrCreateConfig()
 
-	o, _ := ollama.ClientFromEnvironment()
 	s := New(o, "")
 
 	if s.refineCommand("ls -al") != "ls -al" {
