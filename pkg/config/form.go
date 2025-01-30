@@ -20,14 +20,14 @@ type ConfigForm struct {
 
 func (c *ConfigForm) Run(api *ollama.Client) error {
 
-	// Get available models from Ollama
+	// get available models from Ollama
 	models, err := api.List(context.Background())
 	if err != nil {
 		fmt.Printf("Error fetching models: %v\n", err)
 		return err
 	}
 
-	// Create model options from available Ollama models
+	// create model options from available Ollama models
 	modelOptions := make([]huh.Option[string], 0, len(models.Models))
 	sort.Slice(models.Models, func(i, j int) bool {
 		return models.Models[i].Name < models.Models[j].Name
@@ -42,8 +42,8 @@ func (c *ConfigForm) Run(api *ollama.Client) error {
 	c.form = huh.NewForm(
 		huh.NewGroup(
 			huh.NewSelect[string]().
-				Title("LLM").
-				Description("Set a default Large Language Model.").
+				Title("Model Selection").
+				Description("Sets a default model from the list of all available models.\nUse `ollama pull <model_name>` to download new models.\n").
 				Options(
 					modelOptions...,
 				).
@@ -51,7 +51,7 @@ func (c *ConfigForm) Run(api *ollama.Client) error {
 
 			huh.NewSelect[string]().
 				Title("Shell").
-				Description("Overrides platform's shell for suggestions").
+				Description("Overrides platform's shell for suggestions.\n").
 				Options(
 					huh.NewOption("Automatic", "auto"),
 					huh.NewOption("Powershell (Windows)", "powershell"),
@@ -61,8 +61,8 @@ func (c *ConfigForm) Run(api *ollama.Client) error {
 				Value(&c.shell),
 
 			huh.NewSelect[string]().
-				Title("Suggestion Preference").
-				Description("Sets preference for command suggestions").
+				Title("Suggestion Style").
+				Description("Sets style for command suggestions. \n").
 				Options(
 					huh.NewOption("Precise", "stable"),
 					huh.NewOption("Balanced", "balanced"),
@@ -71,8 +71,8 @@ func (c *ConfigForm) Run(api *ollama.Client) error {
 				Value(&c.suggest),
 
 			huh.NewSelect[string]().
-				Title("Explain Preference").
-				Description("Sets preference for command explanations").
+				Title("Explain Style").
+				Description("Sets style for command explanations. \n").
 				Options(
 					huh.NewOption("Precise", "stable"),
 					huh.NewOption("Balanced", "balanced"),
@@ -82,5 +82,5 @@ func (c *ConfigForm) Run(api *ollama.Client) error {
 		),
 	)
 
-	return c.form.WithTheme(huh.ThemeBase16()).Run()
+	return c.form.WithTheme(huh.ThemeBase()).Run()
 }

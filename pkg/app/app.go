@@ -13,6 +13,12 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
+var usageText string = `tlm suggest "<prompt>"
+tlm s --model=qwen2.5-coder:1.5b --style=stable "<prompt>"
+
+tlm explain "<command>"
+tlm e --model=llama3.2:1b --style=balanced "<command>"`
+
 type TlmApp struct {
 	App *cli.App
 }
@@ -29,7 +35,7 @@ func New(version, buildSha string) *TlmApp {
 	cliApp := &cli.App{
 		Name:            "tlm",
 		Usage:           "terminal copilot, powered by open-source models.",
-		UsageText:       "tlm explain '<command>'\ntlm suggest '<prompt>'",
+		UsageText:       usageText,
 		Version:         version,
 		CommandNotFound: notFound,
 		Before:          beforeRun(o),
