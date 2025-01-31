@@ -58,7 +58,7 @@ Invoke-RestMethod -Uri https://raw.githubusercontent.com/yusufcanb/tlm/1.2-pre/i
 
 ### Go Install
 
-If you have Go 1.21 or higher installed on your system, you can easily use the following command to install tlm;
+If you have Go 1.22 or higher installed on your system, you can easily use the following command to install tlm;
 
 ```bash
 go install github.com/yusufcanb/tlm@1.2-pre
