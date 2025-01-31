@@ -26,7 +26,7 @@ tlm is your CLI companion which requires nothing except your workstation. It use
 
 - 🚀 One liner generation and command explanation.
 
-- 🧠 Experiment any model. ([Llama 3.3](https://ollama.com/library/llama3.3), [Phi4](https://ollama.com/library/phi4), [DeepSeek-R1](https://ollama.com/library/deepseek-r1), [Qwen](https://ollama.com/library/qwen2.5-coder)) with parameters of your choice.
+- 🧠 Experiment any model. ([Llama3](https://ollama.com/library/llama3.3), [Phi4](https://ollama.com/library/phi4), [DeepSeek-R1](https://ollama.com/library/deepseek-r1), [Qwen](https://ollama.com/library/qwen2.5-coder)) with parameters of your choice.
 
 ## Installation
 
