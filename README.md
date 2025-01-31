@@ -5,16 +5,18 @@
 [![Latest Release](https://img.shields.io/github/v/release/yusufcanb/tlm?display_name=release&style=for-the-badge&logo=github&link=https%3A%2F%2Fgithub.com%2Fyusufcanb%2Ftlm%2Freleases)](https://github.com/yusufcanb/tlm/releases)
 
 
-tlm is your CLI companion which requires nothing except your workstation. It uses most efficient and powerful [CodeLLaMa](https://ai.meta.com/blog/code-llama-large-language-model-coding/) in your local environment to provide you the best possible command line suggestions.
+tlm is your CLI companion which requires nothing except your workstation. It uses most efficient and powerful powerful open-source models like [Llama 3.3](https://ollama.com/library/llama3.3), [Phi4](https://ollama.com/library/phi4), [DeepSeek-R1](https://ollama.com/library/deepseek-r1), [Qwen](https://ollama.com/library/qwen2.5-coder) in your local environment to provide you the best possible command line assistance.
 
 ![Suggest](./assets/suggest.gif)
 
-![Explain](./assets/explain.gif)
+![Explain](./assets/explain2.gif)
+
+![Model Selection](./assets/config.gif)
 
 
 ## Features
 
-- 💸 No API Key (Subscription) is required. (ChatGPT, Github Copilot, Azure OpenAI, etc.)
+- 💸 No API Key (Subscription) is required. (ChatGPT, Claude, Github Copilot, Azure OpenAI, etc.)
 
 - 📡 No internet connection is required.
 
@@ -24,6 +26,7 @@ tlm is your CLI companion which requires nothing except your workstation. It use
 
 - 🚀 One liner generation and command explanation.
 
+- 🧠 Experiment any model. ([Llama 3.3](https://ollama.com/library/llama3.3), [Phi4](https://ollama.com/library/phi4), [DeepSeek-R1](https://ollama.com/library/deepseek-r1), [Qwen](https://ollama.com/library/qwen2.5-coder)) with parameters of your choice.
 
 ## Installation
 
@@ -32,31 +35,6 @@ Installation can be done in two ways;
 - [Installation script](#installation-script) (recommended)
 - [Go Install](#go-install)
 
-### Prerequisites
-
-[Ollama](https://ollama.com/) is needed to download to necessary models.
-It can be downloaded with the following methods on different platforms.
-
-- On macOs and Windows;
-
-Download instructions can be followed at the following link: [https://ollama.com/download](https://ollama.com/download)
-
-- On Linux;
-
-```bash
-curl -fsSL https://ollama.com/install.sh | sh
-```
-
-- Or using official Docker images 🐳;
-
-```bash
-# CPU Only
-docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
-
-# With GPU (Nvidia & AMD)
-docker run -d --gpus=all -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
-```
-
 ###  Installation Script
 
 Installation script is the recommended way to install tlm.
@@ -64,41 +42,32 @@ It will recognize the which platform and architecture to download and will execu
 
 #### Linux and macOS;
 
-
 Download and execute the installation script by using the following command;
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/yusufcanb/tlm/1.1/install.sh | sudo -E bash
+curl -fsSL https://raw.githubusercontent.com/yusufcanb/tlm/1.2-pre/install.sh | sudo -E bash
 ```
 
-#### Windows (Powershell 5.1 or higher)
+#### Windows (Powershell 5.5 or higher)
 
 Download and execute the installation script by using the following command;
 
 ```powershell
-Invoke-RestMethod -Uri https://raw.githubusercontent.com/yusufcanb/tlm/1.1/install.ps1 | Invoke-Expression
+Invoke-RestMethod -Uri https://raw.githubusercontent.com/yusufcanb/tlm/1.2-pre/install.ps1 | Invoke-Expression
 ```
 
 ### Go Install
 
-If you have Go 1.21 or higher installed on your system, you can easily use the following command to install tlm;
+If you have Go 1.22 or higher installed on your system, you can easily use the following command to install tlm;
 
 ```bash
-go install github.com/yusufcanb/tlm@latest
+go install github.com/yusufcanb/tlm@1.2-pre
 ```
 
-Then, deploy tlm modelfiles.
-
-> :memo: **Note:** If you have Ollama deployed on somewhere else. Please first run `tlm config` and configure Ollama host.
+You're ready! Check installation by using the following command;
 
 ```bash
-tlm deploy
-```
-
-Check installation by using the following command;
-
-```bash
-tlm help
+tlm
 ```
 
 ## Uninstall
@@ -107,12 +76,14 @@ On Linux and macOS;
 
 ```bash
 rm /usr/local/bin/tlm
+rm ~/.tlm.yml
 ```
 
 On Windows;
 
 ```powershell
 Remove-Item -Recurse -Force "C:\Users\$env:USERNAME\AppData\Local\Programs\tlm"
+Remove-Item -Force "$HOME\.tlm.yml"
 ```
 
 ## Contributors

@@ -16,7 +16,7 @@ if ($env:PROCESSOR_ARCHITECTURE -eq 'AMD64') {
 }
 
 # Download URL Construction
-$version = "1.1"
+$version = "1.2-pre"
 $base_url = "https://github.com/yusufcanb/tlm/releases/download"
 $download_url = "${base_url}/${version}/tlm_${version}_${os}_${arch}.exe"
 
@@ -90,25 +90,14 @@ if ($user_env -notcontains $install_directory) {
     Write-Host "Installation directory is already in user PATH."
 }
 
-
 # Configure tlm to use Ollama
 try {
-    ."$install_directory\tlm.exe" config set llm.host $ollamaHost
-    ."$install_directory\tlm.exe" config set shell auto
+    ."$install_directory\tlm.exe" config
 } catch {
     Write-Error "tlm config set llm.host failed."
     return 1
 }
 
-# Deploy tlm
-try {
-
-    ."$install_directory\tlm.exe" deploy
-} catch {
-    Write-Error "tlm deploy failed."
-    return 1
-}
-
 Write-Host ""
 Write-Host "Installation completed successfully."
-Write-Host "Type 'tlm help' to get started."
+Write-Host "Type 'tlm' to get started."
