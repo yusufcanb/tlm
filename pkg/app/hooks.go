@@ -17,6 +17,10 @@ func notFound(_ *cli.Context, _ string) {
 
 func beforeRun(o *ollama.Client) func(c *cli.Context) error {
 
+	// fmt.Println("----DEBUG----")
+	// fmt.Println(strings.Join(os.Args, " "))
+	// fmt.Println("----DEBUG----")
+
 	return func(c *cli.Context) error {
 		arg := c.Args().Get(0)
 

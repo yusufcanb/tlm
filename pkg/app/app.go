@@ -6,6 +6,7 @@ import (
 	"runtime"
 
 	ollama "github.com/jmorganca/ollama/api"
+	"github.com/yusufcanb/tlm/pkg/ask"
 	"github.com/yusufcanb/tlm/pkg/config"
 	"github.com/yusufcanb/tlm/pkg/explain"
 	"github.com/yusufcanb/tlm/pkg/suggest"
@@ -31,6 +32,7 @@ func New(version, buildSha string) *TlmApp {
 
 	sug := suggest.New(o, version)
 	exp := explain.New(o, version)
+	ask := ask.New(o, version)
 
 	cliApp := &cli.App{
 		Name:            "tlm",
@@ -44,6 +46,7 @@ func New(version, buildSha string) *TlmApp {
 			return cli.ShowAppHelp(c)
 		},
 		Commands: []*cli.Command{
+			ask.Command(),
 			sug.Command(),
 			exp.Command(),
 			con.Command(),
