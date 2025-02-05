@@ -41,6 +41,7 @@ func (r *RAGChat) Send(message string) (string, error) {
 		Messages: messages,
 		Options: map[string]interface{}{
 			"temperature": 0.1,
+			"num_ctx":     4096 * 2,
 		},
 	}, func(res ollama.ChatResponse) error {
 		fmt.Print(res.Message.Content)
