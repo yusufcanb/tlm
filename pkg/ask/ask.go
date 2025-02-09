@@ -8,6 +8,7 @@ import (
 
 type Ask struct {
 	api     *ollama.Client
+	user    string
 	version string
 	model   string
 	style   string

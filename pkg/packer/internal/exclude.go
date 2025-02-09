@@ -1,17 +1,101 @@
 package internal
 
-import (
-	"path/filepath"
-
-	"github.com/bmatcuk/doublestar/v4"
-)
+var defaultIgnoreList = []string{
+	".git/**",
+	".hg/**",
+	".hgignore",
+	".svn/**",
+	"node_modules/**",
+	"**/node_modules/**",
+	"bower_components/**",
+	"**/bower_components/**",
+	"jspm_packages/**",
+	"**/jspm_packages/**",
+	"vendor/**",
+	".bundle/**",
+	".gradle/**",
+	"target/**",
+	"logs/**",
+	"**/*.log",
+	"**/npm-debug.log*",
+	"**/yarn-debug.log*",
+	"**/yarn-error.log*",
+	"pids/**",
+	"*.pid",
+	"*.seed",
+	"*.pid.lock",
+	"lib-cov/**",
+	"coverage/**",
+	".nyc_output/**",
+	".grunt/**",
+	".lock-wscript",
+	"build/Release/**",
+	"typings/**",
+	"**/.npm/**",
+	".eslintcache",
+	".rollup.cache/**",
+	".webpack.cache/**",
+	".parcel-cache/**",
+	".sass-cache/**",
+	"*.cache",
+	".node_repl_history",
+	"*.tgz",
+	"**/.yarn/**",
+	"**/.yarn-integrity",
+	".env",
+	".next/**",
+	".nuxt/**",
+	".vuepress/dist/**",
+	".serverless/**",
+	".fusebox/**",
+	".dynamodb/**",
+	"dist/**",
+	"**/.DS_Store",
+	"**/Thumbs.db",
+	".idea/**",
+	".vscode/**",
+	"**/*.swp",
+	"**/*.swo",
+	"**/*.swn",
+	"**/*.bak",
+	"build/**",
+	"out/**",
+	"tmp/**",
+	"temp/**",
+	"repomix-output.*",
+	"repopack-output.*",
+	"**/package-lock.json",
+	"**/yarn-error.log",
+	"**/yarn.lock",
+	"**/pnpm-lock.yaml",
+	"**/bun.lockb",
+	"**/__pycache__/**",
+	"**/*.py[cod]",
+	"**/venv/**",
+	"**/.venv/**",
+	"**/.pytest_cache/**",
+	"**/.mypy_cache/**",
+	"**/.ipynb_checkpoints/**",
+	"**/Pipfile.lock",
+	"**/poetry.lock",
+	"**/Cargo.lock",
+	"**/Cargo.toml.orig",
+	"**/target/**",
+	"**/*.rs.bk",
+	"**/composer.lock",
+	"**/Gemfile.lock",
+	"**/go.sum",
+	"**/mix.lock",
+	"**/stack.yaml.lock",
+	"**/cabal.project.freeze",
+}
 
 // shouldExclude returns true if the file path matches any of the exclude patterns.
-func shouldExclude(path string, patterns []string) bool {
-	for _, pattern := range patterns {
-		if match, _ := doublestar.Match(pattern, filepath.ToSlash(path)); match {
-			return true
-		}
-	}
-	return false
-}
+// func shouldExclude(path string, patterns []string) bool {
+// 	for _, pattern := range patterns {
+// 		if match, _ := doublestar.Match(pattern, filepath.ToSlash(path)); match {
+// 			return true
+// 		}
+// 	}
+// 	return false
+// }

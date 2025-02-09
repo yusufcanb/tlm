@@ -17,8 +17,11 @@ import (
 var usageText string = `tlm suggest "<prompt>"
 tlm s --model=qwen2.5-coder:1.5b --style=stable "<prompt>"
 
-tlm explain "<command>"
-tlm e --model=llama3.2:1b --style=balanced "<command>"`
+tlm explain "<command>" # explain a command 
+tlm e --model=llama3.2:1b --style=balanced "<command>" # explain a command with a overrided model
+
+tlm ask "<prompt>" # ask a question
+tlm ask --context . --include *.md "<prompt>" # ask a question with a context`
 
 type TlmApp struct {
 	App *cli.App

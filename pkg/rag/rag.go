@@ -18,30 +18,35 @@ type RAGChat struct {
 	history []ollama.Message
 }
 
-func (r *RAGChat) Send(message string) (string, error) {
+func (r *RAGChat) Send(message string, numCtx int) (string, error) {
 	// string builder to collect streaming response
 	sb := strings.Builder{}
 
-	// Add context as the first message
-	messages := []ollama.Message{
-		{Role: "system",
+	// if no history, add context as the first message
+	if len(r.history) == 0 {
+		// Add context as the first message
+		r.history = append(r.history, ollama.Message{Role: "system",
 			Content: "You are a software engineer and a helpful assistant.",
-		},
-	}
+		})
 
-	// Add context as the first message
-	r.history = append(r.history, ollama.Message{
-		Role:    "user",
-		Content: r.context + "\n" + message,
-	})
-	messages = append(messages, r.history...)
+		// Add context as the first message
+		r.history = append(r.history, ollama.Message{
+			Role:    "user",
+			Content: r.context + "\n" + message,
+		})
+	} else { // if history exists, add the new message to the history
+		r.history = append(r.history, ollama.Message{
+			Role:    "user",
+			Content: message,
+		})
+	}
 
 	err := r.api.Chat(context.Background(), &ollama.ChatRequest{
 		Model:    r.model,
-		Messages: messages,
+		Messages: r.history,
 		Options: map[string]interface{}{
-			"temperature": 0.1,
-			"num_ctx":     4096 * 2,
+			"temperature": 0.5,
+			// "num_ctx":     numCtx,
 		},
 	}, func(res ollama.ChatResponse) error {
 		fmt.Print(res.Message.Content)

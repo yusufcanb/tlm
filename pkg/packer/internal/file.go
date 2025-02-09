@@ -1,7 +1,10 @@
 package internal
 
 import (
+	"fmt"
+	"io/fs"
 	"os"
+	"path"
 
 	"github.com/bmatcuk/doublestar/v4"
 )
@@ -9,7 +12,7 @@ import (
 // GetContextFilePaths returns the file paths in the given directory that match the include patterns and do not match the exclude patterns.
 func GetContextFilePaths(path string, includePatterns []string, excludePatterns []string) ([]string, error) {
 	dirFs := os.DirFS(path)
-	filePaths := make([]string, 0)
+	filePathSet := make(map[string]struct{})
 
 	if len(includePatterns) == 0 {
 		includePatterns = []string{"**/*"}
@@ -21,12 +24,23 @@ func GetContextFilePaths(path string, includePatterns []string, excludePatterns 
 		if err != nil {
 			return nil, err
 		}
-		filePaths = append(filePaths, paths...)
+		for _, p := range paths {
+			// Check if the path corresponds to a file.
+			info, err := fs.Stat(dirFs, p)
+			if err != nil {
+				return nil, fmt.Errorf("failed to stat %s: %w", p, err)
+			}
+			// Skip if it's a directory.
+			if info.IsDir() {
+				continue
+			}
+			filePathSet[p] = struct{}{}
+		}
 	}
 
 	// Exclude files that match the exclude patterns
-	for _, ep := range excludePatterns {
-		for _, fp := range filePaths {
+	for _, ep := range append(excludePatterns, defaultIgnoreList...) {
+		for fp := range filePathSet {
 			shouldExclude, err := doublestar.PathMatch(ep, fp)
 			if err != nil {
 				return nil, err
@@ -34,28 +48,30 @@ func GetContextFilePaths(path string, includePatterns []string, excludePatterns 
 
 			// if the file should be excluded, remove it from the list
 			if shouldExclude {
-
-				for i, path := range filePaths {
-					if path == fp {
-						filePaths = append(filePaths[:i], filePaths[i+1:]...)
-						break
-					}
-				}
-
-				// fmt.Println("Excluded file: ", fp)
+				delete(filePathSet, fp)
 			}
 		}
+	}
+
+	// Convert the set into a slice.
+	filePaths := make([]string, 0, len(filePathSet))
+	for fp := range filePathSet {
+		filePaths = append(filePaths, fp)
+		delete(filePathSet, fp)
 	}
 
 	return filePaths, nil
 }
 
 // GetFileContent returns the content of a file and the number of tokens in it.
-func GetFileContent(filePath string) (string, int, int, error) {
-	// Get the file content
-	b, err := os.ReadFile(filePath)
+func GetFileContent(baseDir string, filePath string) (string, int, int, error) {
+	b, err := os.ReadFile(path.Join(baseDir, filePath))
 	if err != nil {
-		return "", -1, -1, err
+		return "", -1, -1, fmt.Errorf("failed to read file content: %s ", err.Error())
+	}
+
+	if isBinary(b) {
+		return "__BINARY__", 0, 0, nil
 	}
 
 	return string(b), GetTokenCount(string(b)), len(b), nil
