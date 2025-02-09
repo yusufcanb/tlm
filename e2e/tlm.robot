@@ -25,10 +25,6 @@ config
         tlm config get shell (positive)    ${value}    # Check if the value is set
     END
 
-    # Ollama Host
-    tlm config set llm.host invalid-ollama-url (negative)
-    tlm config set llm.host http://ollama:8080 (positive)
-
     @{prefs}=    Create List    stable    balanced    creative
     # Explain Preference
     tlm config set llm.explain invalid-pref (negative)
@@ -44,14 +40,6 @@ config
         tlm config get llm.suggest (positive)    ${value}    # Check if the value is set
     END
     [Teardown]    Remove Config File
-
-deploy (p)
-    [Tags]    deploy    requires=ollama
-    tlm deploy (positive)
-
-deploy (n)
-    [Tags]    deploy
-    tlm deploy (negative)
 
 suggest (p)
     [Tags]    suggest    requires=ollama
@@ -99,30 +87,21 @@ tlm help
     Should Be Equal As Integers    ${rc}    0
     Should Contain    ${output}    NAME:
     Should Contain    ${output}    USAGE:
+
     Should Contain    ${output}    VERSION:
+
     Should Contain    ${output}    COMMANDS:
+    Should Contain    ${output}    ask, a      Asks a question
+    Should Contain    ${output}    suggest, s  Suggests a command.
+    Should Contain    ${output}    explain, e  Explains a command.
+    Should Contain    ${output}    config, c   Configures language model, style and shell
+    Should Contain    ${output}    version, v  Prints tlm version.
 
 tlm version
     ${rc}    ${output}=    Run Version
     Should Be Equal As Integers    ${rc}    0
     Version Should Be Correct    ${output}
 
-# ------ Deploy --------
-
-tlm deploy (positive)
-    [Tags]    requires=ollama
-    ${rc}    ${output}=    Run Command    tlm deploy
-
-    Should Be Equal As Integers    ${rc}    0
-
-tlm deploy (negative)
-    ${rc}    ${output}=    Run Command    tlm deploy
-
-    Should Be Equal As Integers    ${rc}    255
-    Should Contain    ${output}    (err)
-    Should Contain
-    ...    ${output}
-    ...    Ollama connection failed. Please check your Ollama if it's running or configured correctly.
 
 # ------ Suggest --------
 

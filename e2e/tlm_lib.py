@@ -4,7 +4,7 @@ from robot.api.deco import keyword
 @keyword("Version Should Be Correct")
 def check_version(version: str):
     import re
-    pattern = r'^tlm\s\d+\.\d+\s\([0-9a-f]+\)\son\s\w+/\w+$'
+    pattern = r'^tlm\s\d+\.\d+(?:-pre)?\s\([0-9a-f]+\)\son\s\w+/\w+$'
     if re.match(pattern, version):
         return True
     else:
