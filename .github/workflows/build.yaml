@@ -53,7 +53,7 @@ jobs:
         run: pip install -r e2e/requirements.txt
 
       - name: Run Tests wo/ Ollama
-        run: robot --outputdir dist --name tlm --exclude requires=ollama tlm.robot
+        run: robot --outputdir dist --name tlm --include no-ollama tests/
         working-directory: e2e/
 
       - name: Archive e2e artifacts
