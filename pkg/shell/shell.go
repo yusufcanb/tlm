@@ -72,8 +72,7 @@ func Exec2(command string) (*exec.Cmd, *bytes.Buffer, *bytes.Buffer) {
 func CheckOllamaIsUp(api *ollama.Client) error {
 	_, err := api.Version(context.Background())
 	if err != nil {
-		fmt.Println(Err() + " " + err.Error())
-		fmt.Println(Err() + " Ollama connection failed. Please check your Ollama if it's running or configured correctly.")
+		fmt.Printf(Err()+" Ollama connection failed. Please check your Ollama if it's running or configured correctly. \n%s", err.Error())
 		os.Exit(-1)
 	}
 	return nil
@@ -82,18 +81,18 @@ func CheckOllamaIsUp(api *ollama.Client) error {
 func CheckOllamaIsSet() error {
 	host := os.Getenv("OLLAMA_HOST")
 	if host == "" {
-		return fmt.Errorf("OLLAMA_HOST environment variable is not set")
+		return fmt.Errorf(Err() + " OLLAMA_HOST environment variable is not set.")
 	}
 
 	// parse url
 	u, err := url.Parse(host)
 	if err != nil {
-		return fmt.Errorf("invalid OLLAMA_HOST URL: %v", err)
+		return fmt.Errorf(Err()+" invalid OLLAMA_HOST URL: %v", err)
 	}
 
 	// check if scheme is http or https
 	if u.Scheme != "http" && u.Scheme != "https" {
-		return fmt.Errorf(" OLLAMA_HOST must use http or https protocol")
+		return fmt.Errorf(Err() + "OLLAMA_HOST must use http or https protocol.")
 	}
 
 	return nil

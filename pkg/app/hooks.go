@@ -25,7 +25,7 @@ func beforeRun(o *ollama.Client) func(c *cli.Context) error {
 		arg := c.Args().Get(0)
 
 		// If the command is suggest or explain, check if Ollama is set and up
-		if arg == "suggest" || arg == "s" || arg == "explain" || arg == "e" {
+		if arg == "suggest" || arg == "s" || arg == "explain" || arg == "e" || arg == "ask" || arg == "a" {
 
 			var err error
 
