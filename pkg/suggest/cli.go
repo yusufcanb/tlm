@@ -14,7 +14,15 @@ import (
 )
 
 func (s *Suggest) before(_ *cli.Context) error {
+
+	// TODO
+	// verify that override model is valid
+
+	// TODO
+	// verify that override style is valid
+
 	return nil
+
 }
 
 func (s *Suggest) action(c *cli.Context) error {
@@ -22,6 +30,16 @@ func (s *Suggest) action(c *cli.Context) error {
 	var err error
 
 	var t1, t2 time.Time
+
+	overrideModel := c.String("model")
+	if overrideModel != "" {
+		s.model = overrideModel
+	}
+
+	overrideStyle := c.String("style")
+	if overrideStyle != "" {
+		s.style = overrideStyle
+	}
 
 	prompt := c.Args().Get(0)
 	spinner.New().
