@@ -13,23 +13,12 @@ import (
 	"github.com/yusufcanb/tlm/pkg/shell"
 )
 
-func (s *Suggest) before(_ *cli.Context) error {
-
-	// TODO
-	// verify that override model is valid
-
-	// TODO
-	// verify that override style is valid
-
-	return nil
-
-}
-
-func (s *Suggest) action(c *cli.Context) error {
-	var responseText string
-	var err error
-
-	var t1, t2 time.Time
+func (s *Suggest) before(c *cli.Context) error {
+	prompt := c.Args().First()
+	if prompt == "" {
+		cli.ShowSubcommandHelp(c)
+		return cli.Exit("", -1)
+	}
 
 	overrideModel := c.String("model")
 	if overrideModel != "" {
@@ -40,6 +29,15 @@ func (s *Suggest) action(c *cli.Context) error {
 	if overrideStyle != "" {
 		s.style = overrideStyle
 	}
+
+	return nil
+}
+
+func (s *Suggest) action(c *cli.Context) error {
+	var responseText string
+	var err error
+
+	var t1, t2 time.Time
 
 	prompt := c.Args().Get(0)
 	spinner.New().

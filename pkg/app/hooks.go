@@ -24,9 +24,8 @@ func beforeRun(o *ollama.Client) func(c *cli.Context) error {
 	return func(c *cli.Context) error {
 		arg := c.Args().Get(0)
 
-		// If the command is suggest or explain, check if Ollama is set and up
-		if arg == "suggest" || arg == "s" || arg == "explain" || arg == "e" || arg == "ask" || arg == "a" {
-
+		// If the command is not help or version, check if Ollama is set and up
+		if arg != "v" || arg != "version" || arg != "help" || arg != "h" {
 			var err error
 
 			err = shell.CheckOllamaIsSet()
@@ -49,7 +48,8 @@ func beforeRun(o *ollama.Client) func(c *cli.Context) error {
 func afterRun(version string) func(c *cli.Context) error {
 	return func(c *cli.Context) error {
 		switch c.Args().Get(0) {
-		case "suggest", "s", "explain", "e":
+		// ignore update checks for suggest, explain or ask commands
+		case "suggest", "s", "explain", "e", "ask", "a":
 			return nil
 
 		default:

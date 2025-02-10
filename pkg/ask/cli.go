@@ -1,19 +1,23 @@
 package ask
 
 import (
-	"errors"
 	"fmt"
 	"os/user"
 
+	"github.com/spf13/viper"
 	"github.com/urfave/cli/v2"
 	"github.com/yusufcanb/tlm/pkg/packer"
 	"github.com/yusufcanb/tlm/pkg/rag"
 )
 
-func (a *Ask) before(c *cli.Context) error {
-	message := c.Args().First()
-	if message == "" {
-		return errors.New("message is required")
+var usageText string = `tlm ask "<prompt>" # ask a question
+tlm ask --context . --include *.md "<prompt>" # ask a question with a context`
+
+func (a *Ask) beforeAction(c *cli.Context) error {
+	prompt := c.Args().First()
+	if prompt == "" {
+		cli.ShowSubcommandHelp(c)
+		return cli.Exit("", -1)
 	}
 
 	user, err := user.Current()
@@ -28,6 +32,7 @@ func (a *Ask) before(c *cli.Context) error {
 func (a *Ask) action(c *cli.Context) error {
 	isInteractive := c.Bool("interactive")
 	contextDir := c.Path("context")
+
 	var chatContext string    // chat context
 	var numCtx int = 1024 * 8 // num_ctx in Ollama API
 
@@ -58,9 +63,9 @@ func (a *Ask) action(c *cli.Context) error {
 
 	fmt.Printf("\n🤖 %s\n───────────────────\n", a.model)
 
-	message := c.Args().First()
+	prompt := c.Args().First()
 	rag := rag.NewRAGChat(a.api, chatContext)
-	_, err := rag.Send(message, numCtx)
+	_, err := rag.Send(prompt, numCtx)
 	if err != nil {
 		return err
 	}
@@ -89,38 +94,47 @@ func (a *Ask) action(c *cli.Context) error {
 	return nil
 }
 
-func (a *Ask) after(c *cli.Context) error {
+func (a *Ask) afterAction(c *cli.Context) error {
 	return nil
 }
 
 func (a *Ask) Command() *cli.Command {
+	model := viper.GetString("llm.model")
+
 	return &cli.Command{
-		Name:    "ask",
-		Usage:   "Asks a question",
-		Aliases: []string{"a"},
-		Action:  a.action,
-		Before:  a.before,
-		After:   a.after,
+		Name:      "ask",
+		Usage:     "Asks a question",
+		UsageText: usageText,
+		Aliases:   []string{"a"},
+		Action:    a.action,
+		Before:    a.beforeAction,
+		After:     a.afterAction,
 		Flags: []cli.Flag{
 			&cli.PathFlag{
 				Name:    "context",
 				Aliases: []string{"c"},
-				Usage:   "Context directory",
+				Usage:   "context directory path",
 			},
 			&cli.StringSliceFlag{
 				Name:    "include",
 				Aliases: []string{"i"},
-				Usage:   "Include patterns. e.g. --include=*.txt",
+				Usage:   "include patterns. e.g. --include=*.txt or --include=*.txt,*.md",
 			},
 			&cli.StringSliceFlag{
 				Name:    "exclude",
 				Aliases: []string{"e"},
-				Usage:   "Exclude patterns. e.g. --exclude=*.binary",
+				Usage:   "exclude patterns. e.g. --exclude=**/*_test.go or --exclude=*.pyc,*.pyd",
 			},
 			&cli.BoolFlag{
 				Name:    "interactive",
 				Aliases: []string{"it"},
 				Usage:   "enable interactive chat mode",
+			},
+			&cli.StringFlag{
+				Name:        "model",
+				Aliases:     []string{"m"},
+				Usage:       "override the model for command suggestion.",
+				DefaultText: model,
 			},
 		},
 	}
