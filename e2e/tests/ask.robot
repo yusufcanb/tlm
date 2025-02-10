@@ -16,6 +16,10 @@ ${model}    qwen2.5-coder:3b
 
 
 *** Test Cases ***
+tlm ask
+    ${rc}    ${output}=    Run Command    tlm ask
+    Verify Help Command Output    ${rc}    ${output}
+
 tlm ask <command>
     ${rc}    ${output}=    Run Command    tlm ask "Why the sky is blue? Name the concept."
 
@@ -38,7 +42,7 @@ tlm ask --context=<context> --include=<patterns> <command>
 
 tlm ask --context=<context> --exclude=<patterns> <command>
     ${rc}    ${output}=    Run Command    tlm ask --context=. --exclude=**/*.robot "explain provided context"
-    ${expected_file_list}=    Create List    tlm.robot    tlm.resource    tlm_lib.py    requirements.txt
+    ${expected_file_list}=    Create List    tlm.resource    tlm_lib.py    requirements.txt
     Verify Ask Command Output With Context
     ...    ${rc}
     ...    ${output}
@@ -89,3 +93,15 @@ Verify Ask Command Output With Context
     Should Contain    ${output}    Total Files:
     Should Contain    ${output}    Total Chars:
     Should Contain    ${output}    Total Tokens:
+
+Verify Help Command Output
+    [Arguments]    ${rc}    ${output}
+
+    Should Not Be Equal As Numbers    ${rc}    0
+
+    Should Contain    ${output}    NAME:
+    Should Contain    ${output}    tlm ask - Asks a question
+
+    Should Contain    ${output}    USAGE:
+    Should Contain    ${output}    tlm ask "<prompt>"
+    Should Contain    ${output}    tlm ask --context . --include *.md "<prompt>"
