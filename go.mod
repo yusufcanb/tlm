@@ -6,6 +6,7 @@ toolchain go1.22.0
 
 require (
 	github.com/Masterminds/semver v1.5.0
+	github.com/bmatcuk/doublestar/v4 v4.8.1
 	github.com/charmbracelet/huh v0.3.0
 	github.com/charmbracelet/huh/spinner v0.0.0-20240209193029-45947515c4cf
 	github.com/charmbracelet/lipgloss v0.9.1

@@ -13,7 +13,23 @@ import (
 	"github.com/yusufcanb/tlm/pkg/shell"
 )
 
-func (s *Suggest) before(_ *cli.Context) error {
+func (s *Suggest) before(c *cli.Context) error {
+	prompt := c.Args().First()
+	if prompt == "" {
+		cli.ShowSubcommandHelp(c)
+		return cli.Exit("", -1)
+	}
+
+	overrideModel := c.String("model")
+	if overrideModel != "" {
+		s.model = overrideModel
+	}
+
+	overrideStyle := c.String("style")
+	if overrideStyle != "" {
+		s.style = overrideStyle
+	}
+
 	return nil
 }
 

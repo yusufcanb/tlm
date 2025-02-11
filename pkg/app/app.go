@@ -6,6 +6,7 @@ import (
 	"runtime"
 
 	ollama "github.com/jmorganca/ollama/api"
+	"github.com/yusufcanb/tlm/pkg/ask"
 	"github.com/yusufcanb/tlm/pkg/config"
 	"github.com/yusufcanb/tlm/pkg/explain"
 	"github.com/yusufcanb/tlm/pkg/suggest"
@@ -16,8 +17,11 @@ import (
 var usageText string = `tlm suggest "<prompt>"
 tlm s --model=qwen2.5-coder:1.5b --style=stable "<prompt>"
 
-tlm explain "<command>"
-tlm e --model=llama3.2:1b --style=balanced "<command>"`
+tlm explain "<command>" # explain a command 
+tlm e --model=llama3.2:1b --style=balanced "<command>" # explain a command with a overrided model
+
+tlm ask "<prompt>" # ask a question
+tlm ask --context . --include *.md "<prompt>" # ask a question with a context`
 
 type TlmApp struct {
 	App *cli.App
@@ -31,6 +35,7 @@ func New(version, buildSha string) *TlmApp {
 
 	sug := suggest.New(o, version)
 	exp := explain.New(o, version)
+	ask := ask.New(o, version)
 
 	cliApp := &cli.App{
 		Name:            "tlm",
@@ -44,6 +49,7 @@ func New(version, buildSha string) *TlmApp {
 			return cli.ShowAppHelp(c)
 		},
 		Commands: []*cli.Command{
+			ask.Command(),
 			sug.Command(),
 			exp.Command(),
 			con.Command(),
