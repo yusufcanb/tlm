@@ -72,6 +72,109 @@ You're ready! Check installation by using the following command;
 tlm
 ```
 
+## Usage
+
+```
+$ tlm
+NAME:
+   tlm - terminal copilot, powered by open-source models.
+
+USAGE:
+   tlm suggest "<prompt>"
+   tlm s --model=qwen2.5-coder:1.5b --style=stable "<prompt>"
+
+   tlm explain "<command>" # explain a command
+   tlm e --model=llama3.2:1b --style=balanced "<command>" # explain a command with a overrided model
+
+   tlm ask "<prompt>" # ask a question
+   tlm ask --context . --include *.md "<prompt>" # ask a question with a context
+
+VERSION:
+   1.2-pre
+
+COMMANDS:
+   ask, a      Asks a question (beta)
+   suggest, s  Suggests a command.
+   explain, e  Explains a command.
+   config, c   Configures language model, style and shell
+   version, v  Prints tlm version.
+   help, h     Shows a list of commands or help for one command
+
+GLOBAL OPTIONS:
+   --help, -h     show help
+   --version, -v  print the version
+```
+
+### Ask - Ask something with or without context
+
+Ask a question with context. Here is an example question with a context of this repositories Go files under ask package.
+
+```
+$ tlm ask --help
+NAME:
+   tlm ask - Asks a question (beta)
+
+USAGE:
+   tlm ask "<prompt>" # ask a question
+   tlm ask --context . --include *.md "<prompt>" # ask a question with a context
+
+OPTIONS:
+   --context value, -c value                                context directory path
+   --include value, -i value [ --include value, -i value ]  include patterns. e.g. --include=*.txt or --include=*.txt,*.md        
+   --exclude value, -e value [ --exclude value, -e value ]  exclude patterns. e.g. --exclude=**/*_test.go or --exclude=*.pyc,*.pyd
+   --interactive, --it                                      enable interactive chat mode (default: false)
+   --model value, -m value                                  override the model for command suggestion. (default: qwen2 5-coder:3b)
+   --help, -h                                               show help
+```
+
+### Suggest - Get Command by Prompt
+
+```
+$ tlm suggest --help
+NAME:
+   tlm suggest - Suggests a command.
+
+USAGE:
+   tlm suggest <prompt>
+   tlm suggest --model=llama3.2:1b <prompt>
+   tlm suggest --model=llama3.2:1b --style=<stable|balanced|creative> <prompt>
+
+DESCRIPTION:
+   suggests a command for given prompt.
+
+COMMANDS:
+   help, h  Shows a list of commands or help for one command
+
+OPTIONS:
+   --model value, -m value  override the model for command suggestion. (default: qwen2.5-coder:3b)
+   --style value, -s value  override the style for command suggestion. (default: balanced)        
+   --help, -h               show help
+```
+
+### Explain - Explain a Command
+
+```
+$ tlm explain --help
+NAME:
+   tlm explain - Explains a command.
+
+USAGE:
+   tlm explain <command>
+   tlm explain --model=llama3.2:1b <command>
+   tlm explain --model=llama3.2:1b --style=<stable|balanced|creative> <command>
+
+DESCRIPTION:
+   explains given shell command.
+
+COMMANDS:
+   help, h  Shows a list of commands or help for one command
+
+OPTIONS:
+   --model value, -m value  override the model for command suggestion. (default: qwen2.5-coder:3b)
+   --style value, -s value  override the style for command suggestion. (default: balanced)        
+   --help, -h               show help
+```
+
 ## Uninstall
 
 On Linux and macOS;
