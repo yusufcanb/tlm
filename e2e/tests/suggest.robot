@@ -16,7 +16,7 @@ ${style}        balanced
 
 *** Test Cases ***
 tlm suggest <prompt>
-    ${output}=    Run Suggestion And Verify Output    tlm suggest "list all files"
+    ${output}=    Run Hanging Command And Verify Output    tlm suggest "list all files"
     Should Contain    ${output}    ${model} is thinking...
     Should Contain    ${output}    ls
 
@@ -26,7 +26,7 @@ tlm suggest <prompt>
 
 tlm suggest --model=<model> --style=<style> <prompt>
     [Tags]    debug
-    ${output}=    Run Suggestion And Verify Output    tlm suggest --model=${model2} --style=${style} "list all files"
+    ${output}=    Run Hanging Command And Verify Output    tlm suggest --model=${model2} --style=${style} "list all files"
     Should Contain    ${output}    ${model2} is thinking...
     Should Contain    ${output}    ls
 
@@ -35,7 +35,7 @@ tlm suggest --model=<model> --style=<style> <prompt>
     Should Contain    ${output}    Cancel
 
 tlm s <prompt>
-    ${output}=    Run Suggestion And Verify Output    tlm s "list all files"
+    ${output}=    Run Hanging Command And Verify Output    tlm s "list all files"
     Should Contain    ${output}    ${model} is thinking...
     Should Contain    ${output}    ls
 
