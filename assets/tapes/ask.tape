@@ -1,18 +1,19 @@
-Output explain.gif
+Output ask.gif
 
 Set Shell zsh
 Set Theme "Cyberdyne"
 
 Set Width 1200
-Set Height 650
+Set Height 600
 Set FontSize 22
 
 Hide
 Type "source ~/.zshrc && clear"
 Enter
+Hide
 
 Show
-Type 'tlm explain "sed -r s/(foo)(bar)/\2\1/; s/\b([a-z]+)\b/\U\1/g; /baz/d\ in > out"'
+Type "tlm ask --context . --include=pkg/ask/**/*.go 'briefly explain tlm ask command'"
 Sleep 500ms
 Enter
-Sleep 5s
+Sleep 15s

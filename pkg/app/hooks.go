@@ -10,19 +10,25 @@ import (
 	"github.com/yusufcanb/tlm/pkg/shell"
 )
 
+func shouldCheckOllamaIsSetandUp(commandName string) bool {
+	switch commandName {
+	case "ask", "a", "explain", "e", "suggest", "s":
+		return true
+	default:
+		return false
+	}
+}
+
 func notFound(_ *cli.Context, _ string) {
 	fmt.Println(shell.Err() + " command not found.")
 	os.Exit(-1)
 }
 
 func beforeRun(o *ollama.Client) func(c *cli.Context) error {
-
 	return func(c *cli.Context) error {
 		arg := c.Args().Get(0)
 
-		// If the command is suggest or explain, check if Ollama is set and up
-		if arg == "suggest" || arg == "s" || arg == "explain" || arg == "e" {
-
+		if shouldCheckOllamaIsSetandUp(arg) {
 			var err error
 
 			err = shell.CheckOllamaIsSet()
@@ -45,7 +51,8 @@ func beforeRun(o *ollama.Client) func(c *cli.Context) error {
 func afterRun(version string) func(c *cli.Context) error {
 	return func(c *cli.Context) error {
 		switch c.Args().Get(0) {
-		case "suggest", "s", "explain", "e":
+		// ignore update checks for suggest, explain or ask commands
+		case "suggest", "s", "explain", "e", "ask", "a":
 			return nil
 
 		default:

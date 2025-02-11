@@ -63,6 +63,10 @@ func (c *Config) subCommandSet() *cli.Command {
 				}
 				viper.Set(shellKey, s)
 
+			case llmModelKey:
+				s := c.Args().Get(1)
+				viper.Set(llmModelKey, s)
+
 			default:
 				fmt.Println(fmt.Sprintf("%s <%s> is not a tlm parameter", shell.Err(), key))
 				return nil
