@@ -23,4 +23,5 @@ go.work
 .repomix/
 dist/
 .venv/
+.vscode/
 __pycache__/
