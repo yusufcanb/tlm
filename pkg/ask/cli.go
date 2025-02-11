@@ -103,7 +103,7 @@ func (a *Ask) Command() *cli.Command {
 
 	return &cli.Command{
 		Name:      "ask",
-		Usage:     "Asks a question",
+		Usage:     "Asks a question (beta)",
 		UsageText: usageText,
 		Aliases:   []string{"a"},
 		Action:    a.action,

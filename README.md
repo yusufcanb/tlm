@@ -4,15 +4,15 @@
 [![Sonar Quality Gate](https://img.shields.io/sonar/quality_gate/yusufcanb_tlm?server=https%3A%2F%2Fsonarcloud.io&style=for-the-badge&logo=sonar)](https://sonarcloud.io/project/overview?id=yusufcanb_tlm)
 [![Latest Release](https://img.shields.io/github/v/release/yusufcanb/tlm?display_name=release&style=for-the-badge&logo=github&link=https%3A%2F%2Fgithub.com%2Fyusufcanb%2Ftlm%2Freleases)](https://github.com/yusufcanb/tlm/releases)
 
-
 tlm is your CLI companion which requires nothing except your workstation. It uses most efficient and powerful open-source models like [Llama 3.3](https://ollama.com/library/llama3.3), [Phi4](https://ollama.com/library/phi4), [DeepSeek-R1](https://ollama.com/library/deepseek-r1), [Qwen](https://ollama.com/library/qwen2.5-coder) of your choice in your local environment to provide you the best possible command line assistance.
 
-![Suggest](./assets/suggest.gif)
+| Get a suggestion                 | Explain a command                |
+| -------------------------------- | -------------------------------- |
+| ![Suggest](./assets/suggest.gif) | ![Explain](./assets/explain.gif) |
 
-![Explain](./assets/explain2.gif)
-
-![Model Selection](./assets/config.gif)
-
+| Ask with context (One-liner RAG) | Configure your favorite model  |
+| -------------------------------- | ------------------------------ |
+| ![Ask](./assets/ask.gif)         | ![Config](./assets/config.gif) |
 
 ## Features
 
@@ -26,6 +26,8 @@ tlm is your CLI companion which requires nothing except your workstation. It use
 
 - 🚀 One liner generation and command explanation.
 
+- 🖺 No-brainer RAG (Retrieval Augmented Generation)
+
 - 🧠 Experiment any model. ([Llama3](https://ollama.com/library/llama3.3), [Phi4](https://ollama.com/library/phi4), [DeepSeek-R1](https://ollama.com/library/deepseek-r1), [Qwen](https://ollama.com/library/qwen2.5-coder)) with parameters of your choice.
 
 ## Installation
@@ -35,7 +37,7 @@ Installation can be done in two ways;
 - [Installation script](#installation-script) (recommended)
 - [Go Install](#go-install)
 
-###  Installation Script
+### Installation Script
 
 Installation script is the recommended way to install tlm.
 It will recognize the which platform and architecture to download and will execute install command for you.
