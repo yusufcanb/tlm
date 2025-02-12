@@ -20,6 +20,11 @@ func (a *Ask) beforeAction(c *cli.Context) error {
 		return cli.Exit("", -1)
 	}
 
+	overrideModel := c.String("model")
+	if overrideModel != "" {
+		a.model = overrideModel
+	}
+
 	user, err := user.Current()
 	if err != nil {
 		a.user = "User"
@@ -64,7 +69,7 @@ func (a *Ask) action(c *cli.Context) error {
 	fmt.Printf("\n🤖 %s\n───────────────────\n", a.model)
 
 	prompt := c.Args().First()
-	rag := rag.NewRAGChat(a.api, chatContext)
+	rag := rag.NewRAGChat(a.api, chatContext, a.model)
 	_, err := rag.Send(prompt, numCtx)
 	if err != nil {
 		return err
