@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	ollama "github.com/jmorganca/ollama/api"
-	"github.com/spf13/viper"
 )
 
 type RAGChat struct {
@@ -67,9 +66,7 @@ func (r *RAGChat) Send(message string, numCtx int) (string, error) {
 	return "", nil
 }
 
-func NewRAGChat(api *ollama.Client, context string) *RAGChat {
-	model := viper.GetString("llm.model")
-
+func NewRAGChat(api *ollama.Client, context string, model string) *RAGChat {
 	return &RAGChat{
 		api:     api,
 		model:   model,
