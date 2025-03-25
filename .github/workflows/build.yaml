@@ -13,6 +13,14 @@ jobs:
         with:
           go-version: 1.21
 
+      - name: Cache Go modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+
       - name: Display Go version
         run: go version
 
@@ -37,6 +45,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: dist
+
+      - name: Cache pip dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('e2e/requirements.txt') }}
 
       - name: Install tlm
         run: |
