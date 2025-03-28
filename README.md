@@ -190,9 +190,3 @@ On Windows;
 Remove-Item -Recurse -Force "C:\Users\$env:USERNAME\AppData\Local\Programs\tlm"
 Remove-Item -Force "$HOME\.tlm.yml"
 ```
-
-## Contributors
-
- <a href = "https://github.com/yusufcanb/tlm/graphs/contributors">
-   <img src = "https://contrib.rocks/image?repo=yusufcanb/tlm"/>
- </a>
