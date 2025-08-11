@@ -6,11 +6,14 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/yusufcanb/tlm/pkg/chroma"
+
 	ollama "github.com/jmorganca/ollama/api"
 )
 
 type RAGChat struct {
-	api *ollama.Client
+	api          *ollama.Client
+	chromaClient *chroma.ChromaClient
 
 	model   string
 	context string
@@ -28,10 +31,28 @@ func (r *RAGChat) Send(message string, numCtx int) (string, error) {
 			Content: "You are a software engineer and a helpful assistant.",
 		})
 
+		// query chroma for context
+		queryResp, err := r.chromaClient.Query("tlm-collection", &chroma.QueryRequest{
+			QueryTexts: []string{message},
+			NResults:   5,
+		})
+		if err != nil {
+			return "", fmt.Errorf("error querying chroma: %s", err.Error())
+		}
+
+		// build context from chroma response
+		var context strings.Builder
+		for _, doc := range queryResp.Documents {
+			for _, d := range doc {
+				context.WriteString(d)
+				context.WriteString("\n")
+			}
+		}
+
 		// Add context as the first message
 		r.history = append(r.history, ollama.Message{
 			Role:    "user",
-			Content: r.context + "\n" + message,
+			Content: context.String() + "\n" + message,
 		})
 	} else { // if history exists, add the new message to the history
 		r.history = append(r.history, ollama.Message{
@@ -66,11 +87,12 @@ func (r *RAGChat) Send(message string, numCtx int) (string, error) {
 	return "", nil
 }
 
-func NewRAGChat(api *ollama.Client, context string, model string) *RAGChat {
+func NewRAGChat(api *ollama.Client, chromaClient *chroma.ChromaClient, context string, model string) *RAGChat {
 	return &RAGChat{
-		api:     api,
-		model:   model,
-		context: context,
-		history: make([]ollama.Message, 0),
+		api:          api,
+		chromaClient: chromaClient,
+		model:        model,
+		context:      context,
+		history:      make([]ollama.Message, 0),
 	}
 }
