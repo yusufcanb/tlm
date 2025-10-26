@@ -114,7 +114,8 @@ func (s *Suggest) Command() *cli.Command {
 	model := viper.GetString("llm.model")
 	style := viper.GetString("llm.suggest")
 
-	var overridedModel *string // FIXME implement override
+	var overrideModel *string
+	var overrideStyle *string
 
 	return &cli.Command{
 		Name:        "suggest",
@@ -130,14 +131,14 @@ func (s *Suggest) Command() *cli.Command {
 				Aliases:     []string{"m"},
 				Usage:       "override the model for command suggestion.",
 				DefaultText: model,
-				Destination: overridedModel,
+				Destination: overrideModel,
 			},
 			&cli.StringFlag{
 				Name:        "style",
 				Aliases:     []string{"s"},
 				Usage:       "override the style for command suggestion.",
 				DefaultText: style,
-				Destination: overridedModel,
+				Destination: overrideStyle,
 			},
 		},
 	}
