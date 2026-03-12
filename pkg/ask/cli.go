@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/viper"
 	"github.com/urfave/cli/v2"
-	"github.com/yusufcanb/tlm/pkg/packer"
+	"github.com/yusufcanb/tlm/pkg/chroma"
 	"github.com/yusufcanb/tlm/pkg/rag"
 )
 
@@ -36,40 +36,14 @@ func (a *Ask) beforeAction(c *cli.Context) error {
 
 func (a *Ask) action(c *cli.Context) error {
 	isInteractive := c.Bool("interactive")
-	contextDir := c.Path("context")
-
-	var chatContext string    // chat context
 	var numCtx int = 1024 * 8 // num_ctx in Ollama API
-
-	if contextDir != "" {
-		includePatterns := c.StringSlice("include")
-		excludePatterns := c.StringSlice("exclude")
-		// fmt.Printf("include=%v, exclude=%v\n\n", includePatterns, excludePatterns)
-
-		// Pack files under the context directory
-		packer := packer.New()
-		res, err := packer.Pack(contextDir, includePatterns, excludePatterns)
-		if err != nil {
-			return err
-		}
-
-		// Sort the files by the number of tokens
-		packer.PrintTopFiles(res, 5)
-
-		// Print the context summary
-		packer.PrintContextSummary(res)
-
-		// Render the packer result
-		chatContext, err = packer.Render(res)
-		if err != nil {
-			return err
-		}
-	}
 
 	fmt.Printf("\n🤖 %s\n───────────────────\n", a.model)
 
+	chromaClient := chroma.NewChromaClient("http://localhost:8000")
+
 	prompt := c.Args().First()
-	rag := rag.NewRAGChat(a.api, chatContext, a.model)
+	rag := rag.NewRAGChat(a.api, chromaClient, "", a.model)
 	_, err := rag.Send(prompt, numCtx)
 	if err != nil {
 		return err
@@ -115,21 +89,6 @@ func (a *Ask) Command() *cli.Command {
 		Before:    a.beforeAction,
 		After:     a.afterAction,
 		Flags: []cli.Flag{
-			&cli.PathFlag{
-				Name:    "context",
-				Aliases: []string{"c"},
-				Usage:   "context directory path",
-			},
-			&cli.StringSliceFlag{
-				Name:    "include",
-				Aliases: []string{"i"},
-				Usage:   "include patterns. e.g. --include=*.txt or --include=*.txt,*.md",
-			},
-			&cli.StringSliceFlag{
-				Name:    "exclude",
-				Aliases: []string{"e"},
-				Usage:   "exclude patterns. e.g. --exclude=**/*_test.go or --exclude=*.pyc,*.pyd",
-			},
 			&cli.BoolFlag{
 				Name:    "interactive",
 				Aliases: []string{"it"},

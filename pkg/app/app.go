@@ -7,6 +7,7 @@ import (
 
 	ollama "github.com/jmorganca/ollama/api"
 	"github.com/yusufcanb/tlm/pkg/ask"
+	"github.com/yusufcanb/tlm/pkg/add"
 	"github.com/yusufcanb/tlm/pkg/config"
 	"github.com/yusufcanb/tlm/pkg/explain"
 	"github.com/yusufcanb/tlm/pkg/suggest"
@@ -49,6 +50,7 @@ func New(version, buildSha string) *TlmApp {
 			return cli.ShowAppHelp(c)
 		},
 		Commands: []*cli.Command{
+			add.Command(),
 			ask.Command(),
 			sug.Command(),
 			exp.Command(),
