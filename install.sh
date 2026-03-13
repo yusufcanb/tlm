@@ -139,7 +139,7 @@ fi
 $SUDO mv tlm /usr/local/bin/
 
 # set shell auto
-if ! tlm config set shell auto &>/dev/null; then
+if ! $SUDO tlm config set shell auto &>/dev/null; then
     error "tlm config set shell <auto> failed."
     exit 1
 fi
