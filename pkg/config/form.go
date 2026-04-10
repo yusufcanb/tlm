@@ -18,6 +18,36 @@ type ConfigForm struct {
 	suggest string
 }
 
+func normalizeConfigFormValues(modelNames []string, model, shellValue, suggest, explain string) (string, string, string, string) {
+	if len(modelNames) > 0 && !contains(modelNames, model) {
+		model = modelNames[0]
+	}
+
+	validShells := []string{"auto", "powershell", "bash", "zsh"}
+	if !contains(validShells, shellValue) {
+		shellValue = defaultShell
+	}
+
+	validStyles := []string{Stable, Balanced, Creative}
+	if !contains(validStyles, suggest) {
+		suggest = defaultSuggestionPolicy
+	}
+	if !contains(validStyles, explain) {
+		explain = defaultExplainPolicy
+	}
+
+	return model, shellValue, suggest, explain
+}
+
+func contains(values []string, value string) bool {
+	for _, candidate := range values {
+		if candidate == value {
+			return true
+		}
+	}
+	return false
+}
+
 func (c *ConfigForm) Run(api *ollama.Client) error {
 
 	// get available models from Ollama
@@ -27,11 +57,29 @@ func (c *ConfigForm) Run(api *ollama.Client) error {
 		return err
 	}
 
-	// create model options from available Ollama models
-	modelOptions := make([]huh.Option[string], 0, len(models.Models))
+	if len(models.Models) == 0 {
+		return fmt.Errorf("no Ollama models found. Run `ollama pull <model_name>` first")
+	}
+
 	sort.Slice(models.Models, func(i, j int) bool {
 		return models.Models[i].Name < models.Models[j].Name
 	})
+
+	modelNames := make([]string, 0, len(models.Models))
+	for _, model := range models.Models {
+		modelNames = append(modelNames, model.Name)
+	}
+
+	c.model, c.shell, c.suggest, c.explain = normalizeConfigFormValues(
+		modelNames,
+		c.model,
+		c.shell,
+		c.suggest,
+		c.explain,
+	)
+
+	// create model options from available Ollama models
+	modelOptions := make([]huh.Option[string], 0, len(models.Models))
 	for _, model := range models.Models {
 		modelOptions = append(modelOptions, huh.NewOption(
 			fmt.Sprintf("%s (%.2f GB)", model.Name, float64(model.Size)/(1024*1024*1024)),
